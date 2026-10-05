@@ -1,0 +1,11 @@
+local/
+.DS_Store
+.quarto/
+_book/
+.Rproj.user/
+.Rhistory
+.RData
+data/derived/
+
+/.quarto/
+**/*.quarto_ipynb

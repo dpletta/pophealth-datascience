@@ -1,0 +1,64 @@
+# Welcome {.unnumbered}
+
+Population health research often begins with several imperfect files: a
+participant roster, a survey export, a table of clinic characteristics, or a
+record of study visits. Turning those files into a useful dataset requires
+decisions about what each row represents, how variables are recorded, and which
+records belong together.
+
+**Data Science for Population Health Sciences** is a collection of practical,
+annotated R walkthroughs. Each chapter introduces a task, explains the decisions
+behind the code, and checks the result before moving to the next step. The aim is
+to help you understand and adapt a workflow to your own research.
+
+## Start here
+
+The first chapter, [Data Preparation and Data Engineering](chapters/data-preparation.qmd),
+follows a fictional community-health study from raw CSV files to a participant
+dataset. It introduces basic cleaning, queries with **dplyr** and **SQL through
+sqldf**, six kinds of joins, and checks that help prevent accidental changes to
+your study sample.
+
+All example records are **invented for teaching**. They do not describe actual
+participants, clinics, or population health findings. The small files are
+included with the book so you can inspect every record and run the examples
+without downloading a research dataset.
+
+## How to work through a chapter
+
+1. Read the question and predict what the next code block will do.
+2. Run the code in order, starting with setup and data import.
+3. Compare your output with the displayed result and its interpretation.
+4. Try the practice questions before opening the suggested answers.
+
+You should be comfortable opening R or RStudio and running a few lines of R.
+No SQL experience is assumed. The first chapter explains assignment, pipes,
+package-qualified function names, and common data types as they appear.
+
+The contents menu takes you between chapters; the page outline takes you to a
+specific step. Sections start expanded, and you can collapse their panels or
+individual code blocks. Examples with two languages use **dplyr** and **SQL**
+tabs. Both tabs execute when the book is rendered.
+
+## Run the book locally
+
+Open `pophealth-datascience.Rproj` in RStudio, or open a terminal in the book's
+root folder. Install R, [Quarto](https://quarto.org/docs/get-started/), and the
+packages listed in the first chapter. Then run:
+
+```{.bash}
+quarto preview
+```
+
+To create the complete HTML book without starting a preview server:
+
+```{.bash}
+quarto render
+```
+
+Open `_book/index.html` after rendering. All chapter paths are relative to the
+book's root folder, where `_quarto.yml` is located. Each chapter keeps its own
+analysis code together and should be run from its beginning in a fresh R session.
+
+The book begins with one substantive chapter and is set up to accept additional
+Quarto chapters as the resource grows.

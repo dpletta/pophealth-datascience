@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../methods-library"
+		},
+		{
+			"path": "../complex-survey-weights-descriptives"
+		}
+	],
+	"settings": {}
+}

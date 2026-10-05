@@ -1,0 +1,38 @@
+project:
+  type: book
+  output-dir: _book
+  execute-dir: project
+  resources:
+    - data/raw/*.csv
+    - data/README.md
+
+book:
+  title: "Data Science for Population Health Sciences"
+  subtitle: "Practical walkthroughs in R"
+  chapters:
+    - index.qmd
+    - chapters/data-preparation.qmd
+  search: true
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    code-summary: "Show / hide code"
+    code-copy: true
+    code-overflow: wrap
+    number-sections: true
+    fig-responsive: true
+
+callout-appearance: simple
+callout-icon: false
+
+execute:
+  echo: true
+  warning: true
+  message: true
+  error: false
+  cache: false
+  freeze: false
