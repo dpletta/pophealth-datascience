@@ -48,11 +48,13 @@ row but treats each shared column as a different variable, so the result has `ST
 `STATE.y`, and so on. Stacking the files gives one `STATE` column.
 
 The data-preparation chapter walks through all six kinds of joins with small tables
-(@fig-joins). This chapter applies the two most common operations to BRFSS:
+(@fig-joins). This chapter applies the three most common operations to BRFSS:
 
 1. stacking the BRFSS questionnaire version files to analyze an optional module asked in
    different states on different versions;
-2. a left join that adds state names and Census regions to every respondent.
+2. a left join that adds state names and Census regions to every respondent;
+3. an inner join, which keeps only the respondents whose state is in both tables, and
+   why survey analyses rarely want that.
 
 :::
 
@@ -480,6 +482,103 @@ afterwards. Survey weights describe people, not places, so the joined columns ar
 analyzed as characteristics of each respondent's state.
 :::
 
+## Inner join: keep only matches in both tables {#sec-inner-join}
+
+A left join keeps every respondent. An **inner join** keeps only the rows whose key is in
+**both** tables: a respondent whose state has no row in the second table is dropped,
+without a warning. @fig-inner-join shows the difference.
+
+![An inner join drops the respondent whose state is not in the second table; a left join keeps that respondent with a blank region.](../../images/inner-join-states.svg){#fig-inner-join width="100%" fig-alt="A respondent table with states 26, 39 and 72 is joined to a state table that has rows for 26 and 39 only. The inner join returns two rows and drops the respondent from state 72. The left join returns all three rows, with NA as the region for state 72."}
+
+Inner joins are common when a second table covers only some places. Suppose an
+area-level table, such as one built from the American Community Survey, has a row for
+each of the 50 states and the District of Columbia but none for the territories. Here we
+make such a table from the lookup.
+
+### Step 1: Make a table that covers fewer states
+
+```{r}
+#| label: states-50-dc
+states_50_dc <- states |>
+  dplyr::filter(census_region != "US territory")
+# Check: the 50 states and the District of Columbia.
+stopifnot(nrow(states_50_dc) == 51)
+```
+
+### Step 2: Join
+
+::: {.panel-tabset}
+
+## dplyr
+
+```{r}
+#| label: inner-join-dplyr
+brfss_50_dc <- brfss |>
+  dplyr::inner_join(
+    states_50_dc,
+    by = dplyr::join_by(`_STATE` == fips),
+    relationship = "many-to-one"
+  )
+nrow(brfss)
+nrow(brfss_50_dc)
+```
+
+## SQL
+
+```{r}
+#| label: inner-join-sql
+inner_count_sql <- sqldf::sqldf(
+  'SELECT COUNT(*) AS n
+   FROM brfss AS b
+   INNER JOIN states_50_dc AS s ON b."_STATE" = s.fips'
+)
+inner_count_sql
+```
+
+:::
+
+### Step 3: Find out who was dropped
+
+An inner join reports nothing about the rows it drops, so count them yourself. The
+anti join from @sec-lookup-join lists them.
+
+```{r}
+#| label: inner-join-dropped
+dropped <- dplyr::anti_join(
+  brfss,
+  states_50_dc,
+  by = dplyr::join_by(`_STATE` == fips)
+)
+# Check: the dropped and kept respondents add up to everyone, and SQL agrees with dplyr.
+stopifnot(
+  nrow(dropped) + nrow(brfss_50_dc) == nrow(brfss),
+  inner_count_sql$n == nrow(brfss_50_dc)
+)
+dropped |>
+  dplyr::count(`_STATE`) |>
+  dplyr::left_join(states, by = dplyr::join_by(`_STATE` == fips)) |>
+  dplyr::select(`_STATE`, state_name, n)
+```
+
+The inner join dropped the
+`r format(nrow(dropped), big.mark = ",")` respondents from the territories.
+
+::: {.callout-important title="Inner joins and survey weights"}
+Dropping rows before the survey design is declared is a way of selecting a subgroup, and
+for survey data it is the wrong way. The design needs every respondent's stratum and
+primary sampling unit to estimate standard errors correctly, even when an estimate is
+about a subgroup. Keep every respondent with a left join, declare the design, and then
+select the subgroup from the design object, as @sec-continuous-test does for respondents
+with a known income (for example,
+`design |> dplyr::filter(census_region != "US territory")`).
+
+Use an inner join to subset survey data only when you then analyze the result as a new
+dataset on purpose, and say so.
+:::
+
+The next chapters use `brfss_joined`, the result of the left join, so every respondent is
+kept.
+
 ## Save for the next chapter
 
 ```{r}
@@ -496,6 +595,10 @@ saveRDS(brfss_joined, file.path(processed_dir, "02-brfss-joined.rds"))
 3. You receive a county table with two rows for one county (an old and a new name). What
    would the `relationship = "many-to-one"` argument do, and how would you fix the
    lookup?
+4. You inner-join a survey that records each respondent's county to a county table, and
+   the result has 20,000 fewer rows than the survey. What
+   two checks would you run, and how would you then estimate a prevalence for the
+   counties in the table?
 
 ::: {.callout-tip collapse="true" title="Suggested answers"}
 1. Michigan's version 1 respondents are also in the main file, so they would be counted
@@ -506,4 +609,9 @@ saveRDS(brfss_joined, file.path(processed_dir, "02-brfss-joined.rds"))
 3. `dplyr` would stop with an error, because some respondents would match two lookup
    rows. Keep one row per county code in the lookup (for example, the current name) and
    check `anyDuplicated()` again before joining.
+4. Run an anti join to see which county codes did not match and how many respondents
+   have each, and check whether the codes are missing from the county table or stored
+   differently (for example, as text with leading zeros). Then left-join instead,
+   declare the survey design on all respondents, and filter the design to the counties
+   in the table.
 :::
