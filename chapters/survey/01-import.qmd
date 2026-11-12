@@ -1,0 +1,179 @@
+# Importing Survey Data {#sec-import}
+
+```{r}
+#| label: setup
+source("chapters/survey/_common.R")
+raw_file <- file.path(raw_dir, "LLCP2024.XPT")
+if (!file.exists(raw_file)) {
+  stop(
+    "Cannot find ",
+    raw_file,
+    ". Run the download chunk in this chapter first (see the Overview)."
+  )
+}
+
+knitr::opts_chunk$set(
+  cache.extra = c(cache_context, list(data = tools::md5sum(raw_file)))
+)
+```
+
+## Overview
+
+::: {.callout-note collapse="false" title="The task: answer a population question from a national survey"}
+
+The chapters in this part of the book walk through one complete analysis of complex
+survey data in R, from downloading a raw file to reporting a multivariable model:
+
+1. importing a large survey file (this chapter);
+2. data engineering: stacking survey files and joining a lookup table
+   (@sec-engineering);
+3. cleaning and recoding with explicit checks (@sec-cleaning);
+4. survey-weighted descriptive statistics (@sec-descriptives);
+5. multiple imputation (MI) of missing data that respects the survey design
+   (@sec-imputation);
+6. bivariate (crude) survey-weighted regression (@sec-bivariate);
+7. multivariable (adjusted) survey-weighted regression, a sensitivity analysis, and
+   reporting (@sec-multivariable).
+
+**The question.** Is household income associated with diabetes among US adults? Diabetes
+is common, costly, and unequally distributed. Income shapes access to healthy food, safe
+places to be active, health care, and the time and resources to manage a chronic
+condition. We estimate how the prevalence of diabetes differs across income groups,
+before and after accounting for age, sex, and race and ethnicity.
+
+These chapters assume you have worked through @sec-data-preparation, or are comfortable
+with `dplyr` verbs and joins, and that you know the basics of regression.
+
+:::
+
+## The Behavioral Risk Factor Surveillance System
+
+The [Behavioral Risk Factor Surveillance System](https://www.cdc.gov/brfss/) (BRFSS) is
+the largest continuously running health survey in the world. Every year, the Centers for
+Disease Control and Prevention (CDC) and the states interview hundreds of thousands of US
+adults by landline and cell phone about their health conditions, health behaviors, and
+use of health care. In 2024, 457,670 adults in 49 states, the District of Columbia, Guam,
+Puerto Rico, and the US Virgin Islands completed the interview (Tennessee did not collect
+enough data to be included).
+
+BRFSS is a **complex survey**:
+
+- **Strata.** Each state's sample is drawn separately within strata (for example, by
+  region and by landline or cell phone).
+- **Primary sampling units (PSUs).** Within a stratum, phone numbers are sampled. In BRFSS
+  each respondent is their own PSU.
+- **Weights.** People are sampled with different probabilities and respond at different
+  rates. CDC's final weight (`_LLCPWT`) corrects for both and makes the weighted sample
+  match each state's adult population by age, sex, race and ethnicity, education, and
+  other characteristics ("raking").
+
+Every estimate in these chapters uses all three. @sec-descriptives shows what happens
+when they are ignored.
+
+## Download the data (run once)
+
+CDC distributes the data as a zipped SAS transport file (`.XPT`), a format that stores a
+SAS dataset in a portable way. The zip file is 83 MB, and the unzipped file is 1.1 GB.
+
+Run the chunk below **once**, by hand, from the R console in the book's root folder (it
+is not run when the book is rendered). It saves `data/brfss/raw/LLCP2024.XPT`. Raw data,
+processed data and caches are excluded from Git.
+
+```{r}
+#| label: download
+#| eval: false
+dir.create("data/brfss/raw", showWarnings = FALSE, recursive = TRUE)
+zip_file <- "data/brfss/raw/LLCP2024XPT.zip"
+options(timeout = 600) # allow 10 minutes on a slow connection
+utils::download.file(
+  "https://www.cdc.gov/brfss/annual_data/2024/files/LLCP2024XPT.zip",
+  destfile = zip_file,
+  mode = "wb"
+)
+# The zip file names its contents "LLCP2024.XPT " (with a trailing space), so rename
+# the file.
+extracted <- utils::unzip(zip_file, exdir = "data/brfss/raw")
+file.rename(extracted, "data/brfss/raw/LLCP2024.XPT")
+file.remove(zip_file)
+```
+
+::: {.callout-tip title="Downloading by hand"}
+You can also download the zip file from the
+[CDC BRFSS 2024 page](https://www.cdc.gov/brfss/annual_data/annual_2024.html) ("2024
+BRFSS Data (SAS Transport Format)"), unzip it, and save the file as
+`data/brfss/raw/LLCP2024.XPT`. The same page has the codebook, which lists every
+variable, its question, and its codes, and the questionnaire version files used in
+@sec-engineering.
+:::
+
+## Read only the columns we need
+
+The file has 345 columns. We need 14, so we read only those with `col_select`. This
+keeps memory use low and makes reading fast. It does not change the survey design: every
+one of the 457,670 respondents is kept, with their weight, stratum, and PSU.
+
+| Role | Variables | Codebook label |
+|---|---|---|
+| Survey design | `_LLCPWT`, `_STSTR`, `_PSU`, `_STATE` | Final weight, stratum, primary sampling unit, state |
+| Outcomes | `DIABETE4`, `GENHLTH`, `MEDCOST1` | Ever told you had diabetes; general health; could not afford a doctor |
+| Exposure | `INCOME3` | Annual household income |
+| Covariates | `_AGE_G`, `SEXVAR`, `_IMPRACE` | Age in six groups; sex; race and ethnicity |
+| Continuous-variable example | `_AGE80` | CDC-imputed age in years, capped at 80 |
+| Auxiliary variables | `EDUCA`, `EMPLOY1` | Education; employment (used only to help impute income in @sec-imputation) |
+
+: The 14 variables used in these chapters {#tbl-variables}
+
+Names that start with an underscore are variables CDC calculated. In R they must be
+wrapped in backticks, as in `` `_LLCPWT` ``, not in quotation marks.
+
+```{r}
+#| label: read
+#| cache: true
+brfss <- haven::read_xpt(
+  raw_file,
+  col_select = c(
+    `_LLCPWT`,
+    `_STSTR`,
+    `_PSU`,
+    `_STATE`, # survey design
+    DIABETE4,
+    GENHLTH,
+    MEDCOST1, # outcomes
+    INCOME3, # exposure
+    `_AGE_G`,
+    SEXVAR,
+    `_IMPRACE`, # covariates
+    `_AGE80`, # continuous-variable descriptive example
+    EDUCA,
+    EMPLOY1 # auxiliary variables for imputation
+  )
+)
+
+# Check: all 457,670 respondents and the 14 columns we asked for.
+stopifnot(nrow(brfss) == 457670, ncol(brfss) == 14)
+dplyr::glimpse(brfss)
+```
+
+Every column is numeric, but most answers are category codes, such as 1 for "Yes" and 7
+for "Don't know". @sec-cleaning turns those codes into labeled categories and keeps
+`_AGE80` as numeric age for the continuous-variable example.
+
+## Save for the next chapter
+
+Quarto runs each chapter of this book in a fresh R session, so each chapter saves what
+the next one needs. An `.rds` file stores one R object exactly as it is in memory.
+
+```{r}
+#| label: save
+saveRDS(brfss, file.path(processed_dir, "01-brfss.rds"))
+```
+
+## How the code in this part is written
+
+- Every function is called with its package name, as in `dplyr::mutate()`, so you always
+  know where a function comes from (and packages cannot silently mask each other).
+- `|>` is R's pipe: `x |> f()` means `f(x)`.
+- Lines that start with `# Check:` stop the code with an error if an assumption about the
+  data fails. A silent check means the data are as expected.
+- `tidylog::` versions of `dplyr` verbs print what each step did (rows dropped, variables
+  created, share missing).

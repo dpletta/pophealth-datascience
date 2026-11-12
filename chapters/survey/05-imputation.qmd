@@ -1,0 +1,251 @@
+# Multiple Imputation with Survey Data {#sec-imputation}
+
+```{r}
+#| label: setup
+source("chapters/survey/_common.R")
+brfss_clean <- readRDS(file.path(processed_dir, "03-brfss-clean.rds"))
+knitr::opts_chunk$set(
+  cache.extra = c(
+    cache_context,
+    list(data = tools::md5sum(file.path(processed_dir, "03-brfss-clean.rds")))
+  )
+)
+```
+
+## Why not just drop incomplete answers?
+
+Most R modeling functions silently drop every respondent with a missing value in any model
+variable. Household income is missing for
+`r round(100 * mean(is.na(brfss_clean$income)), 1)`% of respondents, so a model of diabetes
+by income would lose about one adult in five. @sec-descriptives showed that the people who
+do not report income are older, in worse health, and more likely to have diabetes than those
+who do. Dropping them loses precision and can bias the results.
+
+**Multiple imputation** keeps everyone. It works in three steps:
+
+1. **Impute.** Fill in each missing value with a plausible value drawn from a model that
+   predicts it from everything else we know about the person. Do this several times
+   (here, `r n_imputations` times) to create `r n_imputations` completed datasets. The
+   imputed values differ between datasets, and that difference expresses our uncertainty
+   about the true values.
+2. **Analyze.** Fit the same model to each completed dataset (@sec-bivariate,
+   @sec-multivariable).
+3. **Pool.** Combine the `r n_imputations` results with Rubin's rules into one estimate and
+   one standard error that includes the uncertainty from imputation.
+
+We use the `mice` package (multivariate imputation by chained equations), which imputes one
+variable at a time from the others and cycles through them until the imputations stabilize.
+
+## The data to impute
+
+We impute the outcomes, the exposure, the covariates, and the two auxiliary variables
+(education and employment). Auxiliary variables are not in any model, but they predict
+income well, which makes the imputations more accurate and the "missing at random"
+assumption more plausible.
+
+```{r}
+#| label: imp-data
+# diabetes_yes and fair_poor are recomputed from the imputed diabetes and general health in
+# later chapters. Numeric age is used only in the descriptive example; models use age_group.
+imp_data <- brfss_clean |> tidylog::select(-diabetes_yes, -fair_poor, -age)
+colSums(is.na(imp_data))
+```
+
+::: callout-note
+## Include the outcome in the imputation model
+
+It can feel like cheating to use diabetes to impute income. It is not: leaving the outcome out
+assumes income is unrelated to diabetes among the people with missing income, which biases
+the association toward zero.
+:::
+
+## Making the imputation model reflect the survey design
+
+Imputation models are regression models. If they ignore the survey design, the imputed
+values reflect the *sample*, and later weighted estimates can be biased. The practical
+recommendation (Reiter, Raghunathan, and Kinney, 2006) is to use the design variables as
+predictors:
+
+- the **weight** is a predictor, so imputed values can vary with it;
+- the **strata and primary sampling unit (PSU) identifiers** have thousands of values (and one PSU per person), so
+  they cannot be predictors. They stay in the data, untouched, for the survey design in the
+  next chapters;
+- the **state** can represent geographic differences, but its 53 categories add
+  parameters to each imputation model. This teaching example omits state from the
+  default predictor matrix. The example below shows how to include it when
+  imputing income. For a substantive analysis, assess the consequences of this
+  simplification rather than choosing predictors on computing time alone.
+- the **Census region** (@sec-lookup-join) is a coarser summary of the same geography.
+  It is also omitted here, so that the imputations match the worked example; try adding
+  it as an exercise and compare.
+
+The **predictor matrix** says which variables predict which: a 1 in row *income*, column
+*weight* means the weight is used to impute income.
+
+```{r}
+#| label: predictors
+predictors <- mice::make.predictorMatrix(imp_data)
+# Kept in the data, not used as predictors.
+predictors[, c("strata", "psu_id", "state", "region")] <- 0
+predictors
+```
+
+### Example: a predictor for one variable only
+
+Each **row** of the predictor matrix is one imputation model (the variable being imputed), and
+each **column** is a possible predictor. Changing a single cell changes a single model. Income
+is the variable with the most missing values, so it is where design information matters most.
+To also use the state when imputing income, and nowhere else:
+
+```{r}
+#| label: predictors-state
+predictors_state <- predictors
+predictors_state["income", "state"] <- 1 # state predicts income only
+predictors_state["income", ]
+```
+
+To use it, replace `predictorMatrix = predictors` with `predictorMatrix = predictors_state`
+in the imputation below. Compare diagnostics and pooled estimates under both
+matrices to assess the effect of including state. The worked analysis uses
+`predictors`, which includes the weight but omits state.
+
+## How each variable is imputed
+
+We impute every variable with **predictive mean matching** (PMM). For each person with a
+missing value, PMM predicts the value from a regression, finds the respondents with an
+observed value whose predictions are closest, and copies the observed value of one of them,
+chosen at random. Imputed values are therefore always real answers (an income group, never
+"2.4"), and PMM is fast: one linear regression per variable.
+
+```{r}
+#| label: methods
+methods <- mice::make.method(imp_data, defaultMethod = rep("pmm", 4))
+methods
+```
+
+An empty string means the variable has nothing missing.
+
+::: callout-note
+## PMM or a model for each type of variable?
+
+`mice`'s defaults model each categorical variable by its type: logistic regression for two
+categories, proportional-odds regression for ordered ones, and multinomial regression for
+unordered ones. This teaching example uses PMM for all incomplete variables to
+keep the workflow compact. When adapting it, choose methods appropriate to each
+variable's measurement scale, inspect the imputations and compare alternatives.
+A small proportion of missing values alone does not establish that a method is
+appropriate. Always report the method used for each variable.
+:::
+
+## Imputing in parallel, reproducibly
+
+Each completed dataset is independent of the others, so they can be imputed at the same time
+on different processor cores. `furrr::future_map()` runs one imputation per task, and
+`mice::ibind()` combines the single imputations into one object. `future::plan()` sets the
+number of parallel workers. First detect the available cores; reserve one core
+and use at most four workers, or fewer if there are fewer imputations. The cap
+limits memory use because each worker holds its own data.
+
+The main example uses `r n_imputations_book` imputations to keep a classroom run
+short. For a substantive analysis, assess the fraction of missing information
+and the stability of pooled estimates and standard errors, and increase the
+number of imputations when needed.
+
+The `seed` argument makes the results reproducible. `furrr` gives each task its own
+random-number stream derived from the seed, so the imputations are **identical on every
+computer, whatever its number of cores**. (`mice::futuremice()` also imputes in parallel,
+but its results depend on the number of cores.)
+
+```{r}
+#| label: impute
+#| cache: true
+n_cores <- parallelly::availableCores()
+n_workers <- min(n_imputations, 4L, max(1L, n_cores - 1L))
+tibble::tibble(available_cores = n_cores, workers = n_workers)
+future::plan(future::multisession, workers = n_workers)
+start <- Sys.time()
+imputed <- furrr::future_map(
+  seq_len(n_imputations),
+  \(i) {
+    mice::mice(
+      imp_data,
+      m = 1,
+      maxit = 5,
+      method = methods,
+      predictorMatrix = predictors,
+      printFlag = FALSE
+    )
+  },
+  .options = furrr::furrr_options(seed = seed)
+) |>
+  purrr::reduce(mice::ibind)
+future::plan(future::sequential)
+Sys.time() - start
+
+# Check: the number of imputations we asked for, and no missing values left.
+stopifnot(
+  imputed$m == n_imputations,
+  purrr::every(imputed$imp, \(values) !anyNA(values))
+)
+```
+
+`maxit = 5` (the `mice` default) runs five cycles through the variables for each imputation.
+Only income has much missing data and the other variables are almost complete, so the chains
+settle quickly; the convergence plots in the next section check that five cycles are enough.
+
+## Check the imputations
+
+Three checks come before using imputed data.
+
+**1. Did `mice` log any problems?** `NULL` means none. Otherwise the log lists variables
+`mice` dropped from a model (for example, because they were constant or collinear).
+
+```{r}
+#| label: logged-events
+imputed$loggedEvents
+```
+
+**2. Did the algorithm converge?** Each line is one imputation (a "chain"): the mean and
+standard deviation of the imputed values at each iteration. The lines should mix freely, with
+no trend in the last iterations.
+
+```{r}
+#| label: convergence
+#| fig-height: 8
+plot(imputed, c("income", "genhlth", "education", "employment"))
+```
+
+**3. Are the imputed values plausible?** Compare the imputed incomes with the reported ones.
+
+```{r}
+#| label: observed-imputed
+dplyr::bind_rows(
+  observed = dplyr::count(imp_data, income),
+  imputed = dplyr::count(
+    tibble::tibble(income = unlist(imputed$imp$income)),
+    income
+  ),
+  .id = "values"
+) |>
+  tidylog::filter(!is.na(income)) |>
+  tidylog::mutate(percent = round(100 * n / sum(n), 1), .by = values) |>
+  tidyr::pivot_wider(
+    id_cols = income,
+    names_from = values,
+    values_from = percent
+  )
+```
+
+The two distributions do not need to match. Under MAR they *should* differ when the people
+with missing income differ from those who reported it, as @sec-descriptives showed. What we
+look for is plausibility: no impossible values, and differences that make sense.
+
+## Save
+
+The `mids` object holds the original data and the imputed values; `mice::complete()`
+rebuilds the completed datasets from it in the next chapters.
+
+```{r}
+#| label: save
+saveRDS(imputed, file.path(processed_dir, "05-imputed.rds"))
+```

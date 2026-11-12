@@ -5,13 +5,28 @@ project:
   resources:
     - data/raw/*.csv
     - data/README.md
+    - data/lookup/*.csv
 
 book:
   title: "Data Science for Population Health Sciences"
   subtitle: "Practical walkthroughs in R"
   chapters:
     - index.qmd
-    - chapters/data-preparation.qmd
+    - part: "Foundations"
+      chapters:
+        - chapters/data-preparation.qmd
+    - part: "Survey-weighted analysis with BRFSS 2024"
+      chapters:
+        - chapters/survey/01-import.qmd
+        - chapters/survey/02-engineering.qmd
+        - chapters/survey/03-cleaning.qmd
+        - chapters/survey/04-descriptives.qmd
+        - chapters/survey/05-imputation.qmd
+        - chapters/survey/06-bivariate.qmd
+        - chapters/survey/07-multivariable.qmd
+  appendices:
+    - chapters/survey/decisions.qmd
+    - chapters/survey/reproducibility.qmd
   search: true
 
 format:
@@ -34,5 +49,4 @@ execute:
   warning: true
   message: true
   error: false
-  cache: false
   freeze: false

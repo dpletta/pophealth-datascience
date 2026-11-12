@@ -9,3 +9,8 @@ data/derived/
 
 /.quarto/
 **/*.quarto_ipynb
+
+# BRFSS files: each reader downloads them from CDC; nothing derived is committed.
+data/brfss/
+_book-smoke/
+*_cache/

@@ -1,0 +1,44 @@
+# Coding Decisions {#sec-decisions}
+
+```{r}
+#| label: setup
+#| include: false
+source("chapters/survey/_common.R")
+crosswalk <- readRDS(file.path(processed_dir, "03-crosswalk.rds"))
+Count <- function(item, codes) {
+  n <- sum(crosswalk$n[crosswalk$item == item & crosswalk$code %in% codes])
+  return(format(n, big.mark = ","))
+}
+```
+
+Every analysis rests on coding decisions. This appendix lists them, with the number of
+respondents each one affects, so that a reader can check them and a later analysis can
+change them on purpose rather than by accident.
+
+## Decisions
+
+| Decision | Reason | Respondents affected |
+|---|---|---|
+| "Don't know", "refused", and blank answers become missing and are imputed | They carry no information about the true value; dropping them would lose about one adult in five from any model with income | Income: `r Count("INCOME3", c(77, 99, NA))`; employment: `r Count("EMPLOY1", c(9, NA))`; education: `r Count("EDUCA", c(9, NA))`; general health: `r Count("GENHLTH", c(7, 9, NA))`; cost barrier: `r Count("MEDCOST1", c(7, 9, NA))`; diabetes: `r Count("DIABETE4", c(7, 9, NA))` |
+| Diabetes told only during pregnancy (`DIABETE4 = 2`) is "No" | Gestational diabetes alone is not current diabetes; the answer settles the value | `r Count("DIABETE4", 2)` |
+| Prediabetes counts as "no diabetes" in the 0/1 outcome | The outcome is diagnosed diabetes | `r Count("DIABETE4", 4)` |
+| Age from `_AGE_G` (six groups, CDC-imputed) rather than `_AGE65YR` (two groups) | Better adjustment for age, a strong confounder; no missing values | All |
+| Numeric age from `_AGE80`, retained as years with 80 meaning 80 or older | Demonstrates a survey-weighted comparison of means; models and imputation retain age groups | All |
+| Race and ethnicity from `_IMPRACE` (CDC-imputed) | CDC fills missing answers for weighting; no missing values | All |
+| Income in four groups: under $25,000; $25,000-$49,999; $50,000-$99,999; $100,000 or more | Enough respondents per group; matches the descriptive tutorials | All with an income answer |
+| Reference groups: lowest income, ages 18-24, female, non-Hispanic White | Lowest income: PRs describe the gradient from the bottom; non-Hispanic White: largest group | All |
+| Prevalence ratios (modified Poisson) rather than odds ratios | Diabetes is common, so odds ratios would overstate the ratios of prevalences | All models |
+| State names and Census regions added by a many-to-one left join on the Federal Information Processing Standards (FIPS) state code (`data/lookup/states.csv`) | Readable labels and a coarser geography for description; checked that every respondent matched one lookup row (@sec-lookup-join) | All |
+| Census region omitted from the imputation predictors, like state | Keeps the imputation model the same as the worked example; try adding it (@sec-imputation) | All imputed values |
+| `r n_imputations_book` imputations | Keeps the classroom example short; assess stability and use more when needed for a substantive analysis | All models |
+| Imputation by predictive mean matching for every variable, 5 iterations; the weight as a predictor, state omitted | A compact teaching example; assess variable-specific methods, convergence and the effect of including state when adapting it (@sec-imputation) | All imputed values |
+
+## Crosswalk
+
+Every raw code and the value it became, from @sec-cleaning. `NA` in the `code` column is a
+blank answer; `NA` in the `value` column is a missing value.
+
+```{r}
+#| label: crosswalk
+knitr::kable(crosswalk, format.args = list(big.mark = ","))
+```

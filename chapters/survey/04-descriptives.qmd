@@ -1,0 +1,444 @@
+# Survey-Weighted Descriptive Statistics {#sec-descriptives}
+
+```{r}
+#| label: setup
+source("chapters/survey/_common.R")
+clean_file <- file.path(processed_dir, "03-brfss-clean.rds")
+brfss_clean <- readRDS(clean_file)
+knitr::opts_chunk$set(
+  cache.extra = c(cache_context, list(data = tools::md5sum(clean_file)))
+)
+```
+
+Descriptive statistics answer "what does the population look like?" With a complex survey
+such as the Behavioral Risk Factor Surveillance System (BRFSS),
+every estimate has to use the survey design, or it describes the *sample* (who happened to
+answer the phone) rather than the *population* (US adults). This chapter describes the
+observed data only: the answers people gave, with missing answers shown as missing.
+Imputed values (@sec-imputation) are for models, not for describing who answered what.
+
+## The survey design object
+
+The `srvyr` package lets us describe the design once and then use familiar `dplyr` verbs on
+it. The design object stores the data together with the three design features from
+@sec-import:
+
+- `ids`: the primary sampling units (clusters);
+- `strata`: the strata;
+- `weights`: the final weight.
+
+```{r}
+#| label: design
+# Check again when reading a saved file: identifiers are nested and weights are valid.
+stopifnot(
+  !anyNA(brfss_clean[c("psu_id", "strata", "weight")]),
+  all(is.finite(brfss_clean$weight)),
+  all(brfss_clean$weight > 0),
+  nrow(dplyr::distinct(brfss_clean, psu_id, strata)) ==
+    dplyr::n_distinct(brfss_clean$psu_id)
+)
+design <- brfss_clean |>
+  srvyr::as_survey_design(
+    ids = psu_id,
+    strata = strata,
+    weights = weight,
+    nest = FALSE,
+    check_strata = FALSE
+  )
+design
+```
+
+::: callout-tip
+## Why `check_strata = FALSE`?
+
+By default the design checks that every PSU lies within a single stratum. Depending
+on the survey package version, this check can create a large PSU-by-stratum table.
+The `psu_id` variable numbers each stratum-PSU pair, so the PSUs are nested in strata
+by construction. Chapter 2 verifies that each identifier belongs to exactly one
+stratum before this check is disabled. Keep the default check unless you have
+verified that nesting condition.
+:::
+
+The weights add up to the number of adults the sample represents:
+`r format(round(sum(brfss_clean$weight)), big.mark = ",")`.
+
+::: callout-warning
+## What ignoring the design does
+
+- **Without weights**, estimates describe the sample, not the population. Groups that answer
+  surveys more often (older adults, for example) count too much.
+- **Without strata and clusters**, standard errors are wrong, so confidence intervals and
+  p-values are wrong too. Clustering usually makes them too small.
+:::
+
+### Strata with a single PSU
+
+Variance estimation compares PSUs within each stratum, which is impossible when a stratum
+has only one PSU.
+
+```{r}
+#| label: lonely-psu
+brfss_clean |>
+  tidylog::summarise(n_psu = dplyr::n_distinct(psu_id), .by = strata) |>
+  tidylog::filter(n_psu == 1)
+```
+
+`_common.R` sets `options(survey.lonely.psu = "adjust")`, which centers such a stratum on
+the overall mean instead of its own (see `?survey::surveyoptions` for the alternatives).
+
+## Calculate once, then reuse {#sec-descriptive-cache}
+
+The expensive summary chunks below use Quarto's built-in R cache:
+
+```r
+#| cache: true
+```
+
+On later renders, unchanged chunks reload their objects and output. The setup
+checks the input data's contents, all R code in this chapter, project settings,
+R/package versions and survey options. Changing those inputs triggers a new
+calculation; editing prose does not. Full and smoke caches have separate folders.
+
+After running @sec-import to @sec-cleaning once, render just this chapter while
+working on your tables:
+
+```bash
+quarto render chapters/survey/04-descriptives.qmd
+quarto render chapters/survey/04-descriptives.qmd --cache-refresh
+```
+
+The second command forces recalculation. Caching applies when rendering, not when
+running individual lines in the R console. Importing, imputation and modeling
+chapters use the same chunk option for their expensive calculations.
+
+In this BRFSS dataset, each respondent is a PSU, so aggregation by PSU does not
+reduce the row count. Build the design before selecting an analysis domain,
+then subset the design object to retain the information needed for variance
+estimation.
+
+## Table 1: who the population is
+
+`gtsummary::tbl_svysummary()` makes a publication-ready table from a design object. We show
+**unweighted counts** (how many people answered) with **weighted percentages** (the estimate
+for the population), and the number of missing answers for each variable.
+
+```{r}
+#| label: table-1
+#| cache: true
+labels <- list(
+  diabetes = "Diabetes",
+  genhlth = "General health",
+  cost_barrier = "Could not afford a doctor in the past year",
+  income = "Household income",
+  age_group = "Age group",
+  sex = "Sex",
+  race_eth = "Race and ethnicity",
+  region = "US Census region"
+)
+stopifnot(all(vapply(brfss_clean[names(labels)], is.factor, TRUE)))
+
+table1 <- design |>
+  gtsummary::tbl_svysummary(
+    include = names(labels),
+    label = labels,
+    type = gtsummary::all_categorical() ~ "categorical",
+    statistic = gtsummary::all_categorical() ~ "{n_unweighted} ({p}%)",
+    missing_stat = "{N_miss_unweighted}",
+    missing_text = "Missing"
+  )
+table1 |>
+  gtsummary::modify_caption(
+    "**Table 1. Characteristics of US adults, BRFSS 2024**"
+  )
+```
+
+## Table 2: outcomes by income
+
+Adding `by = income` splits the table by income group, and `gtsummary::add_p()` tests whether
+each outcome differs across the groups. For categorical variables in survey data the test is
+the **Rao-Scott test**, reported as a design-adjusted F test by
+`survey::svychisq(statistic = "F")`. It accounts for weights, strata, and clusters.
+
+```{r}
+#| label: table-2
+#| cache: true
+table2 <- design |>
+  gtsummary::tbl_svysummary(
+    by = income,
+    include = c(diabetes, genhlth, cost_barrier),
+    label = labels[c("diabetes", "genhlth", "cost_barrier")],
+    type = gtsummary::all_categorical() ~ "categorical",
+    statistic = gtsummary::all_categorical() ~ "{n_unweighted} ({p}%)",
+    missing_stat = "{N_miss_unweighted}",
+    missing_text = "Missing"
+  ) |>
+  gtsummary::add_overall() |>
+  gtsummary::add_p(test = gtsummary::all_categorical() ~ "svy.chisq.test")
+table2 |>
+  gtsummary::modify_caption("**Table 2. Health outcomes by household income**")
+```
+
+::: callout-note
+## Who is missing from Table 2?
+
+A table split by income can only include people whose income is known, so the
+`r format(sum(is.na(brfss_clean$income)), big.mark = ",")` respondents without an income
+answer are left out of every column except "Overall". The same happens in any analysis that
+drops incomplete answers ("complete-case analysis"). The rest of this chapter asks whether
+that matters.
+:::
+
+## Testing a continuous variable {#sec-continuous-test}
+
+**Does mean age differ across the four income groups?** `age` is the numeric
+BRFSS variable `_AGE80`: CDC-imputed age in years, with everyone aged 80 or older
+recorded as 80. The comparison therefore concerns this capped age variable,
+not exact age above 80. See the
+[CDC calculated-variable definitions](https://www.cdc.gov/brfss/annual_data/2024/pdf/2024-calculated-variables-version4-508.pdf).
+The regression chapters continue to use `age_group`.
+
+First select respondents with known income **from the full survey design**.
+Report weighted means and 95% confidence intervals before interpreting a test.
+
+```{r}
+#| label: income-domain
+income_design <- design |> dplyr::filter(!is.na(income))
+```
+
+```{r}
+#| label: mean-age
+#| cache: true
+mean_age <- income_design |>
+  dplyr::group_by(income) |>
+  dplyr::summarise(
+    age = srvyr::survey_mean(age, na.rm = TRUE, vartype = "ci")
+  )
+mean_age
+```
+
+For more than two groups, fit a survey-weighted linear model and test the
+income coefficients together. With four groups there are three coefficients;
+the null hypothesis is that all three are zero, so all four population means
+are equal. The joint Wald F test uses the survey design for its variance.
+
+```{r}
+#| label: age-test
+#| cache: true
+age_fit <- survey::svyglm(age ~ income, design = income_design)
+age_test <- survey::regTermTest(age_fit, ~income, method = "Wald")
+rm(age_fit) # Cache the test result rather than the full model.
+age_test
+```
+
+The p-value is `r format.pval(age_test$p, digits = 2, eps = 0.001)`.
+A small p-value is evidence that at least one mean differs; it does not identify
+which pairs differ or establish that a difference is practically important.
+Use the means and confidence intervals to describe the size of the differences.
+
+### Put the mean test in a summary table
+
+`gtsummary::add_p()` accepts a short custom function returning a p-value. This
+function applies the same model and joint test to a numeric variable and a
+categorical grouping variable.
+
+```{r}
+#| label: mean-test-helper
+mean_test <- function(data, variable, by, ...) {
+  fit <- survey::svyglm(stats::reformulate(by, variable), design = data)
+  test <- survey::regTermTest(fit, stats::reformulate(by), method = "Wald")
+  tibble::tibble(
+    p.value = as.numeric(test$p),
+    method = "Survey-weighted joint Wald test of means"
+  )
+}
+```
+
+```{r}
+#| label: age-summary
+#| cache: true
+age_table <- income_design |>
+  gtsummary::tbl_svysummary(
+    by = income,
+    include = age,
+    label = age ~ "Age (years, capped at 80)",
+    type = age ~ "continuous",
+    statistic = age ~ "{mean} ({sd})"
+  ) |>
+  gtsummary::add_p(test = age ~ mean_test)
+age_table |>
+  gtsummary::modify_caption("**Mean age (SD) by household income**")
+```
+
+The parentheses contain the weighted **standard deviation**, which describes
+variation in age, rather than the standard error of the mean. In a table with
+both variable types, use `all_continuous() ~ mean_test` and
+`all_categorical() ~ "svy.chisq.test"` in the `test` list.
+
+For **two groups**, `survey::svyttest()` is a direct test of the difference in
+means; the corresponding `gtsummary` alias is `"svy.t.test"`. The alias
+`"svy.wald.test"` instead calls a contingency-table test of independence and
+should not be used to test continuous means. See the
+[gtsummary test definitions](https://www.danieldsjoberg.com/gtsummary/reference/tests.html).
+Ordinary `t.test()` and `aov()` do not account for this survey design.
+
+## Prevalence with confidence intervals
+
+`srvyr::survey_mean()` estimates a weighted mean, here the share of adults with diabetes and
+with fair or poor health, with its 95% confidence interval. Grouping by income keeps the
+missing-income group as its own row.
+
+```{r}
+#| label: prevalence
+#| cache: true
+prevalence <- design |>
+  dplyr::group_by(income) |>
+  dplyr::summarise(
+    diabetes = srvyr::survey_mean(diabetes_yes, na.rm = TRUE, vartype = "ci"),
+    fair_poor = srvyr::survey_mean(fair_poor, na.rm = TRUE, vartype = "ci")
+  )
+prevalence
+```
+
+Diabetes falls steadily with income, from
+`r round(100 * prevalence$diabetes[1], 1)`% in the lowest group to
+`r round(100 * prevalence$diabetes[4], 1)`% in the highest. Adults who did not report their
+income (the `NA` row) have a diabetes prevalence of
+`r round(100 * prevalence$diabetes[5], 1)`%, close to the population average. On this outcome
+they resemble the people who reported their income; the last section of this chapter shows
+how they differ in age and health.
+
+### Prevalence by region
+
+The region column came from the lookup table joined in @sec-lookup-join. Grouping the
+design by it works like grouping by any other variable.
+
+```{r}
+#| label: prevalence-region
+#| cache: true
+design |>
+  dplyr::group_by(region) |>
+  dplyr::summarise(
+    diabetes = srvyr::survey_mean(diabetes_yes, na.rm = TRUE, vartype = "ci"),
+    n = srvyr::unweighted(dplyr::n())
+  )
+```
+
+Filtering rows out of the data *before* building the design (for example, keeping only
+the Midwest) would drop information the variance estimate needs. To describe one region,
+filter the design instead, as @sec-continuous-test does for respondents with a known
+income.
+
+## Why the design matters
+
+### Weights change the estimate
+
+```{r}
+#| label: unweighted
+brfss_clean |>
+  tidylog::summarise(diabetes_unweighted = mean(diabetes_yes, na.rm = TRUE))
+```
+
+### The design changes the uncertainty
+
+The **design effect** (DEFF) compares the variance of an estimate under the survey design
+with its variance under a simple random sample of the same size:
+
+$$
+\text{DEFF} = \frac{\text{Variance}_\text{survey design}}{\text{Variance}_\text{simple random sample}},
+\qquad
+n_\text{effective} = \frac{n}{\text{DEFF}}
+$$
+
+A DEFF of 2 means the survey gives as much information as a simple random sample half its
+size, and standard errors are $\sqrt{2} \approx 1.4$ times larger.
+
+```{r}
+#| label: design-effects
+#| cache: true
+design_effects <- design |>
+  dplyr::summarise(
+    diabetes = srvyr::survey_mean(diabetes_yes, na.rm = TRUE, deff = TRUE),
+    n_diabetes = srvyr::unweighted(sum(!is.na(diabetes_yes))),
+    fair_poor = srvyr::survey_mean(fair_poor, na.rm = TRUE, deff = TRUE),
+    n_fair_poor = srvyr::unweighted(sum(!is.na(fair_poor)))
+  ) |>
+  dplyr::mutate(
+    n_effective_diabetes = n_diabetes / diabetes_deff,
+    n_effective_fair_poor = n_fair_poor / fair_poor_deff
+  )
+design_effects
+```
+
+The unweighted prevalence of diabetes is
+`r round(100 * mean(brfss_clean$diabetes_yes, na.rm = TRUE), 1)`%; weighted, it is
+`r round(100 * design_effects$diabetes, 1)`%. The design effect is
+`r round(design_effects$diabetes_deff, 2)` for diabetes and
+`r round(design_effects$fair_poor_deff, 2)` for fair or poor health, so the
+`r format(design_effects$n_diabetes, big.mark = ",")` answers about diabetes carry as much
+information as about `r format(round(design_effects$n_effective_diabetes), big.mark = ",")`
+answers from a simple random sample. In BRFSS most of the design effect comes from the
+unequal weights, because each respondent is their own PSU.
+
+## Missing data
+
+### How much is missing?
+
+```{r}
+#| label: percent-missing
+brfss_clean |>
+  tidylog::summarise(dplyr::across(
+    c(
+      diabetes,
+      genhlth,
+      cost_barrier,
+      income,
+      age_group,
+      sex,
+      race_eth,
+      education,
+      employment
+    ),
+    \(x) round(100 * mean(is.na(x)), 1)
+  )) |>
+  tidyr::pivot_longer(
+    dplyr::everything(),
+    names_to = "variable",
+    values_to = "percent_missing"
+  )
+```
+
+### Who is missing income?
+
+If income were missing **completely at random**, the share of missing income would be the
+same in every group. The design-based estimates below show it is not.
+
+```{r}
+#| label: missing-by-group
+design |>
+  dplyr::group_by(age_group) |>
+  dplyr::summarise(
+    income_missing = srvyr::survey_mean(is.na(income), vartype = "ci")
+  )
+
+design |>
+  dplyr::group_by(genhlth) |>
+  dplyr::summarise(
+    income_missing = srvyr::survey_mean(is.na(income), vartype = "ci")
+  )
+```
+
+::: callout-important
+## Three kinds of missing data
+
+- **Missing completely at random (MCAR):** missingness is unrelated to anything. Dropping
+  incomplete answers loses precision but does not bias estimates.
+- **Missing at random (MAR):** missingness depends on *observed* variables (here, age and
+  health). Dropping incomplete answers can bias estimates; multiple imputation that includes
+  those variables does not.
+- **Missing not at random (MNAR):** missingness depends on the missing value itself (for
+  example, people with very high incomes declining to say). Neither approach fixes this on
+  its own; it calls for sensitivity analyses.
+
+Income missingness varies with age and health, so MCAR is not plausible. @sec-imputation
+works under MAR, the standard assumption for multiple imputation.
+:::
