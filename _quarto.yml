@@ -2,10 +2,12 @@ project:
   type: book
   output-dir: _book
   execute-dir: project
+  # A leading slash anchors each pattern at the book's root folder; without it Quarto
+  # also copies matching files from other folders, such as the smoke-test book.
   resources:
-    - data/raw/*.csv
-    - data/README.md
-    - data/lookup/*.csv
+    - /data/raw/*.csv
+    - /data/README.md
+    - /data/lookup/*.csv
 
 book:
   title: "Data Science for Population Health Sciences"

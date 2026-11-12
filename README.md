@@ -11,6 +11,10 @@ A Quarto book of beginner-friendly, annotated R walkthroughs in two parts:
    survey-weighted regression. The question: is household income associated with
    diabetes among US adults?
 
+This repository is one book. Its source is `_quarto.yml` (settings and chapter order),
+`index.qmd` (the welcome page), and the chapters in `chapters/`, all at the repository
+root. `quarto render` builds it into `_book/`, which is not committed.
+
 ## Run locally
 
 Install R 4.1 or later and Quarto. Open `pophealth-datascience.Rproj` or work from
@@ -81,6 +85,7 @@ No packages are installed and no research data are downloaded during rendering.
 - `data/README.md`: data provenance, units, and cleaning rules.
 - `images/`: original, accessible SVG diagrams used by the chapters.
 - `_quarto-smoke.yml`, `_environment-smoke`: the smoke-test profile for the survey chapters.
+- `_freeze/`: stored results of the survey chapters, so the book renders without the BRFSS data.
 
 The supplied social-epidemiology Qmd and legacy Rmd informed the progression of
 short code blocks and nearby checks. Their data, study-specific paths, and
