@@ -108,7 +108,7 @@ variable, its question, and its codes, and the questionnaire version files used 
 
 ## Read only the columns we need
 
-The file has 345 columns. We need 14, so we read only those with `col_select`. This
+The file has `r ncol(haven::read_xpt(raw_file, n_max = 0))` columns. We need 14, so we read only those with `col_select`. This
 keeps memory use low and makes reading fast. It does not change the survey design: every
 one of the 457,670 respondents is kept, with their weight, stratum, and PSU.
 

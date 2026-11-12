@@ -12,5 +12,7 @@ data/derived/
 
 # BRFSS files: each reader downloads them from CDC; nothing derived is committed.
 data/brfss/
+# Survey files kept locally outside data/brfss/ (for example a newer BRFSS year).
+data/raw/BRFSS_*/
 _book-smoke/
 *_cache/

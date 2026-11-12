@@ -10,7 +10,8 @@ brfss <- readRDS(brfss_file)
 version_files <- c(
   main = "LLCP2024.XPT",
   v1 = "LLCP24V1.XPT",
-  v2 = "LLCP24V2.XPT"
+  v2 = "LLCP24V2.XPT",
+  v3 = "LLCP24V3.XPT"
 )
 have_versions <- all(file.exists(file.path(raw_dir, version_files)))
 
@@ -81,10 +82,32 @@ Read the version for your survey year before you start.
 ### Download the version files (optional)
 
 The rest of the book uses only the main file. To run this section, download the SAS
-transport files for questionnaire versions 1 and 2 from the
-[CDC BRFSS 2024 page](https://www.cdc.gov/brfss/annual_data/annual_2024.html), unzip
-them, and save them in `data/brfss/raw/` as `LLCP24V1.XPT` and `LLCP24V2.XPT`. If the
-files are not there, the code in this section is shown but not run.
+transport files for questionnaire versions 1, 2 and 3 from the
+[CDC BRFSS 2024 multiple-questionnaire page](https://www.cdc.gov/brfss/annual_data/2024/llcp_multiq.html),
+unzip them, and save them in `data/brfss/raw/` as `LLCP24V1.XPT`, `LLCP24V2.XPT` and
+`LLCP24V3.XPT` (as with the main file, remove the trailing space from each unzipped
+file name). If the files are not there, the code in this section is shown but not run.
+
+```{r}
+#| label: download-versions
+#| eval: false
+options(timeout = 600) # allow 10 minutes on a slow connection
+for (version in 1:3) {
+  zip_file <- file.path(raw_dir, paste0("LLCP24V", version, "_XPT.ZIP"))
+  utils::download.file(
+    paste0(
+      "https://www.cdc.gov/brfss/annual_data/2024/files/LLCP24V",
+      version,
+      "_XPT.ZIP"
+    ),
+    destfile = zip_file,
+    mode = "wb"
+  )
+  extracted <- utils::unzip(zip_file, exdir = raw_dir)
+  file.rename(extracted, file.path(raw_dir, paste0("LLCP24V", version, ".XPT")))
+  file.remove(zip_file)
+}
+```
 
 ```{r}
 #| label: version-files-status
@@ -120,7 +143,12 @@ here is an example: check the 2024 codebook for the item you need and its name.
 #| eval: !expr have_versions
 #| cache: true
 module_item <- "ACEDEPRS" # one item from your module (check the codebook)
-version_weights <- c(main = "_LLCPWT", v1 = "_LCPWTV1", v2 = "_LCPWTV2")
+version_weights <- c(
+  main = "_LLCPWT",
+  v1 = "_LCPWTV1",
+  v2 = "_LCPWTV2",
+  v3 = "_LCPWTV3"
+)
 
 read_version <- function(source) {
   path <- file.path(raw_dir, version_files[[source]])
@@ -204,18 +232,48 @@ states_v1 <- coverage |>
 states_v2 <- coverage |>
   dplyr::filter(source == "v2", !STATE %in% states_main) |>
   dplyr::pull(STATE)
+states_v3 <- coverage |>
+  dplyr::filter(source == "v3", !STATE %in% states_main) |>
+  dplyr::pull(STATE)
 
 # Check: no state is taken from the main file and a version file.
-stopifnot(length(intersect(states_main, c(states_v1, states_v2))) == 0)
-list(main = states_main, v1 = states_v1, v2 = states_v2)
+stopifnot(
+  length(intersect(states_main, c(states_v1, states_v2, states_v3))) == 0
+)
+list(main = states_main, v1 = states_v1, v2 = states_v2, v3 = states_v3)
 ```
 
-::: {.callout-important title="Compare the lists with CDC's module table"}
-The data show where the item was answered; CDC's module tables for the survey year say
-where the module was asked. Before using the stacked data, check that the three lists
-above agree with the module table. You can also type the lists in by hand from the table,
-as Federal Information Processing Standards (FIPS) state codes, for example
-`states_v1 <- c(26, 39)`, and keep the check above.
+The data show where the item was answered; CDC's table
+[2024 Modules by State by Data Set and Weight](https://www.cdc.gov/brfss/questionnaires/modules/state2024.htm)
+says where the module was asked. The lists below are typed in from that table, as
+Federal Information Processing Standards (FIPS) state codes. The check stops if the data
+and the table disagree.
+
+```{r}
+#| label: check-module-table
+#| eval: !expr have_versions
+# From CDC's 2024 table, Adverse Childhood Experiences module:
+module_table <- list(
+  # Main file (_LLCPWT): Florida, Georgia, Hawaii, Nevada, North Dakota, Virginia,
+  # Puerto Rico, US Virgin Islands
+  main = c(12, 13, 15, 32, 38, 51, 72, 78),
+  v1 = c(19, 23, 39), # Version 1 (_LCPWTV1): Iowa, Maine, Ohio
+  v2 = c(4, 40), # Version 2 (_LCPWTV2): Arizona, Oklahoma
+  v3 = numeric(0) # Version 3 (_LCPWTV3): no state
+)
+# Check: the states found in the data are the states in CDC's table.
+stopifnot(
+  setequal(states_main, module_table$main),
+  setequal(states_v1, module_table$v1),
+  setequal(states_v2, module_table$v2),
+  setequal(states_v3, module_table$v3)
+)
+```
+
+::: {.callout-important title="Use the table for your module and year"}
+The lists above are for the ACE module in 2024. For another module or year, type the
+lists in from that year's table and keep the check. If the data and the table disagree,
+find out why before analyzing the module.
 :::
 
 ### Step 3: Stack the pieces
@@ -226,7 +284,8 @@ as Federal Information Processing Standards (FIPS) state codes, for example
 stacked <- dplyr::bind_rows(
   pieces$main |> dplyr::filter(STATE %in% states_main),
   pieces$v1 |> dplyr::filter(STATE %in% states_v1),
-  pieces$v2 |> dplyr::filter(STATE %in% states_v2)
+  pieces$v2 |> dplyr::filter(STATE %in% states_v2),
+  pieces$v3 |> dplyr::filter(STATE %in% states_v3)
 )
 
 # Check: a state comes from one source only, unless it asked the module on more than
@@ -250,6 +309,13 @@ $$
 States that come from a single file have a share of 1, so their weights are unchanged.
 If the versions are of similar size, CDC's guidance also allows a constant (0.5 for two
 versions, about 0.33 for three).
+
+In 2024 no state asked the ACE module on more than one version, so every share below is
+1 and the adjustment leaves the ACE weights unchanged: the table printed after the check
+is empty. The step is still part of the recipe, because other modules need it. For
+example, Michigan asked the Cognitive Decline module on versions 1 and 3, so a stacked
+Cognitive Decline file would take Michigan's respondents from both versions, and their
+weights would be multiplied by each version's share.
 
 ```{r}
 #| label: adjust-weights

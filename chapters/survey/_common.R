@@ -37,14 +37,24 @@ loadNamespace("survey")
 cache_context <- list(
   code = knitr::knit_code$get(),
   settings = tools::md5sum("chapters/survey/_common.R"),
-  packages = utils::installed.packages()[, c("Package", "Version")],
+  # Versions of the packages these chapters call, not of every installed package, so
+  # installing an unrelated package does not invalidate the caches.
+  packages = vapply(
+    c("dplyr", "furrr", "future", "gtsummary", "haven", "mice", "mitml", "purrr",
+      "srvyr", "survey", "tidylog", "tidyr"),
+    \(package) as.character(utils::packageVersion(package)),
+    character(1)
+  ),
   R = R.version.string,
   imputations = n_imputations,
   survey_options = options()[grep("^survey[.]", names(options()))]
 )
 knitr::opts_chunk$set(
+  # knitr resolves a relative cache path from the chapter's own folder, not from the
+  # book's root folder, so the cache would land in chapters/survey/data/. An absolute
+  # path keeps it next to the processed data.
   cache.path = paste0(
-    processed_dir,
+    normalizePath(processed_dir),
     "/cache/",
     tools::file_path_sans_ext(basename(knitr::current_input())),
     "/"

@@ -47,9 +47,10 @@ They need dplyr 1.2.0 or later. Download the data once by running the `download`
 Data (SAS Transport Format)" from the
 [CDC BRFSS 2024 page](https://www.cdc.gov/brfss/annual_data/annual_2024.html), unzip it,
 and save it as `data/brfss/raw/LLCP2024.XPT`. The stacking example in the data
-engineering chapter also uses the questionnaire version 1 and 2 files from the same page,
-saved as `data/brfss/raw/LLCP24V1.XPT` and `data/brfss/raw/LLCP24V2.XPT`; without them, that
-section is shown but not run. Nothing in `data/brfss/` is shared through Git.
+engineering chapter also uses the questionnaire version 1, 2 and 3 files from the
+[CDC multiple-questionnaire page](https://www.cdc.gov/brfss/annual_data/2024/llcp_multiq.html),
+saved as `data/brfss/raw/LLCP24V1.XPT`, `LLCP24V2.XPT` and `LLCP24V3.XPT` (the chapter has a
+download chunk); without them, that section is shown but not run. Nothing in `data/brfss/` is shared through Git.
 
 ```bash
 # Quick test with 2 imputations; writes to _book-smoke/ and data/brfss/processed-smoke/
