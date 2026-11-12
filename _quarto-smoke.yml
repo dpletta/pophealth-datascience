@@ -1,0 +1,5 @@
+project:
+  output-dir: _book-smoke
+
+book:
+  title: "Data Science for Population Health Sciences: SMOKE TEST (2 imputations; not for reporting)"

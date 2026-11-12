@@ -1,6 +1,7 @@
 # Teaching data and codebook
 
-All records were manually invented for this book. No record comes from the two
+The files in `raw/` are for the data-preparation chapter. All of their records were
+manually invented for this book. No record comes from the two
 formatting-reference documents or an actual study. There is no random data
 generation step. These files illustrate data operations, not population estimates
 or a validated health instrument.
@@ -56,3 +57,25 @@ Participant 099 deliberately has a visit but no roster record. Participants 007,
 does not establish whether a visit occurred outside this extract. Participant
 004 has a recorded visit with a missing score; participant 003 has one observed
 score and one missing score.
+
+## lookup/states.csv
+
+Unit: one state, district, or territory; key: `fips`. 54 rows: the 50 states, the
+District of Columbia, Guam, Puerto Rico, and the US Virgin Islands. Used in the data
+engineering chapter of the survey part to add readable labels to the BRFSS `_STATE`
+codes.
+
+| Column | Meaning |
+|---|---|
+| fips | Federal Information Processing Standards (FIPS) state code, as in BRFSS `_STATE`. |
+| state_name | Name of the state, district, or territory. |
+| state_abbr | US Postal Service abbreviation. |
+| census_region | US Census Bureau region (Northeast, Midwest, South, West); `US territory` for Guam, Puerto Rico, and the US Virgin Islands, which are not in a Census region. |
+
+## brfss/ (not shared through Git)
+
+The Behavioral Risk Factor Surveillance System (BRFSS) files are public but large. Each
+reader downloads them from the Centers for Disease Control and Prevention (CDC) into
+`brfss/raw/` (see `chapters/survey/01-import.qmd`). Rendering the survey chapters writes
+one file per chapter to `brfss/processed/` (or `brfss/processed-smoke/` for a smoke
+test), along with the chunk caches.

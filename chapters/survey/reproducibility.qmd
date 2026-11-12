@@ -1,0 +1,89 @@
+# Reproducibility {#sec-reproducibility}
+
+```{r}
+#| label: setup
+#| include: false
+source("chapters/survey/_common.R")
+```
+
+Anyone who runs the survey chapters should get the same numbers. Four things make that
+possible.
+
+## The same packages
+
+R packages change between versions, and a new version can change a result. Install the
+packages once, from the R console:
+
+```{.r}
+install.packages(c(
+  "broom", "dplyr", "furrr", "future", "gtsummary", "haven", "knitr", "mice",
+  "mitml", "parallelly", "purrr", "rmarkdown", "sqldf", "srvyr", "survey", "tibble",
+  "tidylog", "tidyr"
+))
+```
+
+The survey chapters need dplyr 1.2.0 or later, for `dplyr::recode_values()`. The
+session information at the end of this appendix lists the exact versions used to build
+the book. When you report results, report the versions you used.
+
+## The same random numbers: seeds
+
+Multiple imputation draws random values. `chapters/survey/_common.R` sets the same seed
+(`r seed`) at the start of every chapter. The imputation runs one task per imputation in
+parallel, and `furrr::furrr_options(seed = seed)` gives each task its own reproducible
+random-number stream, so the imputed values are the same whether your computer has 2
+cores or 16.
+
+## Smoke tests
+
+A full render takes time because of the imputation. Before a full run, a smoke test
+checks that every survey chapter works:
+
+```sh
+quarto render chapters/survey --profile smoke
+```
+
+The `smoke` profile (`_quarto-smoke.yml` and `_environment-smoke` in the book's root
+folder) sets the number of imputations to 2 and writes the book to `_book-smoke/` and the
+data to `data/brfss/processed-smoke/`. Every page of a smoke book says "SMOKE TEST" in
+its title. The number of imputations is set in one place (`N_IMPUTATIONS`, read in
+`_common.R`), and every count in the code and text follows it.
+
+## Reusing expensive calculations
+
+Expensive R chunks use `#| cache: true`, Quarto's standard knitr cache. The setup
+records the chapter's R code, contents of its input files, shared settings, R and package
+versions, and survey options in `cache.extra`. These inputs invalidate cached results
+when the analysis changes. Editing prose does not.
+
+Full runs store their caches in `data/brfss/processed/cache/`; smoke runs use
+`data/brfss/processed-smoke/cache/`. Setup and file-saving chunks always run, so later
+chapters still receive their inputs on a cached render. Only rendering uses the cache;
+running individual lines in the R console executes them normally.
+
+To recalculate all cached chunks in the survey chapters:
+
+```sh
+quarto render chapters/survey --cache-refresh
+```
+
+See the [Quarto caching documentation](https://quarto.org/docs/computations/caching.html)
+for details. Validate the initial calculation before relying on cached results.
+
+## Rendering the book without the data
+
+The survey chapters set `freeze: auto` (in `chapters/survey/_metadata.yml`). After
+someone renders them with the data, Quarto stores their results in `_freeze/`. When that
+folder is shared with the book, `quarto render` reuses the stored results, so the whole
+book renders on a computer without the Behavioral Risk Factor Surveillance System (BRFSS)
+files. Rendering the folder directly (`quarto render chapters/survey`) always re-runs the
+chapters.
+
+## Session information
+
+The R version, operating system, and package versions used for this render:
+
+```{r}
+#| label: session-info
+utils::sessionInfo()
+```

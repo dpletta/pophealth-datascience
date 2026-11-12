@@ -1,0 +1,194 @@
+# Bivariate Survey-Weighted Regression {#sec-bivariate}
+
+```{r}
+#| label: setup
+source("chapters/survey/_common.R")
+imputed <- readRDS(file.path(processed_dir, "05-imputed.rds"))
+knitr::opts_chunk$set(
+  cache.extra = c(
+    cache_context,
+    list(data = tools::md5sum(file.path(processed_dir, "05-imputed.rds")))
+  )
+)
+```
+
+A bivariate (or "crude", or "unadjusted") model relates the outcome to one variable at a
+time. Crude associations describe the population; they are not causal effects, because
+other variables are not held constant. @sec-multivariable adjusts for them.
+
+## Prevalence ratios
+
+Our outcome is whether an adult has ever been told they have diabetes (1 = yes, 0 = no or
+prediabetes). We compare the **prevalence** of diabetes between groups with the
+**prevalence ratio** (PR), reported with its 95% confidence interval (CI):
+
+$$
+\text{PR} = \frac{\text{prevalence of diabetes in a group}}{\text{prevalence of diabetes in the reference group}}
+$$
+
+A PR of 2 means the group has twice the prevalence of the reference group. A Poisson
+regression with a log link and a 0/1 outcome estimates prevalence ratios directly ("modified
+Poisson" regression): its exponentiated coefficients are PRs. Two details:
+
+- We use `family = quasipoisson()` rather than `poisson()`, because survey weights are not
+  whole numbers. The estimates are the same.
+- A Poisson model's own standard errors are wrong for a 0/1 outcome, but `survey::svyglm()`
+  does not use them: it computes design-based (robust) standard errors from the weights,
+  strata, and primary sampling units (PSUs).
+
+::: callout-tip
+## Why not odds ratios?
+
+Logistic regression estimates odds ratios. When an outcome is common, as diabetes is (about
+one adult in eight), odds ratios are further from 1 than prevalence ratios and are easily
+misread as "times as likely". Prevalence ratios mean what they say.
+:::
+
+## Fitting and pooling
+
+Three short functions do the work for every model in this chapter and the next:
+
+- `fit_each()` takes each of the `r n_imputations` completed datasets in turn
+  (`mice::complete(imputed, i)`), adds the 0/1 diabetes outcome, turns the dataset into a
+  survey design, and fits the model. It keeps only what pooling needs: the estimates, their
+  covariance matrix, and the residual degrees of freedom. Survey designs and model
+  objects can be large, so each is discarded after extracting these quantities
+  rather than retained for all `r n_imputations` datasets.
+- `pool_fits()` combines the `r n_imputations` sets of estimates with Rubin's rules, using
+  `mice::pool.table()`, and exponentiates them into prevalence ratios.
+- `format_pr()` turns the pooled estimates into a readable table.
+
+```{r}
+#| label: helpers
+# Fit one model per completed dataset; keep the estimates, their covariance matrix, and the
+# residual degrees of freedom. Each design is built, used, and discarded in turn.
+fit_each <- function(imputed, formula) {
+  purrr::map(seq_len(imputed$m), \(i) {
+    design <- mice::complete(imputed, i) |>
+      dplyr::mutate(diabetes_yes = as.integer(diabetes == "Yes")) |>
+      srvyr::as_survey_design(
+        ids = psu_id,
+        strata = strata,
+        weights = weight,
+        check_strata = FALSE
+      )
+    fit <- survey::svyglm(
+      formula,
+      design = design,
+      family = stats::quasipoisson()
+    )
+    list(
+      coef = stats::coef(fit),
+      vcov = stats::vcov(fit),
+      df = stats::df.residual(fit)
+    )
+  })
+}
+
+pool_fits <- function(fits) {
+  estimates <- purrr::map(fits, \(fit) {
+    tibble::tibble(
+      term = names(fit$coef),
+      estimate = fit$coef,
+      std.error = sqrt(diag(fit$vcov)),
+      df.residual = fit$df
+    )
+  })
+  mice::pool.table(purrr::list_rbind(estimates), exponentiate = TRUE)
+}
+
+format_pr <- function(pooled) {
+  pooled |>
+    tibble::as_tibble() |>
+    dplyr::filter(term != "(Intercept)") |>
+    dplyr::transmute(
+      term,
+      `PR (95% CI)` = sprintf(
+        "%.2f (%.2f to %.2f)",
+        estimate,
+        conf.low,
+        conf.high
+      ),
+      p = format.pval(p.value, digits = 2, eps = 0.001)
+    )
+}
+```
+
+## Rubin's rules, step by step
+
+Here is the crude model for income, pooled:
+
+```{r}
+#| label: income-pooled
+#| cache: true
+income_fits <- fit_each(imputed, diabetes_yes ~ income)
+income_pooled <- pool_fits(income_fits)
+income_pooled |> dplyr::select(term, estimate, ubar, b, t, fmi)
+```
+
+For each coefficient, Rubin's rules combine the `r n_imputations` results on the log scale
+(the `estimate` column above is already exponentiated into a PR):
+
+- the pooled estimate is the **average** of the `r n_imputations` log PRs;
+- **ubar** is the average *within*-imputation variance (the usual squared standard error);
+- **b** is the *between*-imputation variance (how much the estimates differ across
+  datasets);
+- **t** = ubar + (1 + 1/m) b is the total variance, which includes the uncertainty about the
+  missing values;
+- **fmi** is the fraction of missing information: the share of the total variance due to the
+  missing data.
+
+```{r}
+#| label: income-check
+# Check: the pooled log PR is the average of the per-dataset log PRs.
+stopifnot(isTRUE(all.equal(
+  unname(log(income_pooled$estimate)),
+  unname(rowMeans(do.call(cbind, purrr::map(income_fits, "coef"))))
+)))
+```
+
+## Crude prevalence ratios for every predictor
+
+The same three steps for each predictor:
+
+```{r}
+#| label: crude
+#| cache: true
+predictors <- c("income", "age_group", "sex", "race_eth")
+crude <- predictors |>
+  purrr::map(\(predictor) {
+    fits <- if (predictor == "income") {
+      income_fits
+    } else {
+      fit_each(imputed, stats::reformulate(predictor, "diabetes_yes"))
+    }
+    return(pool_fits(fits))
+  }) |>
+  purrr::list_rbind()
+
+crude |>
+  format_pr() |>
+  knitr::kable(
+    caption = paste0(
+      "Table 3. Crude prevalence ratios for diabetes (",
+      n_imputations,
+      " imputations)"
+    )
+  )
+```
+
+R names each coefficient by pasting the variable name and the group, so
+`income$25,000 to $49,999` compares that income group with the reference group. The
+reference groups are the first level of each variable: less than $25,000; ages 18-24;
+female; and non-Hispanic White.
+
+Diabetes prevalence falls with income and rises steeply with age. Age is also related to
+income, which is why the crude income gradient may change once age is held constant
+(@sec-multivariable).
+
+## Save
+
+```{r}
+#| label: save
+saveRDS(crude, file.path(processed_dir, "06-crude.rds"))
+```

@@ -1,0 +1,377 @@
+# Cleaning and Recoding {#sec-cleaning}
+
+```{r}
+#| label: setup
+source("chapters/survey/_common.R")
+brfss <- readRDS(file.path(processed_dir, "02-brfss-joined.rds"))
+```
+
+Raw Behavioral Risk Factor Surveillance System (BRFSS) answers are numeric codes. Cleaning turns them into labeled categories that R and
+readers understand. It is also where most analysis errors start: a code that slips through
+unrecoded (a 99 for "refused" read as an income group) or a missing value silently turned into
+"no" changes every result that follows.
+
+This chapter follows four rules:
+
+1. **Declare first.** Before using an item, write down every value the codebook allows.
+2. **Check.** Stop if the data hold any other value.
+3. **Recode explicitly.** Map every value, including missing ones, by hand; never rely on a
+   default to absorb something unexpected.
+4. **Count.** Report how many answers each coding rule changes (@sec-decisions).
+
+## Step 1: Declare what each item can be
+
+The values below come from the Centers for Disease Control and Prevention (CDC)
+[BRFSS 2024 codebook](https://www.cdc.gov/brfss/annual_data/annual_2024.html). BRFSS uses
+the same codes for non-answers throughout: 7 (or 77) for "Don't know/Not sure", 9 (or 99) for
+"Refused", and a blank (`NA` in R) for "Not asked or missing".
+
+```{r}
+#| label: declare
+# Possible values of each item in the BRFSS 2024 codebook. Blank (NA) means "not asked or
+# missing".
+item_values <- list(
+  DIABETE4 = c(1:4, 7, 9), # 1 Yes; 2 Yes, but only during pregnancy; 3 No;
+  # 4 No, prediabetes or borderline; 7 Don't know; 9 Refused
+  GENHLTH = c(1:5, 7, 9), # 1 Excellent; 2 Very good; 3 Good; 4 Fair; 5 Poor;
+  # 7 Don't know; 9 Refused
+  MEDCOST1 = c(1, 2, 7, 9), # 1 Yes; 2 No; 7 Don't know; 9 Refused
+  INCOME3 = c(1:11, 77, 99), # 1 Less than $10,000 ... 11 $200,000 or more;
+  # 77 Don't know; 99 Refused
+  `_AGE_G` = 1:6, # 1 18-24; 2 25-34; 3 35-44; 4 45-54; 5 55-64; 6 65+
+  `_AGE80` = 18:80, # CDC-imputed age in years; 80 means 80 or older
+  SEXVAR = 1:2, # 1 Male; 2 Female
+  `_IMPRACE` = 1:6, # 1 White; 2 Black; 3 Asian; 4 American Indian or Alaska
+  # Native (all non-Hispanic); 5 Hispanic; 6 Other, non-Hispanic
+  EDUCA = c(1:6, 9), # 1 Never attended ... 6 College 4 years or more; 9 Refused
+  EMPLOY1 = 1:9, # 1 Employed for wages ... 8 Unable to work; 9 Refused
+  `_STATE` = c(1, 2, 4:6, 8:13, 15:42, 44:46, 48:51, 53:56, 66, 72, 78) # FIPS codes
+)
+# The design variables, the CDC-imputed items, and the state columns joined in
+# the previous chapter are never blank.
+never_blank <- c(
+  "_LLCPWT",
+  "_STSTR",
+  "_PSU",
+  "_STATE",
+  "_AGE_G",
+  "_AGE80",
+  "SEXVAR",
+  "_IMPRACE",
+  "state_abbr",
+  "census_region"
+)
+```
+
+The 53 state codes are the 2024 codebook's: the 50 states except Tennessee (47), plus the
+District of Columbia (11), Guam (66), Puerto Rico (72), and the US Virgin Islands (78).
+
+## Step 2: Check the data against the codebook
+
+A codebook can be wrong, and a file can change between releases. This check compares every
+observed value with the declaration and stops, naming each item and value, if anything else
+appears. It is silent when the data are as declared.
+
+```{r}
+#| label: check-values
+# Check: every value is in the codebook.
+unexpected <- purrr::imap(item_values, \(values, item) {
+  setdiff(brfss[[item]], c(values, NA))
+}) |>
+  purrr::compact()
+if (length(unexpected) > 0) {
+  stop(
+    "Values not in the codebook: ",
+    paste0(
+      names(unexpected),
+      " (",
+      purrr::map_chr(unexpected, toString),
+      ")",
+      collapse = "; "
+    )
+  )
+}
+# Check: no blanks where the codebook has none, and every weight is positive.
+stopifnot(!anyNA(brfss[never_blank]), all(brfss[["_LLCPWT"]] > 0))
+```
+
+Here is one item's raw distribution, before recoding:
+
+```{r}
+#| label: raw-income
+tidylog::count(brfss, INCOME3)
+```
+
+## Step 3: Recode
+
+`dplyr::recode_values()` maps each code (left of `~`) to a value (right of `~`). With
+`unmatched = "error"`, any code we did not list stops the run, so nothing can slip through.
+`tidylog::mutate()` works like `dplyr::mutate()` but reports what each new variable looks like,
+including its share of missing values.
+
+Four decisions are built into this recoding (@sec-decisions lists them with counts):
+
+- **Non-answers become missing.** "Don't know", "refused", and blank tell us nothing about a
+  person's true value, so they become `NA`. @sec-imputation fills them in by multiple
+  imputation rather than dropping those people.
+- **Values that other answers settle are coded, not left missing.** A woman told she had
+  diabetes *only during pregnancy* (`DIABETE4 = 2`) does not have diabetes now, so she is
+  coded "No".
+- **Age and race and ethnicity come from CDC's imputed versions.** CDC fills the few missing
+  answers for these weighting variables (`_AGE_G`, `_IMPRACE`), so they are never blank.
+  Six age groups adjust for age much better than two.
+- **Reference groups come first.** The first level of each factor is the comparison group in
+  the models: the lowest income group, ages 18-24, female, and non-Hispanic White (the
+  largest group).
+
+```{r}
+#| label: recode
+brfss_clean <- brfss |>
+  tidylog::mutate(
+    diabetes = dplyr::recode_values(
+      DIABETE4,
+      1 ~ "Yes",
+      c(2, 3) ~ "No", # 2 = told only during pregnancy: no diabetes now
+      4 ~ "Prediabetes",
+      c(7, 9, NA) ~ NA,
+      unmatched = "error"
+    ) |>
+      factor(levels = c("No", "Prediabetes", "Yes")),
+    genhlth = dplyr::recode_values(
+      GENHLTH,
+      1 ~ "Excellent",
+      2 ~ "Very good",
+      3 ~ "Good",
+      4 ~ "Fair",
+      5 ~ "Poor",
+      c(7, 9, NA) ~ NA,
+      unmatched = "error"
+    ) |>
+      factor(levels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
+    cost_barrier = dplyr::recode_values(
+      MEDCOST1,
+      1 ~ "Yes",
+      2 ~ "No",
+      c(7, 9, NA) ~ NA,
+      unmatched = "error"
+    ) |>
+      factor(levels = c("No", "Yes")),
+    income = dplyr::recode_values(
+      INCOME3,
+      1:4 ~ "Less than $25,000",
+      5:6 ~ "$25,000 to $49,999",
+      7:8 ~ "$50,000 to $99,999",
+      9:11 ~ "$100,000 or more",
+      c(77, 99, NA) ~ NA,
+      unmatched = "error"
+    ) |>
+      factor(
+        levels = c(
+          "Less than $25,000",
+          "$25,000 to $49,999",
+          "$50,000 to $99,999",
+          "$100,000 or more"
+        )
+      ),
+    age_group = dplyr::recode_values(
+      `_AGE_G`,
+      1 ~ "18-24",
+      2 ~ "25-34",
+      3 ~ "35-44",
+      4 ~ "45-54",
+      5 ~ "55-64",
+      6 ~ "65 or older",
+      unmatched = "error"
+    ) |>
+      factor(
+        levels = c("18-24", "25-34", "35-44", "45-54", "55-64", "65 or older")
+      ),
+    age = as.numeric(`_AGE80`),
+    sex = dplyr::recode_values(
+      SEXVAR,
+      1 ~ "Male",
+      2 ~ "Female",
+      unmatched = "error"
+    ) |>
+      factor(levels = c("Female", "Male")),
+    race_eth = dplyr::recode_values(
+      `_IMPRACE`,
+      1 ~ "Non-Hispanic White",
+      2 ~ "Non-Hispanic Black",
+      3 ~ "Non-Hispanic Asian",
+      4 ~ "Non-Hispanic American Indian or Alaska Native",
+      5 ~ "Hispanic",
+      6 ~ "Non-Hispanic other race",
+      unmatched = "error"
+    ) |>
+      factor(
+        levels = c(
+          "Non-Hispanic White",
+          "Non-Hispanic Black",
+          "Non-Hispanic Asian",
+          "Non-Hispanic American Indian or Alaska Native",
+          "Hispanic",
+          "Non-Hispanic other race"
+        )
+      ),
+    education = dplyr::recode_values(
+      EDUCA,
+      1:3 ~ "Less than high school",
+      4 ~ "High school graduate",
+      5 ~ "Some college",
+      6 ~ "College graduate",
+      c(9, NA) ~ NA,
+      unmatched = "error"
+    ) |>
+      factor(
+        levels = c(
+          "Less than high school",
+          "High school graduate",
+          "Some college",
+          "College graduate"
+        )
+      ),
+    employment = dplyr::recode_values(
+      EMPLOY1,
+      1:2 ~ "Employed",
+      3:4 ~ "Out of work",
+      5:6 ~ "Homemaker or student",
+      7 ~ "Retired",
+      8 ~ "Unable to work",
+      c(9, NA) ~ NA,
+      unmatched = "error"
+    ) |>
+      factor(
+        levels = c(
+          "Employed",
+          "Out of work",
+          "Homemaker or student",
+          "Retired",
+          "Unable to work"
+        )
+      ),
+    state = factor(state_abbr),
+    region = factor(
+      census_region,
+      levels = c("Northeast", "Midwest", "South", "West", "US territory")
+    ),
+    # 0/1 outcomes for the models. `==` keeps missing values missing (`%in%` would not).
+    diabetes_yes = as.integer(diabetes == "Yes"),
+    fair_poor = as.integer(genhlth == "Fair" | genhlth == "Poor")
+  ) |>
+  # PSU codes repeat across strata: number each stratum-PSU pair.
+  tidylog::mutate(psu_id = dplyr::cur_group_id(), .by = c(`_STSTR`, `_PSU`))
+```
+
+::: callout-warning
+## A common trap with missing values
+
+`genhlth %in% c("Fair", "Poor")` returns `FALSE` (not `NA`) when `genhlth` is missing, so
+everyone with a missing answer would be counted as being in good health. Comparisons with
+`==` keep missing values missing.
+:::
+
+::: callout-note
+## Why a new PSU identifier?
+
+In BRFSS, primary sampling unit (PSU) codes are only unique *within* a stratum: PSU 1 in one stratum is a different
+phone number from PSU 1 in another. `survey::svydesign()` can combine them itself
+(`nest = TRUE`). Numbering each stratum-PSU pair once gives globally unique integer IDs and
+avoids repeated relabeling and a large nesting cross-tabulation. The speed difference
+depends on the installed survey backend; the weights, strata and clusters are unchanged. There are
+`r format(dplyr::n_distinct(brfss_clean$psu_id), big.mark = ",")` pairs for
+`r format(nrow(brfss_clean), big.mark = ",")` respondents: in BRFSS each respondent is their
+own PSU.
+:::
+
+## Step 4: Check the recoding
+
+The `unmatched = "error"` arguments already guarantee that every code was mapped. Five more
+checks confirm the rules we rely on later, including that every PSU identifier sits in a
+single stratum, which lets the survey designs in later chapters skip their own (slow) check
+of the same thing.
+
+```{r}
+#| label: check-recode
+# Check: the "only during pregnancy" answers are now "No", and the 0/1 outcomes are
+# missing exactly where the outcomes are.
+stopifnot(
+  all(brfss_clean$diabetes[brfss_clean$DIABETE4 %in% 2] == "No"),
+  identical(is.na(brfss_clean$diabetes_yes), is.na(brfss_clean$diabetes)),
+  identical(is.na(brfss_clean$fair_poor), is.na(brfss_clean$genhlth))
+)
+# Check: every respondent has a Census region (a level we did not list would be NA).
+stopifnot(!anyNA(brfss_clean$region))
+# Check: each PSU identifier belongs to exactly one stratum (PSUs are nested in strata).
+stopifnot(
+  nrow(dplyr::distinct(brfss_clean, psu_id, `_STSTR`)) ==
+    dplyr::n_distinct(brfss_clean$psu_id)
+)
+```
+
+A crosswalk lists every raw code next to the value it became, with the number of
+respondents. It is the record of the recoding, and @sec-decisions shows it in full. Here is
+income:
+
+```{r}
+#| label: crosswalk
+recoded <- c(
+  DIABETE4 = "diabetes",
+  GENHLTH = "genhlth",
+  MEDCOST1 = "cost_barrier",
+  INCOME3 = "income",
+  `_AGE_G` = "age_group",
+  `_AGE80` = "age",
+  SEXVAR = "sex",
+  `_IMPRACE` = "race_eth",
+  EDUCA = "education",
+  EMPLOY1 = "employment"
+)
+crosswalk <- purrr::imap(recoded, \(new, item) {
+  return(dplyr::count(
+    brfss_clean,
+    code = as.numeric(.data[[item]]),
+    value = as.character(.data[[new]])
+  ))
+}) |>
+  purrr::list_rbind(names_to = "item")
+dplyr::filter(crosswalk, item == "INCOME3")
+```
+
+Income is missing for
+`r format(sum(is.na(brfss_clean$income)), big.mark = ",")` respondents
+(`r round(100 * mean(is.na(brfss_clean$income)), 1)`%): more than any other variable in this
+book. @sec-descriptives looks at who they are.
+
+## Step 5: Keep the analysis variables and save
+
+`tidylog::select()` keeps the recoded variables, renames the design variables so they no
+longer need backticks, and drops the raw codes.
+
+```{r}
+#| label: save
+brfss_clean <- brfss_clean |>
+  tidylog::select(
+    weight = `_LLCPWT`,
+    strata = `_STSTR`,
+    psu_id,
+    state, # survey design
+    region, # from the lookup table joined in the previous chapter
+    diabetes,
+    diabetes_yes,
+    genhlth,
+    fair_poor,
+    cost_barrier, # outcomes
+    income, # exposure
+    age_group,
+    age, # numeric age for the descriptive example; models use age_group
+    sex,
+    race_eth, # covariates
+    education,
+    employment # auxiliary variables
+  )
+dplyr::glimpse(brfss_clean)
+
+saveRDS(brfss_clean, file.path(processed_dir, "03-brfss-clean.rds"))
+saveRDS(crosswalk, file.path(processed_dir, "03-crosswalk.rds"))
+```

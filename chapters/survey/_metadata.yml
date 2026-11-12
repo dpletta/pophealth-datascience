@@ -1,0 +1,6 @@
+# The survey chapters need the BRFSS files, which are large and not shared through Git.
+# `freeze: auto` keeps their computed output in _freeze/ so the whole book can be
+# rendered on a computer without the data once someone has rendered these chapters with
+# it. Rendering this folder directly (`quarto render chapters/survey`) always re-runs it.
+execute:
+  freeze: auto

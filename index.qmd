@@ -19,9 +19,18 @@ dataset. It introduces basic cleaning, queries with **dplyr** and **SQL through
 sqldf**, six kinds of joins, and checks that help prevent accidental changes to
 your study sample.
 
-All example records are **invented for teaching**. They do not describe actual
-participants, clinics, or population health findings. The small files are
-included with the book so you can inspect every record and run the examples
+The second part, [Survey-Weighted Analysis with BRFSS 2024](chapters/survey/01-import.qmd),
+applies the same habits to a national survey: the 2024 Behavioral Risk Factor
+Surveillance System (BRFSS). It asks whether household income is associated with
+diabetes among US adults and walks through importing the data, stacking questionnaire
+versions and joining a lookup table, cleaning, survey-weighted descriptive statistics,
+multiple imputation, and bivariate and multivariable survey-weighted regression. BRFSS
+data are public; you download them from the Centers for Disease Control and Prevention
+(CDC) yourself, and they stay on your computer.
+
+In the first chapter, all example records are **invented for teaching**. They do
+not describe actual participants, clinics, or population health findings. The small
+files are included with the book so you can inspect every record and run the examples
 without downloading a research dataset.
 
 ## How to work through a chapter
@@ -60,5 +69,9 @@ Open `_book/index.html` after rendering. All chapter paths are relative to the
 book's root folder, where `_quarto.yml` is located. Each chapter keeps its own
 analysis code together and should be run from its beginning in a fresh R session.
 
-The book begins with one substantive chapter and is set up to accept additional
-Quarto chapters as the resource grows.
+The survey chapters need the BRFSS files (see the first survey chapter) and several
+gigabytes of memory. To work on the first chapter alone, render it by itself:
+
+```{.bash}
+quarto render chapters/data-preparation.qmd
+```

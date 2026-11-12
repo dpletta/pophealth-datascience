@@ -1,0 +1,259 @@
+# Multivariable Survey-Weighted Regression {#sec-multivariable}
+
+```{r}
+#| label: setup
+source("chapters/survey/_common.R")
+brfss_clean <- readRDS(file.path(processed_dir, "03-brfss-clean.rds"))
+imputed <- readRDS(file.path(processed_dir, "05-imputed.rds"))
+crude <- readRDS(file.path(processed_dir, "06-crude.rds"))
+knitr::opts_chunk$set(
+  cache.extra = c(
+    cache_context,
+    list(
+      data = tools::md5sum(file.path(
+        processed_dir,
+        c("03-brfss-clean.rds", "05-imputed.rds", "06-crude.rds")
+      ))
+    )
+  )
+)
+```
+
+The crude prevalence ratios (PRs) in @sec-bivariate mix the association of income with the
+associations of everything that travels with income. Age is the clearest example: adults 65
+and older are less likely than middle-aged adults to have a high household income (many are
+retired) and far more likely to have diabetes. A multivariable model estimates the association of income with
+diabetes **among adults of the same age group, sex, and race and ethnicity**.
+
+## Helpers
+
+The three helper functions are the same as in @sec-bivariate.
+
+```{r}
+#| label: helpers
+# Fit one model per completed dataset; keep the estimates, their covariance matrix, and the
+# residual degrees of freedom. Each design is built, used, and discarded in turn.
+fit_each <- function(imputed, formula) {
+  purrr::map(seq_len(imputed$m), \(i) {
+    design <- mice::complete(imputed, i) |>
+      dplyr::mutate(diabetes_yes = as.integer(diabetes == "Yes")) |>
+      srvyr::as_survey_design(
+        ids = psu_id,
+        strata = strata,
+        weights = weight,
+        check_strata = FALSE
+      )
+    fit <- survey::svyglm(
+      formula,
+      design = design,
+      family = stats::quasipoisson()
+    )
+    list(
+      coef = stats::coef(fit),
+      vcov = stats::vcov(fit),
+      df = stats::df.residual(fit)
+    )
+  })
+}
+
+pool_fits <- function(fits) {
+  estimates <- purrr::map(fits, \(fit) {
+    tibble::tibble(
+      term = names(fit$coef),
+      estimate = fit$coef,
+      std.error = sqrt(diag(fit$vcov)),
+      df.residual = fit$df
+    )
+  })
+  mice::pool.table(purrr::list_rbind(estimates), exponentiate = TRUE)
+}
+
+format_pr <- function(pooled) {
+  pooled |>
+    tibble::as_tibble() |>
+    dplyr::filter(term != "(Intercept)") |>
+    dplyr::transmute(
+      term,
+      `PR (95% CI)` = sprintf(
+        "%.2f (%.2f to %.2f)",
+        estimate,
+        conf.low,
+        conf.high
+      ),
+      p = format.pval(p.value, digits = 2, eps = 0.001)
+    )
+}
+```
+
+## The adjusted model
+
+The model has all four predictors at once.
+
+```{r}
+#| label: adjusted
+#| cache: true
+adjusted_fits <- fit_each(
+  imputed,
+  diabetes_yes ~ income + age_group + sex + race_eth
+)
+adjusted <- pool_fits(adjusted_fits)
+
+dplyr::left_join(
+  format_pr(crude),
+  format_pr(adjusted),
+  by = dplyr::join_by(term),
+  suffix = c(", crude", ", adjusted")
+) |>
+  knitr::kable(
+    caption = paste0(
+      "Table 4. Crude and adjusted prevalence ratios for diabetes (",
+      n_imputations,
+      " imputations)"
+    )
+  )
+```
+
+Each adjusted PR compares two groups that are alike on the other variables in the model. For
+example, the PR for `income$100,000 or more` compares adults in the highest income group
+with adults earning less than $25,000 *of the same age group, sex, and race and ethnicity*.
+
+## Does income matter overall?
+
+Income has four groups, so it has three PRs, each with its own p-value. To ask whether income
+is associated with diabetes at all, we test the three coefficients together (null
+hypothesis: all three are zero on the log scale). `mitml::testConstraints()` runs this
+multivariate Wald test across imputations (the "D1" statistic, pooled with Rubin's rules)
+from each dataset's estimates and covariance matrix.
+
+```{r}
+#| label: joint-test
+income_terms <- grep("^income", names(adjusted_fits[[1]]$coef), value = TRUE)
+income_test <- mitml::testConstraints(
+  qhat = do.call(cbind, purrr::map(adjusted_fits, "coef")),
+  uhat = simplify2array(purrr::map(adjusted_fits, \(fit) fit$vcov)),
+  constraints = paste0("`", income_terms, "`"), # backticks: the names contain spaces
+  method = "D1"
+)
+income_test
+```
+
+`df1` is the number of coefficients tested and `P(>F)` the p-value.
+
+## Sensitivity analysis: complete cases
+
+How much did imputation change the results? The same model fit to complete cases drops
+everyone with a missing value. `survey::svyglm()` keeps the full design for the variance and
+gives the dropped respondents no weight in the estimates.
+
+```{r}
+#| label: complete-case
+#| cache: true
+complete_case <- survey::svyglm(
+  diabetes_yes ~ income + age_group + sex + race_eth,
+  design = srvyr::as_survey_design(
+    brfss_clean,
+    ids = psu_id,
+    strata = strata,
+    weights = weight,
+    check_strata = FALSE
+  ),
+  family = stats::quasipoisson()
+)
+complete_case_pr <- broom::tidy(
+  complete_case,
+  conf.int = TRUE,
+  exponentiate = TRUE
+)
+complete_case_n <- stats::nobs(complete_case)
+rm(complete_case) # Cache the small results, not the full model object.
+
+dplyr::left_join(
+  format_pr(complete_case_pr),
+  format_pr(adjusted),
+  by = dplyr::join_by(term),
+  suffix = c(", complete case", ", imputed")
+) |>
+  knitr::kable(
+    caption = paste(
+      "Table 5. Adjusted prevalence ratios:",
+      "complete case and multiple imputation"
+    )
+  )
+```
+
+The complete-case model uses `r format(complete_case_n, big.mark = ",")`
+respondents; the imputed models use all `r format(nrow(brfss_clean), big.mark = ",")`.
+
+**Where do the missing data matter?** The fraction of missing information (`fmi`) is the share
+of each estimate's variance that comes from the missing data. It is highest for the income
+terms, where most values were imputed, and close to zero for variables with nothing missing.
+
+```{r}
+#| label: fmi
+adjusted |> dplyr::transmute(term, pr = round(estimate, 2), fmi = round(fmi, 3))
+```
+
+::: callout-important
+## When the two analyses disagree
+
+If complete-case and imputed results differ substantially, report both and explain why,
+rather than choosing the one you like better. Under MAR the imputed results are the less
+biased ones; if missingness might depend on income itself (MNAR), neither is guaranteed to be
+right, and a sensitivity analysis for MNAR is the next step.
+:::
+
+## Reporting the results
+
+```{r}
+#| label: report-values
+top_income <- dplyr::filter(adjusted, term == "income$100,000 or more")
+top_income_cc <- dplyr::filter(
+  complete_case_pr,
+  term == "income$100,000 or more"
+)
+```
+
+A results paragraph might read:
+
+> We analyzed `r format(nrow(brfss_clean), big.mark = ",")` adults in the 2024 Behavioral Risk
+> Factor Surveillance System, representing `r format(round(sum(brfss_clean$weight) / 1e6, 1))`
+> million US adults. All estimates accounted for the survey weights, strata, and primary
+> sampling units. Household income was missing for
+> `r round(100 * mean(is.na(brfss_clean$income)), 1)`% of respondents, and missingness varied
+> with age and general health. We multiply imputed missing values (`r n_imputations`
+> imputations by chained equations with the `mice` package, version
+> `r utils::packageVersion("mice")`, predictive mean matching, with the survey weight as a
+> predictor) and pooled estimates with Rubin's rules. In a survey-weighted modified Poisson
+> model adjusted for age group, sex, and race and ethnicity, adults with a household income of
+> $100,000 or more had a prevalence of diabetes `r sprintf("%.2f", top_income$estimate)` times
+> that of adults earning less than $25,000 (95% confidence interval [CI] `r sprintf("%.2f", top_income$conf.low)` to
+> `r sprintf("%.2f", top_income$conf.high)`; joint test of income
+> p `r format.pval(income_test$test[, "P(>F)"], digits = 2, eps = 0.001)`). In a complete-case
+> analysis the prevalence ratio was `r sprintf("%.2f", top_income_cc$estimate)` (95% CI
+> `r sprintf("%.2f", top_income_cc$conf.low)` to `r sprintf("%.2f", top_income_cc$conf.high)`).
+
+### Reporting checklist
+
+For any analysis of complex survey data, report:
+
+- [ ] the survey design (weights, strata, clusters) and that every estimate used it;
+- [ ] the unweighted sample size and the weighted population;
+- [ ] design-based tests (for example, Rao-Scott chi-square) and confidence intervals;
+- [ ] design effects for key estimates.
+
+When the analysis uses multiple imputation, also report:
+
+- [ ] the amount of missing data for each variable and evidence about why it is missing;
+- [ ] the imputation method for each variable, the number of imputations, and the software
+  and version;
+- [ ] the variables in the imputation model, including how the survey design entered it;
+- [ ] that estimates were pooled with Rubin's rules;
+- [ ] complete-case results next to the imputed results.
+
+## Exercise
+
+Repeat @sec-bivariate and this chapter for **fair or poor general health**: in `fit_each()`,
+add `fair_poor = as.integer(genhlth == "Fair" | genhlth == "Poor")` next to `diabetes_yes`,
+then replace `diabetes_yes` with `fair_poor` in every model formula. Everything else, including the imputed data,
+can be reused. Is the income gradient steeper or flatter than for diabetes? How much does
+adjustment for age change it, and why might that differ from diabetes?
