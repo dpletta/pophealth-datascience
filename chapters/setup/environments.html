@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4c5e755a3bfe43f3706dcc37cc2065fe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-3df297cc5e7c5d74465303dfc1761fba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -386,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td>Create</td>
 <td><code>renv::init()</code></td>
-<td><code>uv init --bare</code></td>
+<td><code>uv init --bare --python 3.13</code></td>
 <td><code>pixi init</code></td>
 </tr>
 <tr class="even">
@@ -414,16 +414,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>exit</code></td>
 </tr>
 <tr class="even">
-<td>Delete</td>
-<td><code>renv::deactivate(clean = TRUE)</code></td>
+<td>Delete installed packages, keeping the lockfile</td>
+<td>Delete <code>renv/library</code>, then restart R</td>
 <td>Delete the <code>.venv</code> folder</td>
 <td><code>pixi clean</code></td>
 </tr>
 <tr class="odd">
 <td>Rebuild from the lockfile</td>
 <td><code>renv::restore()</code></td>
-<td><code>uv sync</code></td>
-<td><code>pixi install</code></td>
+<td><code>uv sync --locked</code></td>
+<td><code>pixi install --locked</code></td>
 </tr>
 <tr class="even">
 <td>Lockfile</td>
@@ -574,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>More often you want a fresh copy of the same environment, for example after a failed installation. Delete the library and keep the lockfile: remove the <code>renv/library</code> folder in Positron’s file explorer, restart R, and run:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>renv::restore()</code> is also the command a collaborator runs after downloading your project. It installs the versions in <code>renv.lock</code>.</p>
-<p>renv records R’s version but does not install R. If the lockfile names a different version of R from yours, renv tells you; the packages usually still install.</p>
+<p>renv records R’s version but does not install R. If the lockfile names a different version of R from yours, renv tells you. Some recorded packages may not be compatible with another R version; use the recorded version when reproducing the analysis.</p>
 </div>
 </div>
 </div>
@@ -596,9 +596,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Install uv once per computer by following <a href="https://docs.astral.sh/uv/getting-started/installation/" class="uri">https://docs.astral.sh/uv/getting-started/installation/</a>, then close and reopen the terminal. Check that it works:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In your project folder, create the project file and choose a Python version:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--bare</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--bare</span> <span class="at">--python</span> 3.13</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> python pin 3.13</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>uv init --bare</code> writes <code>pyproject.toml</code>, which lists the packages your project asks for. <code>uv python pin</code> writes <code>.python-version</code>. If your computer does not have that version of Python, uv downloads it the first time it is needed. Nothing is installed yet; the environment itself appears when you add the first package.</p>
+<p><code>uv init --bare</code> writes <code>pyproject.toml</code>, which lists the packages your project asks for, including a Python version requirement. Passing <code>--python 3.13</code> keeps that requirement consistent with the version we choose. <code>uv python pin</code> writes <code>.python-version</code>. If your computer does not have that version of Python, uv downloads it the first time it is needed. Nothing is installed yet; the environment appears when you run <code>uv sync</code>, <code>uv add</code>, or <code>uv run</code>.</p>
 </div>
 </div>
 </div>
@@ -681,13 +681,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">venv</span>\Scripts\activate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\<span class="op">.</span><span class="fu">venv</span>\Scripts\Activate<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 <p>The terminal prompt then starts with the environment’s name in parentheses.</p>
 <p><strong>In Positron</strong>, open the project folder. Positron looks for a <code>.venv</code> folder there and lists it in the interpreter picker; choose it, and the Python console uses the project’s packages. This is separate from the terminal: choosing the interpreter does not activate the environment for commands you type in the terminal.</p>
-<p><strong>For Quarto</strong>, render with <code>uv run quarto render</code>, or activate the environment first and then run <code>quarto render</code>. If you do neither, Quarto uses whichever Python it finds first on your computer, which may not have your packages.</p>
+<p><strong>For Quarto</strong>, render with <code>uv run quarto render</code>, or activate the environment first and then run <code>quarto render</code>. Quarto can also discover a project <code>.venv</code>, but an explicit Python setting or Jupyter kernel can affect which interpreter runs. Check the interpreter path if the result is unexpected.</p>
 </div>
 </div>
 </div>
@@ -734,8 +734,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Check the folder name before pressing Enter; these commands delete without asking. Rebuild the environment from the lockfile at any time:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>A collaborator runs the same <code>uv sync</code> after downloading your project. To stop using uv in a project altogether, also delete <code>pyproject.toml</code>, <code>uv.lock</code>, and <code>.python-version</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync <span class="at">--locked</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A collaborator runs the same <code>uv sync --locked</code> after downloading your project. To stop using uv in a project altogether, also delete <code>pyproject.toml</code>, <code>uv.lock</code>, and <code>.python-version</code>.</p>
 </div>
 </div>
 </div>
@@ -885,7 +885,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> clean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>pixi clean</code> removes the installed environment from the <code>.pixi</code> folder and keeps <code>pixi.toml</code> and <code>pixi.lock</code>. Rebuild it with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> install</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> install <span class="at">--locked</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To stop using pixi in a project altogether, also delete <code>pixi.toml</code>, <code>pixi.lock</code>, and the <code>.pixi</code> folder.</p>
 </div>
 </div>
@@ -917,19 +917,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sys.prefix)</span>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>With renv, the library path should be inside the project’s <code>renv/</code> folder. With uv, <code>sys.prefix</code> should end in <code>.venv</code>. With pixi, it should end in <code>.pixi/envs/default</code>.</p>
-<p>For R inside a pixi environment, check <code>R.home()</code> instead, which should be inside the <code>.pixi</code> folder. <code>.libPaths()</code> can list a personal library first if your computer also has an ordinary installation of the same R version, so pixi’s R is less sealed off from the rest of your computer than an renv project is.</p>
+<p>For R inside a pixi environment, check <code>R.home()</code> instead, which should be inside the <code>.pixi</code> folder. <code>.libPaths()</code> can list a personal library first if your computer also has an ordinary installation of the same R version, so pixi’s R is less sealed off from the rest of your computer than a renv project is.</p>
 <p>If an R chunk fails with “The knitr package is not available”, install knitr and rmarkdown into the environment, as shown in the renv and pixi sections.</p>
 <p>If a Python chunk fails, or reports a Python from somewhere else on your computer, work through this list:</p>
 <ol type="1">
 <li>Did you render with <code>uv run quarto render</code> or <code>pixi run quarto render</code>, or activate the environment first?</li>
 <li>Is <code>jupyter</code> installed in the environment? Quarto needs it to run Python chunks.</li>
-<li>Does your computer have Jupyter kernels left over from other projects? Quarto can pick one of those instead. Name the environment’s own kernel at the top of the document:</li>
+<li>Does your computer have Jupyter kernels left over from other projects? Run <code>uv run jupyter kernelspec list</code> (or <code>pixi run jupyter kernelspec list</code>) to inspect them. The name <code>python3</code> does not by itself prove a kernel belongs to this project. For a Python-only document, select the Python kernel:</li>
 </ol>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"My analysis"</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">jupyter</span><span class="kw">:</span><span class="at"> python3</span></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>quarto check jupyter</code>, run in the terminal, reports which Python and which kernels Quarto can see.</p>
+<p>Run <code>uv run quarto check jupyter</code> or <code>pixi run quarto check jupyter</code> to inspect the Python environment Quarto sees, and verify <code>sys.prefix</code> in the rendered document. A document containing both R and Python chunks normally uses knitr and reticulate instead; see <a href="https://quarto.org/docs/computations/python.html">Quarto’s Python guide</a>.</p>
 </div>
 </div>
 </div>
