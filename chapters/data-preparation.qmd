@@ -35,19 +35,21 @@ descriptive summaries; these are **not findings about a real population**.
 
 ::: {.callout-note collapse="false" title="Packages, paths, and a few R conventions"}
 
-Use R 4.1 or later and dplyr 1.1.1 or later. Install the packages once in your
-**R console**, before rendering the book. This displayed installation command
-does not run during rendering:
+Open the book's folder in Positron, or its `.Rproj` file in RStudio, to activate renv
+(see @sec-environments), then restore the recorded
+packages in your **R console** before rendering the book. The lockfile records
+R 4.6.2; install R and Quarto separately. This displayed command does not run
+during rendering:
 
 ```{.r}
-install.packages(c("dplyr", "sqldf", "knitr", "rmarkdown"))
+renv::restore()
 ```
 
 `dplyr` transforms data; `sqldf` runs SQL queries on R data frames; `knitr` formats
 tables; and `rmarkdown` supports Quarto's R execution. We use base R to read and
 write CSV files. Quarto itself is installed separately.
 
-Open the supplied `.Rproj` file, or start R in the folder containing
+Open the book's folder in Positron or the supplied `.Rproj` file, or start R in the folder containing
 `_quarto.yml`. During rendering, `execute-dir: project` makes paths resolve from
 that folder. For example, `data/raw/participants.csv` means a file inside this
 book, not a location elsewhere on your computer.

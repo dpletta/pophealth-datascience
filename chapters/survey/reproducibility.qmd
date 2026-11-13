@@ -6,21 +6,24 @@
 source("chapters/survey/_common.R")
 ```
 
-Anyone who runs the survey chapters should get the same numbers. Four things make that
-possible.
+Reproducing the survey chapters requires the same data, code, software, and
+settings. The steps below record those inputs and control the random-number streams.
 
 ## The same packages
 
-R packages change between versions, and a new version can change a result. Install the
-packages once, from the R console:
+R packages change between versions, and a new version can change a result. Open
+the book's folder in Positron, or its `.Rproj` file in RStudio, to activate renv
+(see @sec-environments), then restore the versions in
+`renv.lock` from the R console:
 
 ```{.r}
-install.packages(c(
-  "broom", "dplyr", "furrr", "future", "gtsummary", "haven", "knitr", "mice",
-  "mitml", "parallelly", "purrr", "rmarkdown", "sqldf", "srvyr", "survey", "tibble",
-  "tidylog", "tidyr"
-))
+renv::restore()
 ```
+
+The lockfile records R 4.6.2 and the packages for every chapter. R and Quarto are
+installed separately. After intentional package changes, use `renv::snapshot()`
+to update the lockfile and `renv::status()` to check consistency. Python, if needed
+for additional scripts, has a separate uv environment; see the repository README.
 
 The survey chapters need dplyr 1.2.0 or later, for `dplyr::recode_values()`. The
 session information at the end of this appendix lists the exact versions used to build
@@ -31,8 +34,8 @@ the book. When you report results, report the versions you used.
 Multiple imputation draws random values. `chapters/survey/_common.R` sets the same seed
 (`r seed`) at the start of every chapter. The imputation runs one task per imputation in
 parallel, and `furrr::furrr_options(seed = seed)` gives each task its own reproducible
-random-number stream, so the imputed values are the same whether your computer has 2
-cores or 16.
+random-number stream, independent of the number of workers. This does not guarantee
+identical results after changes to data, software, or numerical libraries.
 
 ## Smoke tests
 

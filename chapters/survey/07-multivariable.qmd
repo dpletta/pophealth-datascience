@@ -132,7 +132,8 @@ income_test <- mitml::testConstraints(
   qhat = do.call(cbind, purrr::map(adjusted_fits, "coef")),
   uhat = simplify2array(purrr::map(adjusted_fits, \(fit) fit$vcov)),
   constraints = paste0("`", income_terms, "`"), # backticks: the names contain spaces
-  method = "D1"
+  method = "D1",
+  df.com = adjusted_fits[[1]]$df # complete-data survey residual degrees of freedom
 )
 income_test
 ```
@@ -184,9 +185,11 @@ dplyr::left_join(
 The complete-case model uses `r format(complete_case_n, big.mark = ",")`
 respondents; the imputed models use all `r format(nrow(brfss_clean), big.mark = ",")`.
 
-**Where do the missing data matter?** The fraction of missing information (`fmi`) is the share
-of each estimate's variance that comes from the missing data. It is highest for the income
-terms, where most values were imputed, and close to zero for variables with nothing missing.
+**Where do the missing data matter?** The fraction of missing information (`fmi`)
+estimates information lost for each coefficient because of missing data. Income
+has the most missing values, but coefficients for fully observed variables can
+also be affected because they are estimated alongside income. Inspect the values
+rather than inferring them from each variable's missingness percentage.
 
 ```{r}
 #| label: fmi
@@ -197,9 +200,10 @@ adjusted |> dplyr::transmute(term, pr = round(estimate, 2), fmi = round(fmi, 3))
 ## When the two analyses disagree
 
 If complete-case and imputed results differ substantially, report both and explain why,
-rather than choosing the one you like better. Under MAR the imputed results are the less
-biased ones; if missingness might depend on income itself (MNAR), neither is guaranteed to be
-right, and a sensitivity analysis for MNAR is the next step.
+rather than choosing the one you like better. Under MAR, well-specified imputation
+models can reduce bias; MAR alone does not establish that the imputed results
+are better. Agreement also does not validate either approach. Assess the
+imputation model and consider sensitivity analyses for MNAR.
 :::
 
 ## Reporting the results
@@ -217,7 +221,8 @@ A results paragraph might read:
 
 > We analyzed `r format(nrow(brfss_clean), big.mark = ",")` adults in the 2024 Behavioral Risk
 > Factor Surveillance System, representing `r format(round(sum(brfss_clean$weight) / 1e6, 1))`
-> million US adults. All estimates accounted for the survey weights, strata, and primary
+> million adults in the participating jurisdictions (49 states, DC, Guam, Puerto Rico,
+> and the US Virgin Islands). The regression analyses accounted for survey weights, strata, and primary
 > sampling units. Household income was missing for
 > `r round(100 * mean(is.na(brfss_clean$income)), 1)`% of respondents, and missingness varied
 > with age and general health. We multiply imputed missing values (`r n_imputations`
@@ -231,6 +236,12 @@ A results paragraph might read:
 > p `r format.pval(income_test$test[, "P(>F)"], digits = 2, eps = 0.001)`). In a complete-case
 > analysis the prevalence ratio was `r sprintf("%.2f", top_income_cc$estimate)` (95% CI
 > `r sprintf("%.2f", top_income_cc$conf.low)` to `r sprintf("%.2f", top_income_cc$conf.high)`).
+
+This is an illustrative analysis of cross-sectional, self-reported data. Adjustment
+does not make the association causal: illness can affect income, and unmeasured
+factors can affect both. The diabetes measure omits undiagnosed disease and
+pregnancy-only diabetes. The short imputation run and omitted geographic and
+stratum predictors need further evaluation before substantive reporting.
 
 ### Reporting checklist
 

@@ -1,15 +1,17 @@
 # Data Science for Population Health Sciences
 
-A Quarto book of beginner-friendly, annotated R walkthroughs in two parts:
+A Quarto book of beginner-friendly, annotated R walkthroughs in three parts:
 
-1. **Foundations.** Data preparation, SQL with `sqldf()`, dplyr queries, and joins, on
+1. **Getting started.** Installing Positron, R, and Quarto, and managing project
+   environments with renv, uv, and pixi.
+2. **Foundations.** Data preparation, SQL with `sqldf()`, dplyr queries, and joins, on
    small fictional files.
-2. **Survey-weighted analysis with BRFSS 2024.** A complete analysis of the 2024
+3. **Survey-weighted analysis with BRFSS 2024.** A complete analysis of the 2024
    Behavioral Risk Factor Surveillance System (BRFSS): importing, data engineering
    (stacking questionnaire versions and joining a lookup table), cleaning, survey-weighted
    descriptive statistics, multiple imputation, and bivariate and multivariable
    survey-weighted regression. The question: is household income associated with
-   diabetes among US adults?
+reported diagnosed diabetes among adults in the participating jurisdictions?
 
 This repository is one book. Its source is `_quarto.yml` (settings and chapter order),
 `index.qmd` (the welcome page), and the chapters in `chapters/`, all at the repository
@@ -17,34 +19,65 @@ root. `quarto render` builds it into `_book/`, which is not committed.
 
 ## Run locally
 
-Install R 4.1 or later and Quarto. Open `pophealth-datascience.Rproj` or work from
-this directory. Run this once in the R console:
+Install R (the lockfile records R 4.6.2) and Quarto separately. Open
+`pophealth-datascience.Rproj` or start R from this directory. The project
+automatically activates **renv**, which keeps its R packages in a project library.
+On a fresh checkout, allow renv to bootstrap if prompted, then restore the packages
+in the R console:
 
 ```r
-install.packages(c("dplyr", "sqldf", "knitr", "rmarkdown"))
+renv::restore()
 ```
 
-Use dplyr 1.1.1 or later. The SQL right/full join examples need SQLite 3.39 or
-later, supplied by a recent `RSQLite` (a dependency of `sqldf`). The chapter
-prints the SQLite version. If it is too old, update `RSQLite` and restart R.
+This restores the foundation and survey dependencies to the versions recorded in
+`renv.lock`, including dplyr and RSQLite. Use the recorded R version for the closest
+match; renv manages packages, not the R installation. The SQL right/full join
+examples need SQLite 3.39 or later, supplied by `RSQLite` (a dependency of `sqldf`).
 
 ```bash
 quarto preview
 quarto render
 ```
 
+### Python with uv
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run from
+the repository root:
+
+```bash
+uv sync --locked
+uv run python --version
+```
+
+uv creates `.venv/` using Python 3.13, selected by `.python-version` and constrained
+in `pyproject.toml`. It can download Python if a suitable interpreter is unavailable.
+The book currently uses only R, so Python has no third-party dependencies and is
+optional for rendering. Use `uv run python script.py` for Python scripts, or select
+`.venv/bin/python` in your editor (`.venv/Scripts/python.exe` on Windows).
+Shell activation is optional: `source .venv/bin/activate` on macOS/Linux.
+
+### Maintaining the environments
+
+- R: use `renv::install("package")`, reference it in the source, then run
+  `renv::snapshot()`. The default implicit snapshot detects dependencies in the
+  chapters and includes their dependencies. Check with `renv::status()`; use
+  `renv::restore()` after pulling lockfile changes.
+- Python: use `uv add package` or `uv remove package`, then commit both
+  `pyproject.toml` and `uv.lock`. Run `uv sync --locked` after pulling changes.
+- Commit `.Rprofile`, `renv.lock`, `renv/activate.R`, `renv/settings.json`,
+  `renv/.gitignore`, `.python-version`, `pyproject.toml`, and `uv.lock`.
+  Local R libraries, caches, and `.venv/` are ignored by Git.
+
+uv owns Python dependencies and renv owns R dependencies; leave renv's Python
+integration disabled so that there is only one Python lockfile. See the
+[renv guide](https://rstudio.github.io/renv/articles/renv.html) and
+[uv project guide](https://docs.astral.sh/uv/guides/projects/) for details.
+
 ### The survey chapters
 
-The survey chapters need more packages, the BRFSS data, several GB of free disk space,
-and at least 8 GB of memory:
-
-```r
-install.packages(c(
-  "broom", "dplyr", "furrr", "future", "gtsummary", "haven", "knitr", "mice",
-  "mitml", "parallelly", "purrr", "rmarkdown", "sqldf", "srvyr", "survey", "tibble",
-  "tidylog", "tidyr"
-))
-```
+The survey packages are included in `renv.lock` and installed by `renv::restore()`.
+The survey chapters also need the BRFSS data, several GB of free disk space,
+and at least 8 GB of memory.
 
 They need dplyr 1.2.0 or later. Download the data once by running the `download` chunk in
 `chapters/survey/01-import.qmd` from the R console in this folder, or download "2024 BRFSS
@@ -76,6 +109,9 @@ No packages are installed and no research data are downloaded during rendering.
 
 - `_quarto.yml`: title, chapter order, and HTML settings.
 - `index.qmd`: reader introduction.
+- `chapters/setup/`: the Getting started chapters (Positron; project environments).
+  Their commands are displayed, not run, so rendering never creates or deletes an
+  environment.
 - `chapters/data-preparation.qmd`: all instructional R and SQL code, in order.
 - `chapters/survey/`: the survey-weighted chapters, their appendices (coding decisions;
   reproducibility), and `_common.R`, the settings every survey chapter uses.

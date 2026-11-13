@@ -10,10 +10,15 @@ project:
     - /data/lookup/*.csv
 
 book:
+  site-url: https://dpletta.github.io/pophealth-datascience/
   title: "Data Science for Population Health Sciences"
   subtitle: "Practical walkthroughs in R"
   chapters:
     - index.qmd
+    - part: "Getting started"
+      chapters:
+        - chapters/setup/positron.qmd
+        - chapters/setup/environments.qmd
     - part: "Foundations"
       chapters:
         - chapters/data-preparation.qmd

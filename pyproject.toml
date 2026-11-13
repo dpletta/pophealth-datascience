@@ -1,0 +1,10 @@
+[project]
+name = "pophealth-datascience"
+version = "0.1.0"
+description = "Python environment for the Data Science for Population Health Sciences book"
+requires-python = ">=3.13,<3.14"
+# The current chapters run in R. Add Python dependencies with `uv add` as needed.
+dependencies = []
+
+[tool.uv]
+package = false

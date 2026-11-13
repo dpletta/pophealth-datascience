@@ -37,6 +37,7 @@ loadNamespace("survey")
 cache_context <- list(
   code = knitr::knit_code$get(),
   settings = tools::md5sum("chapters/survey/_common.R"),
+  lockfile = tools::md5sum("renv.lock"),
   # Versions of the packages these chapters call, not of every installed package, so
   # installing an unrelated package does not invalidate the caches.
   packages = vapply(

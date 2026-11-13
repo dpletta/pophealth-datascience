@@ -13,22 +13,29 @@ to help you understand and adapt a workflow to your own research.
 
 ## Start here
 
-The first chapter, [Data Preparation and Data Engineering](chapters/data-preparation.qmd),
+The opening part, **Getting started**, sets up your computer.
+[Install Positron](chapters/setup/positron.qmd) covers the editor, R, and Quarto.
+[Project Environments for R and Python](chapters/setup/environments.qmd) shows how to
+create, use, and delete a project's own set of packages with **renv**, **uv**, and
+**pixi**. If your setup already works, skip ahead.
+
+The **Foundations** part begins with
+[Data Preparation and Data Engineering](chapters/data-preparation.qmd), which
 follows a fictional community-health study from raw CSV files to a participant
 dataset. It introduces basic cleaning, queries with **dplyr** and **SQL through
 sqldf**, six kinds of joins, and checks that help prevent accidental changes to
 your study sample.
 
-The second part, [Survey-Weighted Analysis with BRFSS 2024](chapters/survey/01-import.qmd),
+The last part, [Survey-Weighted Analysis with BRFSS 2024](chapters/survey/01-import.qmd),
 applies the same habits to a national survey: the 2024 Behavioral Risk Factor
 Surveillance System (BRFSS). It asks whether household income is associated with
-diabetes among US adults and walks through importing the data, stacking questionnaire
+diabetes among adults in the participating jurisdictions and walks through importing the data, stacking questionnaire
 versions and joining a lookup table, cleaning, survey-weighted descriptive statistics,
 multiple imputation, and bivariate and multivariable survey-weighted regression. BRFSS
 data are public; you download them from the Centers for Disease Control and Prevention
 (CDC) yourself, and they stay on your computer.
 
-In the first chapter, all example records are **invented for teaching**. They do
+In the data preparation chapter, all example records are **invented for teaching**. They do
 not describe actual participants, clinics, or population health findings. The small
 files are included with the book so you can inspect every record and run the examples
 without downloading a research dataset.
@@ -40,8 +47,8 @@ without downloading a research dataset.
 3. Compare your output with the displayed result and its interpretation.
 4. Try the practice questions before opening the suggested answers.
 
-You should be comfortable opening R or RStudio and running a few lines of R.
-No SQL experience is assumed. The first chapter explains assignment, pipes,
+You should be comfortable running a few lines of R; the Getting started part shows
+where to run them. No SQL experience is assumed. The data preparation chapter explains assignment, pipes,
 package-qualified function names, and common data types as they appear.
 
 The contents menu takes you between chapters; the page outline takes you to a
@@ -51,9 +58,11 @@ tabs. Both tabs execute when the book is rendered.
 
 ## Run the book locally
 
-Open `pophealth-datascience.Rproj` in RStudio, or open a terminal in the book's
-root folder. Install R, [Quarto](https://quarto.org/docs/get-started/), and the
-packages listed in the first chapter. Then run:
+Install R and [Quarto](https://quarto.org/docs/get-started/), then open the book's
+root folder in Positron, or open `pophealth-datascience.Rproj` in RStudio. Restore the
+project's R packages with `renv::restore()` in the R console, as described in
+[Project Environments for R and Python](chapters/setup/environments.qmd). Then run
+this in a terminal:
 
 ```{.bash}
 quarto preview
@@ -70,7 +79,7 @@ book's root folder, where `_quarto.yml` is located. Each chapter keeps its own
 analysis code together and should be run from its beginning in a fresh R session.
 
 The survey chapters need the BRFSS files (see the first survey chapter) and several
-gigabytes of memory. To work on the first chapter alone, render it by itself:
+gigabytes of memory. To work on the data preparation chapter alone, render it by itself:
 
 ```{.bash}
 quarto render chapters/data-preparation.qmd

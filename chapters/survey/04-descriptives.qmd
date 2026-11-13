@@ -13,9 +13,10 @@ knitr::opts_chunk$set(
 Descriptive statistics answer "what does the population look like?" With a complex survey
 such as the Behavioral Risk Factor Surveillance System (BRFSS),
 every estimate has to use the survey design, or it describes the *sample* (who happened to
-answer the phone) rather than the *population* (US adults). This chapter describes the
+answer the phone) rather than the target population in the participating jurisdictions. This chapter describes the
 observed data only: the answers people gave, with missing answers shown as missing.
-Imputed values (@sec-imputation) are for models, not for describing who answered what.
+We use imputed values only for models in this book. Imputation can also support
+population descriptive estimates, but it does not describe which answers were observed.
 
 ## The survey design object
 
@@ -54,7 +55,7 @@ design
 By default the design checks that every PSU lies within a single stratum. Depending
 on the survey package version, this check can create a large PSU-by-stratum table.
 The `psu_id` variable numbers each stratum-PSU pair, so the PSUs are nested in strata
-by construction. Chapter 2 verifies that each identifier belongs to exactly one
+by construction. @sec-cleaning verifies that each identifier belongs to exactly one
 stratum before this check is disabled. Keep the default check unless you have
 verified that nesting condition.
 :::
@@ -148,7 +149,7 @@ table1 <- design |>
   )
 table1 |>
   gtsummary::modify_caption(
-    "**Table 1. Characteristics of US adults, BRFSS 2024**"
+    "**Table 1. Adult characteristics in participating jurisdictions, BRFSS 2024**"
   )
 ```
 
@@ -183,9 +184,10 @@ table2 |>
 
 A table split by income can only include people whose income is known, so the
 `r format(sum(is.na(brfss_clean$income)), big.mark = ",")` respondents without an income
-answer are left out of every column except "Overall". The same happens in any analysis that
-drops incomplete answers ("complete-case analysis"). The rest of this chapter asks whether
-that matters.
+answer are left out of every column, including "Overall": `add_overall()` summarizes
+the data retained by this income-stratified table. Table 1 includes those respondents.
+Within each outcome, percentages use the nonmissing answers. The rest of this chapter
+asks how respondents with and without an income answer differ.
 :::
 
 ## Testing a continuous variable {#sec-continuous-test}
@@ -430,15 +432,17 @@ design |>
 ::: callout-important
 ## Three kinds of missing data
 
-- **Missing completely at random (MCAR):** missingness is unrelated to anything. Dropping
+- **Missing completely at random (MCAR):** missingness is unrelated to observed or missing data values. Dropping
   incomplete answers loses precision but does not bias estimates.
-- **Missing at random (MAR):** missingness depends on *observed* variables (here, age and
-  health). Dropping incomplete answers can bias estimates; multiple imputation that includes
-  those variables does not.
-- **Missing not at random (MNAR):** missingness depends on the missing value itself (for
+- **Missing at random (MAR):** after conditioning on observed variables, missingness no
+  longer depends on the missing values. Imputation can reduce bias if its models
+  adequately represent the relevant relationships and survey design; MAR alone is
+  not a guarantee.
+- **Missing not at random (MNAR):** missingness still depends on missing values after
+  conditioning on observed variables (for
   example, people with very high incomes declining to say). Neither approach fixes this on
   its own; it calls for sensitivity analyses.
 
 Income missingness varies with age and health, so MCAR is not plausible. @sec-imputation
-works under MAR, the standard assumption for multiple imputation.
+works under MAR. These observed patterns cannot distinguish MAR from MNAR.
 :::
