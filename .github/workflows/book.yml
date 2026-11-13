@@ -1,0 +1,107 @@
+# Builds the book on GitHub.
+#
+# - A pull request gets its own preview, rebuilt on every push, at
+#   https://dpletta.github.io/pophealth-datascience/pr-preview/pr-<number>/
+#   The link is posted as a comment on the pull request and removed when it closes.
+# - A push to main (for example, merging a pull request) rebuilds and updates the
+#   published book at https://dpletta.github.io/pophealth-datascience/
+#
+# The survey chapters are not re-run here: the BRFSS files are not on GitHub, so their
+# stored results in _freeze/ are used. If you change a survey chapter, render it on a
+# computer with the data and commit _freeze/, or this build fails.
+#
+# Every action is pinned to an exact commit, with its version in a comment, so a
+# changed tag cannot alter what runs here. Dependabot (.github/dependabot.yml) opens
+# pull requests to update the pins.
+name: Book
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  workflow_dispatch:
+
+# One build at a time per pull request or branch; a newer push replaces an older build.
+concurrency:
+  group: book-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+# Jobs can only read the repository unless they ask for more below.
+permissions:
+  contents: read
+
+jobs:
+  # Runs the book's code. It cannot write to the repository.
+  render:
+    runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
+
+      - name: Set up R (the version in renv.lock)
+        uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
+        with:
+          r-version: renv
+          use-public-rspm: true
+
+      - name: Restore R packages from renv.lock
+        uses: r-lib/actions/setup-renv@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
+
+      - name: Render the book
+        run: quarto render
+
+      - name: Keep the rendered book for the deploy job
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: book
+          path: _book
+          retention-days: 1
+
+  # Copies the rendered book to the gh-pages branch. It runs none of the book's code.
+  deploy:
+    runs-on: ubuntu-latest
+    needs: render
+    # Also runs when a pull request closes (render is skipped) to remove its preview.
+    # Pull requests from forks cannot write to this repository, so they get no preview.
+    if: >-
+      always() &&
+      (needs.render.result == 'success' || needs.render.result == 'skipped') &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Fetch the rendered book
+        if: needs.render.result == 'success'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: book
+          path: _book
+
+      - name: Tell GitHub Pages to serve the files as they are
+        if: needs.render.result == 'success'
+        run: touch _book/.nojekyll
+
+      - name: Deploy or remove the pull request preview
+        if: github.event_name == 'pull_request'
+        uses: rossjrw/pr-preview-action@873417d2df72380da1f3978378fb58560bcde976 # v1.8.2
+        with:
+          source-dir: _book
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+
+      - name: Publish the book
+        if: github.event_name != 'pull_request' && needs.render.result == 'success'
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
+        with:
+          folder: _book
+          branch: gh-pages
+          # Keep the pull request previews when the published book is replaced.
+          clean-exclude: pr-preview/
