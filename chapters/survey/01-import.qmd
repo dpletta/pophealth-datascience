@@ -29,13 +29,13 @@ survey data in R, from downloading a raw file to reporting a multivariable model
    (@sec-engineering);
 3. cleaning and recoding with explicit checks (@sec-cleaning);
 4. survey-weighted descriptive statistics (@sec-descriptives);
-5. multiple imputation (MI) of missing data that respects the survey design
+5. multiple imputation (MI) of missing data, with a discussion of survey-design assumptions
    (@sec-imputation);
 6. bivariate (crude) survey-weighted regression (@sec-bivariate);
 7. multivariable (adjusted) survey-weighted regression, a sensitivity analysis, and
    reporting (@sec-multivariable).
 
-**The question.** Is household income associated with diabetes among US adults? Diabetes
+**The question.** Is household income associated with reported diagnosed diabetes among adults in the participating BRFSS jurisdictions? Diabetes
 is common, costly, and unequally distributed. Income shapes access to healthy food, safe
 places to be active, health care, and the time and resources to manage a chronic
 condition. We estimate how the prevalence of diabetes differs across income groups,
@@ -56,6 +56,11 @@ use of health care. In 2024, 457,670 adults in 49 states, the District of Columb
 Puerto Rico, and the US Virgin Islands completed the interview (Tennessee did not collect
 enough data to be included).
 
+The target is noninstitutionalized adults aged 18 or older in these participating
+jurisdictions. The combined results include the territories and exclude Tennessee;
+they are not estimates for all 50 states and DC. See the
+[2024 survey overview](https://www.cdc.gov/brfss/annual_data/2024/pdf/Overview_2024-508.pdf).
+
 BRFSS is a **complex survey**:
 
 - **Strata.** Each state's sample is drawn separately within strata (for example, by
@@ -63,7 +68,7 @@ BRFSS is a **complex survey**:
 - **Primary sampling units (PSUs).** Within a stratum, phone numbers are sampled. In BRFSS
   each respondent is their own PSU.
 - **Weights.** People are sampled with different probabilities and respond at different
-  rates. CDC's final weight (`_LLCPWT`) corrects for both and makes the weighted sample
+  rates. CDC's final weight (`_LLCPWT`) adjusts for selection and nonresponse and makes the weighted sample
   match each state's adult population by age, sex, race and ethnicity, education, and
   other characteristics ("raking").
 
@@ -73,7 +78,8 @@ when they are ignored.
 ## Download the data (run once)
 
 CDC distributes the data as a zipped SAS transport file (`.XPT`), a format that stores a
-SAS dataset in a portable way. The zip file is 83 MB, and the unzipped file is 1.1 GB.
+SAS dataset in a portable way. Allow several gigabytes for the downloads, extracted
+files, and analysis outputs; file sizes can change between releases.
 
 Run the chunk below **once**, by hand, from the R console in the book's root folder (it
 is not run when the book is rendered). It saves `data/brfss/raw/LLCP2024.XPT`. Raw data,
@@ -170,8 +176,8 @@ saveRDS(brfss, file.path(processed_dir, "01-brfss.rds"))
 
 ## How the code in this part is written
 
-- Every function is called with its package name, as in `dplyr::mutate()`, so you always
-  know where a function comes from (and packages cannot silently mask each other).
+- Functions from add-on packages use their package name, as in `dplyr::mutate()`;
+  base R functions such as `readRDS()` are used directly.
 - `|>` is R's pipe: `x |> f()` means `f(x)`.
 - Lines that start with `# Check:` stop the code with an error if an assumption about the
   data fails. A silent check means the data are as expected.

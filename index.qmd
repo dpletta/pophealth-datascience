@@ -22,7 +22,7 @@ your study sample.
 The second part, [Survey-Weighted Analysis with BRFSS 2024](chapters/survey/01-import.qmd),
 applies the same habits to a national survey: the 2024 Behavioral Risk Factor
 Surveillance System (BRFSS). It asks whether household income is associated with
-diabetes among US adults and walks through importing the data, stacking questionnaire
+diabetes among adults in the participating jurisdictions and walks through importing the data, stacking questionnaire
 versions and joining a lookup table, cleaning, survey-weighted descriptive statistics,
 multiple imputation, and bivariate and multivariable survey-weighted regression. BRFSS
 data are public; you download them from the Centers for Disease Control and Prevention
@@ -52,8 +52,9 @@ tabs. Both tabs execute when the book is rendered.
 ## Run the book locally
 
 Open `pophealth-datascience.Rproj` in RStudio, or open a terminal in the book's
-root folder. Install R, [Quarto](https://quarto.org/docs/get-started/), and the
-packages listed in the first chapter. Then run:
+root folder. Install R and [Quarto](https://quarto.org/docs/get-started/), then
+restore the project's R packages with `renv::restore()` as shown in the first
+chapter. Then run:
 
 ```{.bash}
 quarto preview

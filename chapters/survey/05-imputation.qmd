@@ -18,8 +18,9 @@ Most R modeling functions silently drop every respondent with a missing value in
 variable. Household income is missing for
 `r round(100 * mean(is.na(brfss_clean$income)), 1)`% of respondents, so a model of diabetes
 by income would lose about one adult in five. @sec-descriptives showed that the people who
-do not report income are older, in worse health, and more likely to have diabetes than those
-who do. Dropping them loses precision and can bias the results.
+do not report income differ in age and general health. Their weighted diabetes
+prevalence is similar to that of respondents who report income. Dropping them
+loses information and can bias the results.
 
 **Multiple imputation** keeps everyone. It works in three steps:
 
@@ -38,10 +39,10 @@ variable at a time from the others and cycles through them until the imputations
 
 ## The data to impute
 
-We impute the outcomes, the exposure, the covariates, and the two auxiliary variables
-(education and employment). Auxiliary variables are not in any model, but they predict
-income well, which makes the imputations more accurate and the "missing at random"
-assumption more plausible.
+We impute incomplete outcomes, income, education, and employment. The complete
+covariates help predict these values but are not themselves imputed. Education
+and employment are auxiliary variables: they are outside the final regression
+model but may help predict income and its missingness.
 
 ```{r}
 #| label: imp-data
@@ -63,13 +64,14 @@ the association toward zero.
 
 Imputation models are regression models. If they ignore the survey design, the imputed
 values reflect the *sample*, and later weighted estimates can be biased. The practical
-recommendation (Reiter, Raghunathan, and Kinney, 2006) is to use the design variables as
-predictors:
+recommendation is to represent relevant design features in the imputation model
+([Reiter, Raghunathan, and Kinney, 2006](https://www2.stat.duke.edu/~jerry/Papers/SM06.pdf)).
+This example makes a simplifying choice:
 
 - the **weight** is a predictor, so imputed values can vary with it;
-- the **strata and primary sampling unit (PSU) identifiers** have thousands of values (and one PSU per person), so
-  they cannot be predictors. They stay in the data, untouched, for the survey design in the
-  next chapters;
+- the **strata and primary sampling unit (PSU) identifiers** stay untouched for
+  the later survey analysis. A unique PSU for each person cannot provide a useful
+  categorical predictor. Stratum effects can be modeled, but are omitted here;
 - the **state** can represent geographic differences, but its 53 categories add
   parameters to each imputation model. This teaching example omits state from the
   default predictor matrix. The example below shows how to include it when
@@ -78,6 +80,11 @@ predictors:
 - the **Census region** (@sec-lookup-join) is a coarser summary of the same geography.
   It is also omitted here, so that the imputations match the worked example; try adding
   it as an exercise and compare.
+
+Including the weight alone does not fully account for the sampling design.
+Treat the pooled results as a teaching illustration. A substantive analysis
+needs an assessment of geographic and stratum effects, suitable imputation
+models, and sensitivity to the missing-data assumptions.
 
 The **predictor matrix** says which variables predict which: a 1 in row *income*, column
 *weight* means the weight is used to impute income.
@@ -111,11 +118,13 @@ matrices to assess the effect of including state. The worked analysis uses
 
 ## How each variable is imputed
 
-We impute every variable with **predictive mean matching** (PMM). For each person with a
+We impute every incomplete variable with **predictive mean matching** (PMM). For each person with a
 missing value, PMM predicts the value from a regression, finds the respondents with an
 observed value whose predictions are closest, and copies the observed value of one of them,
 chosen at random. Imputed values are therefore always real answers (an income group, never
-"2.4"), and PMM is fast: one linear regression per variable.
+"2.4"). For factors, this version of `mice` derives a numerical score for
+matching and then copies the donor's original category; it does not treat the
+category labels as measured quantities.
 
 ```{r}
 #| label: methods
@@ -152,9 +161,9 @@ and the stability of pooled estimates and standard errors, and increase the
 number of imputations when needed.
 
 The `seed` argument makes the results reproducible. `furrr` gives each task its own
-random-number stream derived from the seed, so the imputations are **identical on every
-computer, whatever its number of cores**. (`mice::futuremice()` also imputes in parallel,
-but its results depend on the number of cores.)
+random-number stream derived from the seed, independent of the number of workers.
+Reproducing the results also requires the same data, code, and software versions;
+numerical differences between platforms can still matter.
 
 ```{r}
 #| label: impute
@@ -164,7 +173,7 @@ n_workers <- min(n_imputations, 4L, max(1L, n_cores - 1L))
 tibble::tibble(available_cores = n_cores, workers = n_workers)
 future::plan(future::multisession, workers = n_workers)
 start <- Sys.time()
-imputed <- furrr::future_map(
+imputations <- furrr::future_map(
   seq_len(n_imputations),
   \(i) {
     mice::mice(
@@ -177,9 +186,12 @@ imputed <- furrr::future_map(
     )
   },
   .options = furrr::furrr_options(seed = seed)
-) |>
-  purrr::reduce(mice::ibind)
+)
 future::plan(future::sequential)
+# Keep every chain's log: ibind() retains only the first object's loggedEvents.
+imputation_logs <- purrr::map(imputations, "loggedEvents")
+imputed <- purrr::reduce(imputations, mice::ibind)
+rm(imputations)
 Sys.time() - start
 
 # Check: the number of imputations we asked for, and no missing values left.
@@ -190,24 +202,29 @@ stopifnot(
 ```
 
 `maxit = 5` (the `mice` default) runs five cycles through the variables for each imputation.
-Only income has much missing data and the other variables are almost complete, so the chains
-settle quickly; the convergence plots in the next section check that five cycles are enough.
+Five cycles keep this classroom example short, but do not establish convergence.
+For a substantive analysis, run longer chains, inspect their behavior, and check
+whether the pooled estimates and standard errors stabilize. See the
+[MICE convergence discussion](https://stefvanbuuren.name/fimd/sec-algoptions.html).
 
 ## Check the imputations
 
 Three checks come before using imputed data.
 
-**1. Did `mice` log any problems?** `NULL` means none. Otherwise the log lists variables
+**1. Did `mice` log any problems?** Each `NULL` means that chain logged none; it does
+not prove the model is adequate. Otherwise the log lists variables
 `mice` dropped from a model (for example, because they were constant or collinear).
 
 ```{r}
 #| label: logged-events
-imputed$loggedEvents
+imputation_logs
 ```
 
 **2. Did the algorithm converge?** Each line is one imputation (a "chain"): the mean and
 standard deviation of the imputed values at each iteration. The lines should mix freely, with
-no trend in the last iterations.
+no sustained trend. With only five iterations these plots are a preliminary
+check, not proof of convergence. For categorical variables, also inspect the
+category distributions and the associations used in the final model.
 
 ```{r}
 #| label: convergence

@@ -15,6 +15,13 @@ version_files <- c(
 )
 have_versions <- all(file.exists(file.path(raw_dir, version_files)))
 
+# Re-read cached version data if any input file changes.
+knitr::opts_chunk$set(
+  cache.extra = c(cache_context, list(
+    data = tools::md5sum(c(brfss_file, file.path(raw_dir, version_files)))
+  ))
+)
+
 # Run every SQL example on SQLite, as in the data-preparation chapter.
 options(sqldf.driver = "SQLite")
 # Use sqldf's R-based string processing without a Tcl/Tk display dependency.
@@ -449,7 +456,7 @@ brfss_joined |> dplyr::count(census_region)
 
 ```{r}
 #| label: left-join-sql
-# SQL needs double quotes around names that start with an underscore.
+# Double quotes delimit SQL column names; SQLite also accepts these underscore names unquoted.
 region_counts_sql <- sqldf::sqldf(
   'SELECT s.census_region, COUNT(*) AS n
    FROM brfss AS b
@@ -572,8 +579,9 @@ select the subgroup from the design object, as @sec-continuous-test does for res
 with a known income (for example,
 `design |> dplyr::filter(census_region != "US territory")`).
 
-Use an inner join to subset survey data only when you then analyze the result as a new
-dataset on purpose, and say so.
+Dropping entire independently sampled strata can be a special case, but simply calling
+the joined result a new dataset does not fix its variance estimates. Subsetting the
+design is the safer general workflow.
 :::
 
 The next chapters use `brfss_joined`, the result of the left join, so every respondent is

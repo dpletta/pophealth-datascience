@@ -18,8 +18,9 @@ other variables are not held constant. @sec-multivariable adjusts for them.
 
 ## Prevalence ratios
 
-Our outcome is whether an adult has ever been told they have diabetes (1 = yes, 0 = no or
-prediabetes). We compare the **prevalence** of diabetes between groups with the
+Our outcome is reported diagnosed diabetes excluding pregnancy-only diabetes
+(1 = yes, 0 = no, prediabetes, or pregnancy-only diabetes). We compare its
+**prevalence** between groups with the
 **prevalence ratio** (PR), reported with its 95% confidence interval (CI):
 
 $$
@@ -135,8 +136,9 @@ For each coefficient, Rubin's rules combine the `r n_imputations` results on the
   datasets);
 - **t** = ubar + (1 + 1/m) b is the total variance, which includes the uncertainty about the
   missing values;
-- **fmi** is the fraction of missing information: the share of the total variance due to the
-  missing data.
+- **fmi** estimates the fraction of information lost because of missing data,
+  with a finite-degrees-of-freedom adjustment. It is specific to each coefficient,
+  not the proportion of respondents with a missing value.
 
 ```{r}
 #| label: income-check

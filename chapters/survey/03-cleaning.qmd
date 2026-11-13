@@ -23,7 +23,7 @@ This chapter follows four rules:
 
 The values below come from the Centers for Disease Control and Prevention (CDC)
 [BRFSS 2024 codebook](https://www.cdc.gov/brfss/annual_data/annual_2024.html). BRFSS uses
-the same codes for non-answers throughout: 7 (or 77) for "Don't know/Not sure", 9 (or 99) for
+common codes for non-answers in these items: 7 (or 77) for "Don't know/Not sure", 9 (or 99) for
 "Refused", and a blank (`NA` in R) for "Not asked or missing".
 
 ```{r}
@@ -111,12 +111,13 @@ including its share of missing values.
 
 Four decisions are built into this recoding (@sec-decisions lists them with counts):
 
-- **Non-answers become missing.** "Don't know", "refused", and blank tell us nothing about a
-  person's true value, so they become `NA`. @sec-imputation fills them in by multiple
-  imputation rather than dropping those people.
-- **Values that other answers settle are coded, not left missing.** A woman told she had
-  diabetes *only during pregnancy* (`DIABETE4 = 2`) does not have diabetes now, so she is
-  coded "No".
+- **Non-answers become missing.** "Don't know", "refused", and blank do not supply a
+  usable value, so they become `NA`. The reasons for missingness may still be informative.
+  @sec-imputation fills in missing values under stated assumptions.
+- **Define the outcome explicitly.** A report of diabetes *only during pregnancy*
+  (`DIABETE4 = 2`) is coded "No" for our outcome of reported diagnosed diabetes
+  excluding pregnancy-only diabetes. This is a survey classification, not proof
+  that the person has no diabetes now. Undiagnosed diabetes is not measured here.
 - **Age and race and ethnicity come from CDC's imputed versions.** CDC fills the few missing
   answers for these weighting variables (`_AGE_G`, `_IMPRACE`), so they are never blank.
   Six age groups adjust for age much better than two.
@@ -131,7 +132,7 @@ brfss_clean <- brfss |>
     diabetes = dplyr::recode_values(
       DIABETE4,
       1 ~ "Yes",
-      c(2, 3) ~ "No", # 2 = told only during pregnancy: no diabetes now
+      c(2, 3) ~ "No", # pregnancy-only diabetes is excluded from this outcome
       4 ~ "Prediabetes",
       c(7, 9, NA) ~ NA,
       unmatched = "error"

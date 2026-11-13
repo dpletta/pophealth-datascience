@@ -19,8 +19,8 @@ change them on purpose rather than by accident.
 
 | Decision | Reason | Respondents affected |
 |---|---|---|
-| "Don't know", "refused", and blank answers become missing and are imputed | They carry no information about the true value; dropping them would lose about one adult in five from any model with income | Income: `r Count("INCOME3", c(77, 99, NA))`; employment: `r Count("EMPLOY1", c(9, NA))`; education: `r Count("EDUCA", c(9, NA))`; general health: `r Count("GENHLTH", c(7, 9, NA))`; cost barrier: `r Count("MEDCOST1", c(7, 9, NA))`; diabetes: `r Count("DIABETE4", c(7, 9, NA))` |
-| Diabetes told only during pregnancy (`DIABETE4 = 2`) is "No" | Gestational diabetes alone is not current diabetes; the answer settles the value | `r Count("DIABETE4", 2)` |
+| "Don't know", "refused", and blank answers become missing and are imputed | They do not provide a usable value, although the reason for missingness may be informative; dropping them loses about one adult in five from a model with income | Income: `r Count("INCOME3", c(77, 99, NA))`; employment: `r Count("EMPLOY1", c(9, NA))`; education: `r Count("EDUCA", c(9, NA))`; general health: `r Count("GENHLTH", c(7, 9, NA))`; cost barrier: `r Count("MEDCOST1", c(7, 9, NA))`; diabetes: `r Count("DIABETE4", c(7, 9, NA))` |
+| Diabetes told only during pregnancy (`DIABETE4 = 2`) is "No" | The survey outcome excludes pregnancy-only diabetes; this does not establish current clinical status | `r Count("DIABETE4", 2)` |
 | Prediabetes counts as "no diabetes" in the 0/1 outcome | The outcome is diagnosed diabetes | `r Count("DIABETE4", 4)` |
 | Age from `_AGE_G` (six groups, CDC-imputed) rather than `_AGE65YR` (two groups) | Better adjustment for age, a strong confounder; no missing values | All |
 | Numeric age from `_AGE80`, retained as years with 80 meaning 80 or older | Demonstrates a survey-weighted comparison of means; models and imputation retain age groups | All |
