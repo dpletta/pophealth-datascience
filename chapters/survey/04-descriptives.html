@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Survey-Weighted Descriptive Statistics – Data Science for Population Health Sciences</title>
+<title>7&nbsp; Survey-Weighted Descriptive Statistics – Data Science for Population Health Sciences</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -153,7 +153,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/04-descriptives.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/04-descriptives.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -187,13 +187,19 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Getting started</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
+  <a href="../../chapters/setup/positron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Positron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Environments for R and Python</span></span></a>
   </div>
 </li>
       </ul>
@@ -201,49 +207,13 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
   </div>
 </li>
       </ul>
@@ -251,9 +221,59 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/survey/decisions.html" class="sidebar-item-text sidebar-link">
@@ -278,30 +298,30 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-survey-design-object" id="toc-the-survey-design-object" class="nav-link active" data-scroll-target="#the-survey-design-object"><span class="header-section-number">5.1</span> The survey design object</a>
+  <li><a href="#the-survey-design-object" id="toc-the-survey-design-object" class="nav-link active" data-scroll-target="#the-survey-design-object"><span class="header-section-number">7.1</span> The survey design object</a>
   <ul class="collapse">
-  <li><a href="#strata-with-a-single-psu" id="toc-strata-with-a-single-psu" class="nav-link" data-scroll-target="#strata-with-a-single-psu"><span class="header-section-number">5.1.1</span> Strata with a single PSU</a></li>
+  <li><a href="#strata-with-a-single-psu" id="toc-strata-with-a-single-psu" class="nav-link" data-scroll-target="#strata-with-a-single-psu"><span class="header-section-number">7.1.1</span> Strata with a single PSU</a></li>
   </ul></li>
-  <li><a href="#sec-descriptive-cache" id="toc-sec-descriptive-cache" class="nav-link" data-scroll-target="#sec-descriptive-cache"><span class="header-section-number">5.2</span> Calculate once, then reuse</a></li>
-  <li><a href="#table-1-who-the-population-is" id="toc-table-1-who-the-population-is" class="nav-link" data-scroll-target="#table-1-who-the-population-is"><span class="header-section-number">5.3</span> Table 1: who the population is</a></li>
-  <li><a href="#table-2-outcomes-by-income" id="toc-table-2-outcomes-by-income" class="nav-link" data-scroll-target="#table-2-outcomes-by-income"><span class="header-section-number">5.4</span> Table 2: outcomes by income</a></li>
-  <li><a href="#sec-continuous-test" id="toc-sec-continuous-test" class="nav-link" data-scroll-target="#sec-continuous-test"><span class="header-section-number">5.5</span> Testing a continuous variable</a>
+  <li><a href="#sec-descriptive-cache" id="toc-sec-descriptive-cache" class="nav-link" data-scroll-target="#sec-descriptive-cache"><span class="header-section-number">7.2</span> Calculate once, then reuse</a></li>
+  <li><a href="#table-1-who-the-population-is" id="toc-table-1-who-the-population-is" class="nav-link" data-scroll-target="#table-1-who-the-population-is"><span class="header-section-number">7.3</span> Table 1: who the population is</a></li>
+  <li><a href="#table-2-outcomes-by-income" id="toc-table-2-outcomes-by-income" class="nav-link" data-scroll-target="#table-2-outcomes-by-income"><span class="header-section-number">7.4</span> Table 2: outcomes by income</a></li>
+  <li><a href="#sec-continuous-test" id="toc-sec-continuous-test" class="nav-link" data-scroll-target="#sec-continuous-test"><span class="header-section-number">7.5</span> Testing a continuous variable</a>
   <ul class="collapse">
-  <li><a href="#put-the-mean-test-in-a-summary-table" id="toc-put-the-mean-test-in-a-summary-table" class="nav-link" data-scroll-target="#put-the-mean-test-in-a-summary-table"><span class="header-section-number">5.5.1</span> Put the mean test in a summary table</a></li>
+  <li><a href="#put-the-mean-test-in-a-summary-table" id="toc-put-the-mean-test-in-a-summary-table" class="nav-link" data-scroll-target="#put-the-mean-test-in-a-summary-table"><span class="header-section-number">7.5.1</span> Put the mean test in a summary table</a></li>
   </ul></li>
-  <li><a href="#prevalence-with-confidence-intervals" id="toc-prevalence-with-confidence-intervals" class="nav-link" data-scroll-target="#prevalence-with-confidence-intervals"><span class="header-section-number">5.6</span> Prevalence with confidence intervals</a>
+  <li><a href="#prevalence-with-confidence-intervals" id="toc-prevalence-with-confidence-intervals" class="nav-link" data-scroll-target="#prevalence-with-confidence-intervals"><span class="header-section-number">7.6</span> Prevalence with confidence intervals</a>
   <ul class="collapse">
-  <li><a href="#prevalence-by-region" id="toc-prevalence-by-region" class="nav-link" data-scroll-target="#prevalence-by-region"><span class="header-section-number">5.6.1</span> Prevalence by region</a></li>
+  <li><a href="#prevalence-by-region" id="toc-prevalence-by-region" class="nav-link" data-scroll-target="#prevalence-by-region"><span class="header-section-number">7.6.1</span> Prevalence by region</a></li>
   </ul></li>
-  <li><a href="#why-the-design-matters" id="toc-why-the-design-matters" class="nav-link" data-scroll-target="#why-the-design-matters"><span class="header-section-number">5.7</span> Why the design matters</a>
+  <li><a href="#why-the-design-matters" id="toc-why-the-design-matters" class="nav-link" data-scroll-target="#why-the-design-matters"><span class="header-section-number">7.7</span> Why the design matters</a>
   <ul class="collapse">
-  <li><a href="#weights-change-the-estimate" id="toc-weights-change-the-estimate" class="nav-link" data-scroll-target="#weights-change-the-estimate"><span class="header-section-number">5.7.1</span> Weights change the estimate</a></li>
-  <li><a href="#the-design-changes-the-uncertainty" id="toc-the-design-changes-the-uncertainty" class="nav-link" data-scroll-target="#the-design-changes-the-uncertainty"><span class="header-section-number">5.7.2</span> The design changes the uncertainty</a></li>
+  <li><a href="#weights-change-the-estimate" id="toc-weights-change-the-estimate" class="nav-link" data-scroll-target="#weights-change-the-estimate"><span class="header-section-number">7.7.1</span> Weights change the estimate</a></li>
+  <li><a href="#the-design-changes-the-uncertainty" id="toc-the-design-changes-the-uncertainty" class="nav-link" data-scroll-target="#the-design-changes-the-uncertainty"><span class="header-section-number">7.7.2</span> The design changes the uncertainty</a></li>
   </ul></li>
-  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data"><span class="header-section-number">5.8</span> Missing data</a>
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data"><span class="header-section-number">7.8</span> Missing data</a>
   <ul class="collapse">
-  <li><a href="#how-much-is-missing" id="toc-how-much-is-missing" class="nav-link" data-scroll-target="#how-much-is-missing"><span class="header-section-number">5.8.1</span> How much is missing?</a></li>
-  <li><a href="#who-is-missing-income" id="toc-who-is-missing-income" class="nav-link" data-scroll-target="#who-is-missing-income"><span class="header-section-number">5.8.2</span> Who is missing income?</a></li>
+  <li><a href="#how-much-is-missing" id="toc-how-much-is-missing" class="nav-link" data-scroll-target="#how-much-is-missing"><span class="header-section-number">7.8.1</span> How much is missing?</a></li>
+  <li><a href="#who-is-missing-income" id="toc-who-is-missing-income" class="nav-link" data-scroll-target="#who-is-missing-income"><span class="header-section-number">7.8.2</span> Who is missing income?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -309,9 +329,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/04-descriptives.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/04-descriptives.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-descriptives" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></h1>
+<h1 class="title"><span id="sec-descriptives" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></h1>
 </div>
 
 
@@ -340,9 +360,9 @@ window.Quarto = {
 </details>
 </div>
 <p>Descriptive statistics answer “what does the population look like?” With a complex survey such as the Behavioral Risk Factor Surveillance System (BRFSS), every estimate has to use the survey design, or it describes the <em>sample</em> (who happened to answer the phone) rather than the target population in the participating jurisdictions. This chapter describes the observed data only: the answers people gave, with missing answers shown as missing. We use imputed values only for models in this book. Imputation can also support population descriptive estimates, but it does not describe which answers were observed.</p>
-<section id="the-survey-design-object" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="the-survey-design-object"><span class="header-section-number">5.1</span> The survey design object</h2>
-<p>The <code>srvyr</code> package lets us describe the design once and then use familiar <code>dplyr</code> verbs on it. The design object stores the data together with the three design features from <a href="01-import.html" class="quarto-xref"><span>Chapter 2</span></a>:</p>
+<section id="the-survey-design-object" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="the-survey-design-object"><span class="header-section-number">7.1</span> The survey design object</h2>
+<p>The <code>srvyr</code> package lets us describe the design once and then use familiar <code>dplyr</code> verbs on it. The design object stores the data together with the three design features from <a href="01-import.html" class="quarto-xref"><span>Chapter 4</span></a>:</p>
 <ul>
 <li><code>ids</code>: the primary sampling units (clusters);</li>
 <li><code>strata</code>: the strata;</li>
@@ -393,7 +413,7 @@ Data variables:
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>By default the design checks that every PSU lies within a single stratum. Depending on the survey package version, this check can create a large PSU-by-stratum table. The <code>psu_id</code> variable numbers each stratum-PSU pair, so the PSUs are nested in strata by construction. <a href="03-cleaning.html" class="quarto-xref"><span>Chapter 4</span></a> verifies that each identifier belongs to exactly one stratum before this check is disabled. Keep the default check unless you have verified that nesting condition.</p>
+<p>By default the design checks that every PSU lies within a single stratum. Depending on the survey package version, this check can create a large PSU-by-stratum table. The <code>psu_id</code> variable numbers each stratum-PSU pair, so the PSUs are nested in strata by construction. <a href="03-cleaning.html" class="quarto-xref"><span>Chapter 6</span></a> verifies that each identifier belongs to exactly one stratum before this check is disabled. Keep the default check unless you have verified that nesting condition.</p>
 </div>
 </div>
 <p>The weights add up to the number of adults the sample represents: 263,783,390.</p>
@@ -413,8 +433,8 @@ Data variables:
 </ul>
 </div>
 </div>
-<section id="strata-with-a-single-psu" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="strata-with-a-single-psu"><span class="header-section-number">5.1.1</span> Strata with a single PSU</h3>
+<section id="strata-with-a-single-psu" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="strata-with-a-single-psu"><span class="header-section-number">7.1.1</span> Strata with a single PSU</h3>
 <p>Variance estimation compares PSUs within each stratum, which is impossible when a stratum has only one PSU.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -447,19 +467,19 @@ filter: removed 2,283 rows (95%), 110 rows remaining</code></pre>
 <p><code>_common.R</code> sets <code>options(survey.lonely.psu = "adjust")</code>, which centers such a stratum on the overall mean instead of its own (see <code>?survey::surveyoptions</code> for the alternatives).</p>
 </section>
 </section>
-<section id="sec-descriptive-cache" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="sec-descriptive-cache"><span class="header-section-number">5.2</span> Calculate once, then reuse</h2>
+<section id="sec-descriptive-cache" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="sec-descriptive-cache"><span class="header-section-number">7.2</span> Calculate once, then reuse</h2>
 <p>The expensive summary chunks below use Quarto’s built-in R cache:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>On later renders, unchanged chunks reload their objects and output. The setup checks the input data’s contents, all R code in this chapter, project settings, R/package versions and survey options. Changing those inputs triggers a new calculation; editing prose does not. Full and smoke caches have separate folders.</p>
-<p>After running <a href="01-import.html" class="quarto-xref"><span>Chapter 2</span></a> to <a href="03-cleaning.html" class="quarto-xref"><span>Chapter 4</span></a> once, render just this chapter while working on your tables:</p>
+<p>After running <a href="01-import.html" class="quarto-xref"><span>Chapter 4</span></a> to <a href="03-cleaning.html" class="quarto-xref"><span>Chapter 6</span></a> once, render just this chapter while working on your tables:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render chapters/survey/04-descriptives.qmd</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render chapters/survey/04-descriptives.qmd <span class="at">--cache-refresh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The second command forces recalculation. Caching applies when rendering, not when running individual lines in the R console. Importing, imputation and modeling chapters use the same chunk option for their expensive calculations.</p>
 <p>In this BRFSS dataset, each respondent is a PSU, so aggregation by PSU does not reduce the row count. Build the design before selecting an analysis domain, then subset the design object to retain the information needed for variance estimation.</p>
 </section>
-<section id="table-1-who-the-population-is" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="table-1-who-the-population-is"><span class="header-section-number">5.3</span> Table 1: who the population is</h2>
+<section id="table-1-who-the-population-is" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="table-1-who-the-population-is"><span class="header-section-number">7.3</span> Table 1: who the population is</h2>
 <p><code>gtsummary::tbl_svysummary()</code> makes a publication-ready table from a design object. We show <strong>unweighted counts</strong> (how many people answered) with <strong>weighted percentages</strong> (the estimate for the population), and the number of missing answers for each variable.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -1154,8 +1174,8 @@ filter: removed 2,283 rows (95%), 110 rows remaining</code></pre>
 </div>
 </div>
 </section>
-<section id="table-2-outcomes-by-income" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="table-2-outcomes-by-income"><span class="header-section-number">5.4</span> Table 2: outcomes by income</h2>
+<section id="table-2-outcomes-by-income" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="table-2-outcomes-by-income"><span class="header-section-number">7.4</span> Table 2: outcomes by income</h2>
 <p>Adding <code>by = income</code> splits the table by income group, and <code>gtsummary::add_p()</code> tests whether each outcome differs across the groups. For categorical variables in survey data the test is the <strong>Rao-Scott test</strong>, reported as a design-adjusted F test by <code>survey::svychisq(statistic = "F")</code>. It accounts for weights, strata, and clusters.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -1861,8 +1881,8 @@ N = 67,613,248<span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 </div>
 </div>
 </section>
-<section id="sec-continuous-test" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="sec-continuous-test"><span class="header-section-number">5.5</span> Testing a continuous variable</h2>
+<section id="sec-continuous-test" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="sec-continuous-test"><span class="header-section-number">7.5</span> Testing a continuous variable</h2>
 <p><strong>Does mean age differ across the four income groups?</strong> <code>age</code> is the numeric BRFSS variable <code>_AGE80</code>: CDC-imputed age in years, with everyone aged 80 or older recorded as 80. The comparison therefore concerns this capped age variable, not exact age above 80. See the <a href="https://www.cdc.gov/brfss/annual_data/2024/pdf/2024-calculated-variables-version4-508.pdf">CDC calculated-variable definitions</a>. The regression chapters continue to use <code>age_group</code>.</p>
 <p>First select respondents with known income <strong>from the full survey design</strong>. Report weighted means and 95% confidence intervals before interpreting a test.</p>
 <div class="cell">
@@ -1907,8 +1927,8 @@ F =  65.4856  on  3  and  367882  df: p= &lt; 2.22e-16 </code></pre>
 </div>
 </div>
 <p>The p-value is &lt;0.001. A small p-value is evidence that at least one mean differs; it does not identify which pairs differ or establish that a difference is practically important. Use the means and confidence intervals to describe the size of the differences.</p>
-<section id="put-the-mean-test-in-a-summary-table" class="level3" data-number="5.5.1">
-<h3 data-number="5.5.1" class="anchored" data-anchor-id="put-the-mean-test-in-a-summary-table"><span class="header-section-number">5.5.1</span> Put the mean test in a summary table</h3>
+<section id="put-the-mean-test-in-a-summary-table" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="put-the-mean-test-in-a-summary-table"><span class="header-section-number">7.5.1</span> Put the mean test in a summary table</h3>
 <p><code>gtsummary::add_p()</code> accepts a short custom function returning a p-value. This function applies the same model and joint test to a numeric variable and a categorical grouping variable.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -2440,8 +2460,8 @@ N = 67,613,248<span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <p>For <strong>two groups</strong>, <code>survey::svyttest()</code> is a direct test of the difference in means; the corresponding <code>gtsummary</code> alias is <code>"svy.t.test"</code>. The alias <code>"svy.wald.test"</code> instead calls a contingency-table test of independence and should not be used to test continuous means. See the <a href="https://www.danieldsjoberg.com/gtsummary/reference/tests.html">gtsummary test definitions</a>. Ordinary <code>t.test()</code> and <code>aov()</code> do not account for this survey design.</p>
 </section>
 </section>
-<section id="prevalence-with-confidence-intervals" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="prevalence-with-confidence-intervals"><span class="header-section-number">5.6</span> Prevalence with confidence intervals</h2>
+<section id="prevalence-with-confidence-intervals" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="prevalence-with-confidence-intervals"><span class="header-section-number">7.6</span> Prevalence with confidence intervals</h2>
 <p><code>srvyr::survey_mean()</code> estimates a weighted mean, here the share of adults with diabetes and with fair or poor health, with its 95% confidence interval. Grouping by income keeps the missing-income group as its own row.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -2467,9 +2487,9 @@ N = 67,613,248<span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 </div>
 </div>
 <p>Diabetes falls steadily with income, from 19.6% in the lowest group to 8.1% in the highest. Adults who did not report their income (the <code>NA</code> row) have a diabetes prevalence of 12.3%, close to the population average. On this outcome they resemble the people who reported their income; the last section of this chapter shows how they differ in age and health.</p>
-<section id="prevalence-by-region" class="level3" data-number="5.6.1">
-<h3 data-number="5.6.1" class="anchored" data-anchor-id="prevalence-by-region"><span class="header-section-number">5.6.1</span> Prevalence by region</h3>
-<p>The region column came from the lookup table joined in <a href="02-engineering.html#sec-lookup-join" class="quarto-xref"><span>Section 3.3</span></a>. Grouping the design by it works like grouping by any other variable.</p>
+<section id="prevalence-by-region" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="prevalence-by-region"><span class="header-section-number">7.6.1</span> Prevalence by region</h3>
+<p>The region column came from the lookup table joined in <a href="02-engineering.html#sec-lookup-join" class="quarto-xref"><span>Section 5.3</span></a>. Grouping the design by it works like grouping by any other variable.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -2491,13 +2511,13 @@ N = 67,613,248<span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 5 US territory    0.176        0.155        0.198   7317</code></pre>
 </div>
 </div>
-<p>Filtering rows out of the data <em>before</em> building the design (for example, keeping only the Midwest) would drop information the variance estimate needs. To describe one region, filter the design instead, as <a href="#sec-continuous-test" class="quarto-xref"><span>Section 5.5</span></a> does for respondents with a known income.</p>
+<p>Filtering rows out of the data <em>before</em> building the design (for example, keeping only the Midwest) would drop information the variance estimate needs. To describe one region, filter the design instead, as <a href="#sec-continuous-test" class="quarto-xref"><span>Section 7.5</span></a> does for respondents with a known income.</p>
 </section>
 </section>
-<section id="why-the-design-matters" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="why-the-design-matters"><span class="header-section-number">5.7</span> Why the design matters</h2>
-<section id="weights-change-the-estimate" class="level3" data-number="5.7.1">
-<h3 data-number="5.7.1" class="anchored" data-anchor-id="weights-change-the-estimate"><span class="header-section-number">5.7.1</span> Weights change the estimate</h3>
+<section id="why-the-design-matters" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="why-the-design-matters"><span class="header-section-number">7.7</span> Why the design matters</h2>
+<section id="weights-change-the-estimate" class="level3" data-number="7.7.1">
+<h3 data-number="7.7.1" class="anchored" data-anchor-id="weights-change-the-estimate"><span class="header-section-number">7.7.1</span> Weights change the estimate</h3>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -2515,8 +2535,8 @@ N = 67,613,248<span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 </div>
 </div>
 </section>
-<section id="the-design-changes-the-uncertainty" class="level3" data-number="5.7.2">
-<h3 data-number="5.7.2" class="anchored" data-anchor-id="the-design-changes-the-uncertainty"><span class="header-section-number">5.7.2</span> The design changes the uncertainty</h3>
+<section id="the-design-changes-the-uncertainty" class="level3" data-number="7.7.2">
+<h3 data-number="7.7.2" class="anchored" data-anchor-id="the-design-changes-the-uncertainty"><span class="header-section-number">7.7.2</span> The design changes the uncertainty</h3>
 <p>The <strong>design effect</strong> (DEFF) compares the variance of an estimate under the survey design with its variance under a simple random sample of the same size:</p>
 <p><span class="math display">\[
 \text{DEFF} = \frac{\text{Variance}_\text{survey design}}{\text{Variance}_\text{simple random sample}},
@@ -2552,10 +2572,10 @@ n_\text{effective} = \frac{n}{\text{DEFF}}
 <p>The unweighted prevalence of diabetes is 14.4%; weighted, it is 12.5%. The design effect is 5.1 for diabetes and 5.25 for fair or poor health, so the 456,636 answers about diabetes carry as much information as about 89,595 answers from a simple random sample. In BRFSS most of the design effect comes from the unequal weights, because each respondent is their own PSU.</p>
 </section>
 </section>
-<section id="missing-data" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="missing-data"><span class="header-section-number">5.8</span> Missing data</h2>
-<section id="how-much-is-missing" class="level3" data-number="5.8.1">
-<h3 data-number="5.8.1" class="anchored" data-anchor-id="how-much-is-missing"><span class="header-section-number">5.8.1</span> How much is missing?</h3>
+<section id="missing-data" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="missing-data"><span class="header-section-number">7.8</span> Missing data</h2>
+<section id="how-much-is-missing" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="how-much-is-missing"><span class="header-section-number">7.8.1</span> How much is missing?</h3>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -2599,8 +2619,8 @@ n_\text{effective} = \frac{n}{\text{DEFF}}
 </div>
 </div>
 </section>
-<section id="who-is-missing-income" class="level3" data-number="5.8.2">
-<h3 data-number="5.8.2" class="anchored" data-anchor-id="who-is-missing-income"><span class="header-section-number">5.8.2</span> Who is missing income?</h3>
+<section id="who-is-missing-income" class="level3" data-number="7.8.2">
+<h3 data-number="7.8.2" class="anchored" data-anchor-id="who-is-missing-income"><span class="header-section-number">7.8.2</span> Who is missing income?</h3>
 <p>If income were missing <strong>completely at random</strong>, the share of missing income would be the same in every group. The design-based estimates below show it is not.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -2657,7 +2677,7 @@ n_\text{effective} = \frac{n}{\text{DEFF}}
 <li><strong>Missing at random (MAR):</strong> after conditioning on observed variables, missingness no longer depends on the missing values. Imputation can reduce bias if its models adequately represent the relevant relationships and survey design; MAR alone is not a guarantee.</li>
 <li><strong>Missing not at random (MNAR):</strong> missingness still depends on missing values after conditioning on observed variables (for example, people with very high incomes declining to say). Neither approach fixes this on its own; it calls for sensitivity analyses.</li>
 </ul>
-<p>Income missingness varies with age and health, so MCAR is not plausible. <a href="05-imputation.html" class="quarto-xref"><span>Chapter 6</span></a> works under MAR. These observed patterns cannot distinguish MAR from MNAR.</p>
+<p>Income missingness varies with age and health, so MCAR is not plausible. <a href="05-imputation.html" class="quarto-xref"><span>Chapter 8</span></a> works under MAR. These observed patterns cannot distinguish MAR from MNAR.</p>
 </div>
 </div>
 
@@ -3145,12 +3165,12 @@ n_\text{effective} = \frac{n}{\text{DEFF}}
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/survey/03-cleaning.html" class="pagination-link" aria-label="Cleaning and Recoding">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/survey/05-imputation.html" class="pagination-link" aria-label="Multiple Imputation with Survey Data">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

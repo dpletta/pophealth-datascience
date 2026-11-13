@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Multiple Imputation with Survey Data – Data Science for Population Health Sciences</title>
+<title>8&nbsp; Multiple Imputation with Survey Data – Data Science for Population Health Sciences</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/05-imputation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/05-imputation.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -158,13 +158,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Getting started</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
+  <a href="../../chapters/setup/positron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Positron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Environments for R and Python</span></span></a>
   </div>
 </li>
       </ul>
@@ -172,49 +178,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
   </div>
 </li>
       </ul>
@@ -222,9 +192,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/survey/decisions.html" class="sidebar-item-text sidebar-link">
@@ -249,25 +269,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-not-just-drop-incomplete-answers" id="toc-why-not-just-drop-incomplete-answers" class="nav-link active" data-scroll-target="#why-not-just-drop-incomplete-answers"><span class="header-section-number">6.1</span> Why not just drop incomplete answers?</a></li>
-  <li><a href="#the-data-to-impute" id="toc-the-data-to-impute" class="nav-link" data-scroll-target="#the-data-to-impute"><span class="header-section-number">6.2</span> The data to impute</a></li>
-  <li><a href="#making-the-imputation-model-reflect-the-survey-design" id="toc-making-the-imputation-model-reflect-the-survey-design" class="nav-link" data-scroll-target="#making-the-imputation-model-reflect-the-survey-design"><span class="header-section-number">6.3</span> Making the imputation model reflect the survey design</a>
+  <li><a href="#why-not-just-drop-incomplete-answers" id="toc-why-not-just-drop-incomplete-answers" class="nav-link active" data-scroll-target="#why-not-just-drop-incomplete-answers"><span class="header-section-number">8.1</span> Why not just drop incomplete answers?</a></li>
+  <li><a href="#the-data-to-impute" id="toc-the-data-to-impute" class="nav-link" data-scroll-target="#the-data-to-impute"><span class="header-section-number">8.2</span> The data to impute</a></li>
+  <li><a href="#making-the-imputation-model-reflect-the-survey-design" id="toc-making-the-imputation-model-reflect-the-survey-design" class="nav-link" data-scroll-target="#making-the-imputation-model-reflect-the-survey-design"><span class="header-section-number">8.3</span> Making the imputation model reflect the survey design</a>
   <ul class="collapse">
-  <li><a href="#example-a-predictor-for-one-variable-only" id="toc-example-a-predictor-for-one-variable-only" class="nav-link" data-scroll-target="#example-a-predictor-for-one-variable-only"><span class="header-section-number">6.3.1</span> Example: a predictor for one variable only</a></li>
+  <li><a href="#example-a-predictor-for-one-variable-only" id="toc-example-a-predictor-for-one-variable-only" class="nav-link" data-scroll-target="#example-a-predictor-for-one-variable-only"><span class="header-section-number">8.3.1</span> Example: a predictor for one variable only</a></li>
   </ul></li>
-  <li><a href="#how-each-variable-is-imputed" id="toc-how-each-variable-is-imputed" class="nav-link" data-scroll-target="#how-each-variable-is-imputed"><span class="header-section-number">6.4</span> How each variable is imputed</a></li>
-  <li><a href="#imputing-in-parallel-reproducibly" id="toc-imputing-in-parallel-reproducibly" class="nav-link" data-scroll-target="#imputing-in-parallel-reproducibly"><span class="header-section-number">6.5</span> Imputing in parallel, reproducibly</a></li>
-  <li><a href="#check-the-imputations" id="toc-check-the-imputations" class="nav-link" data-scroll-target="#check-the-imputations"><span class="header-section-number">6.6</span> Check the imputations</a></li>
-  <li><a href="#save" id="toc-save" class="nav-link" data-scroll-target="#save"><span class="header-section-number">6.7</span> Save</a></li>
+  <li><a href="#how-each-variable-is-imputed" id="toc-how-each-variable-is-imputed" class="nav-link" data-scroll-target="#how-each-variable-is-imputed"><span class="header-section-number">8.4</span> How each variable is imputed</a></li>
+  <li><a href="#imputing-in-parallel-reproducibly" id="toc-imputing-in-parallel-reproducibly" class="nav-link" data-scroll-target="#imputing-in-parallel-reproducibly"><span class="header-section-number">8.5</span> Imputing in parallel, reproducibly</a></li>
+  <li><a href="#check-the-imputations" id="toc-check-the-imputations" class="nav-link" data-scroll-target="#check-the-imputations"><span class="header-section-number">8.6</span> Check the imputations</a></li>
+  <li><a href="#save" id="toc-save" class="nav-link" data-scroll-target="#save"><span class="header-section-number">8.7</span> Save</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/05-imputation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/05-imputation.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-imputation" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></h1>
+<h1 class="title"><span id="sec-imputation" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></h1>
 </div>
 
 
@@ -297,19 +317,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="why-not-just-drop-incomplete-answers" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="why-not-just-drop-incomplete-answers"><span class="header-section-number">6.1</span> Why not just drop incomplete answers?</h2>
-<p>Most R modeling functions silently drop every respondent with a missing value in any model variable. Household income is missing for 19.1% of respondents, so a model of diabetes by income would lose about one adult in five. <a href="04-descriptives.html" class="quarto-xref"><span>Chapter 5</span></a> showed that the people who do not report income differ in age and general health. Their weighted diabetes prevalence is similar to that of respondents who report income. Dropping them loses information and can bias the results.</p>
+<section id="why-not-just-drop-incomplete-answers" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="why-not-just-drop-incomplete-answers"><span class="header-section-number">8.1</span> Why not just drop incomplete answers?</h2>
+<p>Most R modeling functions silently drop every respondent with a missing value in any model variable. Household income is missing for 19.1% of respondents, so a model of diabetes by income would lose about one adult in five. <a href="04-descriptives.html" class="quarto-xref"><span>Chapter 7</span></a> showed that the people who do not report income differ in age and general health. Their weighted diabetes prevalence is similar to that of respondents who report income. Dropping them loses information and can bias the results.</p>
 <p><strong>Multiple imputation</strong> keeps everyone. It works in three steps:</p>
 <ol type="1">
 <li><strong>Impute.</strong> Fill in each missing value with a plausible value drawn from a model that predicts it from everything else we know about the person. Do this several times (here, 5 times) to create 5 completed datasets. The imputed values differ between datasets, and that difference expresses our uncertainty about the true values.</li>
-<li><strong>Analyze.</strong> Fit the same model to each completed dataset (<a href="06-bivariate.html" class="quarto-xref"><span>Chapter 7</span></a>, <a href="07-multivariable.html" class="quarto-xref"><span>Chapter 8</span></a>).</li>
+<li><strong>Analyze.</strong> Fit the same model to each completed dataset (<a href="06-bivariate.html" class="quarto-xref"><span>Chapter 9</span></a>, <a href="07-multivariable.html" class="quarto-xref"><span>Chapter 10</span></a>).</li>
 <li><strong>Pool.</strong> Combine the 5 results with Rubin’s rules into one estimate and one standard error that includes the uncertainty from imputation.</li>
 </ol>
 <p>We use the <code>mice</code> package (multivariate imputation by chained equations), which imputes one variable at a time from the others and cycles through them until the imputations stabilize.</p>
 </section>
-<section id="the-data-to-impute" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="the-data-to-impute"><span class="header-section-number">6.2</span> The data to impute</h2>
+<section id="the-data-to-impute" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="the-data-to-impute"><span class="header-section-number">8.2</span> The data to impute</h2>
 <p>We impute incomplete outcomes, income, education, and employment. The complete covariates help predict these values but are not themselves imputed. Education and employment are auxiliary variables: they are outside the final regression model but may help predict income and its missingness.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -348,14 +368,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="making-the-imputation-model-reflect-the-survey-design" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="making-the-imputation-model-reflect-the-survey-design"><span class="header-section-number">6.3</span> Making the imputation model reflect the survey design</h2>
+<section id="making-the-imputation-model-reflect-the-survey-design" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="making-the-imputation-model-reflect-the-survey-design"><span class="header-section-number">8.3</span> Making the imputation model reflect the survey design</h2>
 <p>Imputation models are regression models. If they ignore the survey design, the imputed values reflect the <em>sample</em>, and later weighted estimates can be biased. The practical recommendation is to represent relevant design features in the imputation model (<a href="https://www2.stat.duke.edu/~jerry/Papers/SM06.pdf">Reiter, Raghunathan, and Kinney, 2006</a>). This example makes a simplifying choice:</p>
 <ul>
 <li>the <strong>weight</strong> is a predictor, so imputed values can vary with it;</li>
 <li>the <strong>strata and primary sampling unit (PSU) identifiers</strong> stay untouched for the later survey analysis. A unique PSU for each person cannot provide a useful categorical predictor. Stratum effects can be modeled, but are omitted here;</li>
 <li>the <strong>state</strong> can represent geographic differences, but its 53 categories add parameters to each imputation model. This teaching example omits state from the default predictor matrix. The example below shows how to include it when imputing income. For a substantive analysis, assess the consequences of this simplification rather than choosing predictors on computing time alone.</li>
-<li>the <strong>Census region</strong> (<a href="02-engineering.html#sec-lookup-join" class="quarto-xref"><span>Section 3.3</span></a>) is a coarser summary of the same geography. It is also omitted here, so that the imputations match the worked example; try adding it as an exercise and compare.</li>
+<li>the <strong>Census region</strong> (<a href="02-engineering.html#sec-lookup-join" class="quarto-xref"><span>Section 5.3</span></a>) is a coarser summary of the same geography. It is also omitted here, so that the imputations match the worked example; try adding it as an exercise and compare.</li>
 </ul>
 <p>Including the weight alone does not fully account for the sampling design. Treat the pooled results as a teaching illustration. A substantive analysis needs an assessment of geographic and stratum effects, suitable imputation models, and sensitivity to the missing-data assumptions.</p>
 <p>The <strong>predictor matrix</strong> says which variables predict which: a 1 in row <em>income</em>, column <em>weight</em> means the weight is used to impute income.</p>
@@ -400,8 +420,8 @@ education         1         1   1        1         0          1
 employment        1         1   1        1         1          0</code></pre>
 </div>
 </div>
-<section id="example-a-predictor-for-one-variable-only" class="level3" data-number="6.3.1">
-<h3 data-number="6.3.1" class="anchored" data-anchor-id="example-a-predictor-for-one-variable-only"><span class="header-section-number">6.3.1</span> Example: a predictor for one variable only</h3>
+<section id="example-a-predictor-for-one-variable-only" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="example-a-predictor-for-one-variable-only"><span class="header-section-number">8.3.1</span> Example: a predictor for one variable only</h3>
 <p>Each <strong>row</strong> of the predictor matrix is one imputation model (the variable being imputed), and each <strong>column</strong> is a possible predictor. Changing a single cell changes a single model. Income is the variable with the most missing values, so it is where design information matters most. To also use the state when imputing income, and nowhere else:</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -422,8 +442,8 @@ employment        1         1   1        1         1          0</code></pre>
 <p>To use it, replace <code>predictorMatrix = predictors</code> with <code>predictorMatrix = predictors_state</code> in the imputation below. Compare diagnostics and pooled estimates under both matrices to assess the effect of including state. The worked analysis uses <code>predictors</code>, which includes the weight but omits state.</p>
 </section>
 </section>
-<section id="how-each-variable-is-imputed" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="how-each-variable-is-imputed"><span class="header-section-number">6.4</span> How each variable is imputed</h2>
+<section id="how-each-variable-is-imputed" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="how-each-variable-is-imputed"><span class="header-section-number">8.4</span> How each variable is imputed</h2>
 <p>We impute every incomplete variable with <strong>predictive mean matching</strong> (PMM). For each person with a missing value, PMM predicts the value from a regression, finds the respondents with an observed value whose predictions are closest, and copies the observed value of one of them, chosen at random. Imputed values are therefore always real answers (an income group, never “2.4”). For factors, this version of <code>mice</code> derives a numerical score for matching and then copies the donor’s original category; it does not treat the category labels as measured quantities.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -455,8 +475,8 @@ employment        1         1   1        1         1          0</code></pre>
 </div>
 </div>
 </section>
-<section id="imputing-in-parallel-reproducibly" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="imputing-in-parallel-reproducibly"><span class="header-section-number">6.5</span> Imputing in parallel, reproducibly</h2>
+<section id="imputing-in-parallel-reproducibly" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="imputing-in-parallel-reproducibly"><span class="header-section-number">8.5</span> Imputing in parallel, reproducibly</h2>
 <p>Each completed dataset is independent of the others, so they can be imputed at the same time on different processor cores. <code>furrr::future_map()</code> runs one imputation per task, and <code>mice::ibind()</code> combines the single imputations into one object. <code>future::plan()</code> sets the number of parallel workers. First detect the available cores; reserve one core and use at most four workers, or fewer if there are fewer imputations. The cap limits memory use because each worker holds its own data.</p>
 <p>The main example uses 5 imputations to keep a classroom run short. For a substantive analysis, assess the fraction of missing information and the stability of pooled estimates and standard errors, and increase the number of imputations when needed.</p>
 <p>The <code>seed</code> argument makes the results reproducible. <code>furrr</code> gives each task its own random-number stream derived from the seed, independent of the number of workers. Reproducing the results also requires the same data, code, and software versions; numerical differences between platforms can still matter.</p>
@@ -512,8 +532,8 @@ employment        1         1   1        1         1          0</code></pre>
 </div>
 <p><code>maxit = 5</code> (the <code>mice</code> default) runs five cycles through the variables for each imputation. Five cycles keep this classroom example short, but do not establish convergence. For a substantive analysis, run longer chains, inspect their behavior, and check whether the pooled estimates and standard errors stabilize. See the <a href="https://stefvanbuuren.name/fimd/sec-algoptions.html">MICE convergence discussion</a>.</p>
 </section>
-<section id="check-the-imputations" class="level2" data-number="6.6">
-<h2 data-number="6.6" class="anchored" data-anchor-id="check-the-imputations"><span class="header-section-number">6.6</span> Check the imputations</h2>
+<section id="check-the-imputations" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="check-the-imputations"><span class="header-section-number">8.6</span> Check the imputations</h2>
 <p>Three checks come before using imputed data.</p>
 <p><strong>1. Did <code>mice</code> log any problems?</strong> Each <code>NULL</code> means that chain logged none; it does not prove the model is adequate. Otherwise the log lists variables <code>mice</code> dropped from a model (for example, because they were constant or collinear).</p>
 <div class="cell">
@@ -593,10 +613,10 @@ mutate: new variable 'percent' (double) with 8 unique values and 0% NA</code></p
 4 $100,000 or more       30.3    23.7</code></pre>
 </div>
 </div>
-<p>The two distributions do not need to match. Under MAR they <em>should</em> differ when the people with missing income differ from those who reported it, as <a href="04-descriptives.html" class="quarto-xref"><span>Chapter 5</span></a> showed. What we look for is plausibility: no impossible values, and differences that make sense.</p>
+<p>The two distributions do not need to match. Under MAR they <em>should</em> differ when the people with missing income differ from those who reported it, as <a href="04-descriptives.html" class="quarto-xref"><span>Chapter 7</span></a> showed. What we look for is plausibility: no impossible values, and differences that make sense.</p>
 </section>
-<section id="save" class="level2" data-number="6.7">
-<h2 data-number="6.7" class="anchored" data-anchor-id="save"><span class="header-section-number">6.7</span> Save</h2>
+<section id="save" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="save"><span class="header-section-number">8.7</span> Save</h2>
 <p>The <code>mids</code> object holds the original data and the imputed values; <code>mice::complete()</code> rebuilds the completed datasets from it in the next chapters.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -1088,12 +1108,12 @@ mutate: new variable 'percent' (double) with 8 unique values and 0% NA</code></p
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/survey/04-descriptives.html" class="pagination-link" aria-label="Survey-Weighted Descriptive Statistics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/survey/06-bivariate.html" class="pagination-link" aria-label="Bivariate Survey-Weighted Regression">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

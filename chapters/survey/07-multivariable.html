@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Multivariable Survey-Weighted Regression – Data Science for Population Health Sciences</title>
+<title>10&nbsp; Multivariable Survey-Weighted Regression – Data Science for Population Health Sciences</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/07-multivariable.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/07-multivariable.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -158,13 +158,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Getting started</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
+  <a href="../../chapters/setup/positron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Positron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Environments for R and Python</span></span></a>
   </div>
 </li>
       </ul>
@@ -172,49 +178,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
   </div>
 </li>
       </ul>
@@ -222,9 +192,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/survey/decisions.html" class="sidebar-item-text sidebar-link">
@@ -249,24 +269,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#helpers" id="toc-helpers" class="nav-link active" data-scroll-target="#helpers"><span class="header-section-number">8.1</span> Helpers</a></li>
-  <li><a href="#the-adjusted-model" id="toc-the-adjusted-model" class="nav-link" data-scroll-target="#the-adjusted-model"><span class="header-section-number">8.2</span> The adjusted model</a></li>
-  <li><a href="#does-income-matter-overall" id="toc-does-income-matter-overall" class="nav-link" data-scroll-target="#does-income-matter-overall"><span class="header-section-number">8.3</span> Does income matter overall?</a></li>
-  <li><a href="#sensitivity-analysis-complete-cases" id="toc-sensitivity-analysis-complete-cases" class="nav-link" data-scroll-target="#sensitivity-analysis-complete-cases"><span class="header-section-number">8.4</span> Sensitivity analysis: complete cases</a></li>
-  <li><a href="#reporting-the-results" id="toc-reporting-the-results" class="nav-link" data-scroll-target="#reporting-the-results"><span class="header-section-number">8.5</span> Reporting the results</a>
+  <li><a href="#helpers" id="toc-helpers" class="nav-link active" data-scroll-target="#helpers"><span class="header-section-number">10.1</span> Helpers</a></li>
+  <li><a href="#the-adjusted-model" id="toc-the-adjusted-model" class="nav-link" data-scroll-target="#the-adjusted-model"><span class="header-section-number">10.2</span> The adjusted model</a></li>
+  <li><a href="#does-income-matter-overall" id="toc-does-income-matter-overall" class="nav-link" data-scroll-target="#does-income-matter-overall"><span class="header-section-number">10.3</span> Does income matter overall?</a></li>
+  <li><a href="#sensitivity-analysis-complete-cases" id="toc-sensitivity-analysis-complete-cases" class="nav-link" data-scroll-target="#sensitivity-analysis-complete-cases"><span class="header-section-number">10.4</span> Sensitivity analysis: complete cases</a></li>
+  <li><a href="#reporting-the-results" id="toc-reporting-the-results" class="nav-link" data-scroll-target="#reporting-the-results"><span class="header-section-number">10.5</span> Reporting the results</a>
   <ul class="collapse">
-  <li><a href="#reporting-checklist" id="toc-reporting-checklist" class="nav-link" data-scroll-target="#reporting-checklist"><span class="header-section-number">8.5.1</span> Reporting checklist</a></li>
+  <li><a href="#reporting-checklist" id="toc-reporting-checklist" class="nav-link" data-scroll-target="#reporting-checklist"><span class="header-section-number">10.5.1</span> Reporting checklist</a></li>
   </ul></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">8.6</span> Exercise</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.6</span> Exercise</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/07-multivariable.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/07-multivariable.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-multivariable" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></h1>
+<h1 class="title"><span id="sec-multivariable" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></h1>
 </div>
 
 
@@ -303,10 +323,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>The crude prevalence ratios (PRs) in <a href="06-bivariate.html" class="quarto-xref"><span>Chapter 7</span></a> mix the association of income with the associations of everything that travels with income. Age is the clearest example: adults 65 and older are less likely than middle-aged adults to have a high household income (many are retired) and far more likely to have diabetes. A multivariable model estimates the association of income with diabetes <strong>among adults of the same age group, sex, and race and ethnicity</strong>.</p>
-<section id="helpers" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="helpers"><span class="header-section-number">8.1</span> Helpers</h2>
-<p>The three helper functions are the same as in <a href="06-bivariate.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
+<p>The crude prevalence ratios (PRs) in <a href="06-bivariate.html" class="quarto-xref"><span>Chapter 9</span></a> mix the association of income with the associations of everything that travels with income. Age is the clearest example: adults 65 and older are less likely than middle-aged adults to have a high household income (many are retired) and far more likely to have diabetes. A multivariable model estimates the association of income with diabetes <strong>among adults of the same age group, sex, and race and ethnicity</strong>.</p>
+<section id="helpers" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="helpers"><span class="header-section-number">10.1</span> Helpers</h2>
+<p>The three helper functions are the same as in <a href="06-bivariate.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -365,8 +385,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-<section id="the-adjusted-model" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="the-adjusted-model"><span class="header-section-number">8.2</span> The adjusted model</h2>
+<section id="the-adjusted-model" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="the-adjusted-model"><span class="header-section-number">10.2</span> The adjusted model</h2>
 <p>The model has all four predictors at once.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -515,8 +535,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Each adjusted PR compares two groups that are alike on the other variables in the model. For example, the PR for <code>income$100,000 or more</code> compares adults in the highest income group with adults earning less than $25,000 <em>of the same age group, sex, and race and ethnicity</em>.</p>
 </section>
-<section id="does-income-matter-overall" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="does-income-matter-overall"><span class="header-section-number">8.3</span> Does income matter overall?</h2>
+<section id="does-income-matter-overall" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="does-income-matter-overall"><span class="header-section-number">10.3</span> Does income matter overall?</h2>
 <p>Income has four groups, so it has three PRs, each with its own p-value. To ask whether income is associated with diabetes at all, we test the three coefficients together (null hypothesis: all three are zero on the log scale). <code>mitml::testConstraints()</code> runs this multivariate Wald test across imputations (the “D1” statistic, pooled with Rubin’s rules) from each dataset’s estimates and covariance matrix.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -559,8 +579,8 @@ complete-data degrees of freedom.</code></pre>
 </div>
 <p><code>df1</code> is the number of coefficients tested and <code>P(&gt;F)</code> the p-value.</p>
 </section>
-<section id="sensitivity-analysis-complete-cases" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="sensitivity-analysis-complete-cases"><span class="header-section-number">8.4</span> Sensitivity analysis: complete cases</h2>
+<section id="sensitivity-analysis-complete-cases" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="sensitivity-analysis-complete-cases"><span class="header-section-number">10.4</span> Sensitivity analysis: complete cases</h2>
 <p>How much did imputation change the results? The same model fit to complete cases drops everyone with a missing value. <code>survey::svyglm()</code> keeps the full design for the variance and gives the dropped respondents no weight in the estimates.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -759,8 +779,8 @@ complete-data degrees of freedom.</code></pre>
 </div>
 </div>
 </section>
-<section id="reporting-the-results" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="reporting-the-results"><span class="header-section-number">8.5</span> Reporting the results</h2>
+<section id="reporting-the-results" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="reporting-the-results"><span class="header-section-number">10.5</span> Reporting the results</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -776,8 +796,8 @@ complete-data degrees of freedom.</code></pre>
 <p>We analyzed 457,670 adults in the 2024 Behavioral Risk Factor Surveillance System, representing 263.8 million adults in the participating jurisdictions (49 states, DC, Guam, Puerto Rico, and the US Virgin Islands). The regression analyses accounted for survey weights, strata, and primary sampling units. Household income was missing for 19.1% of respondents, and missingness varied with age and general health. We multiply imputed missing values (5 imputations by chained equations with the <code>mice</code> package, version 3.19.0, predictive mean matching, with the survey weight as a predictor) and pooled estimates with Rubin’s rules. In a survey-weighted modified Poisson model adjusted for age group, sex, and race and ethnicity, adults with a household income of $100,000 or more had a prevalence of diabetes 0.47 times that of adults earning less than $25,000 (95% confidence interval [CI] 0.44 to 0.50; joint test of income p &lt;0.001). In a complete-case analysis the prevalence ratio was 0.47 (95% CI 0.44 to 0.50).</p>
 </blockquote>
 <p>This is an illustrative analysis of cross-sectional, self-reported data. Adjustment does not make the association causal: illness can affect income, and unmeasured factors can affect both. The diabetes measure omits undiagnosed disease and pregnancy-only diabetes. The short imputation run and omitted geographic and stratum predictors need further evaluation before substantive reporting.</p>
-<section id="reporting-checklist" class="level3" data-number="8.5.1">
-<h3 data-number="8.5.1" class="anchored" data-anchor-id="reporting-checklist"><span class="header-section-number">8.5.1</span> Reporting checklist</h3>
+<section id="reporting-checklist" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="reporting-checklist"><span class="header-section-number">10.5.1</span> Reporting checklist</h3>
 <p>For any analysis of complex survey data, report:</p>
 <ul class="task-list">
 <li><label><input type="checkbox">the survey design (weights, strata, clusters) and that every estimate used it;</label></li>
@@ -795,9 +815,9 @@ complete-data degrees of freedom.</code></pre>
 </ul>
 </section>
 </section>
-<section id="exercise" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">8.6</span> Exercise</h2>
-<p>Repeat <a href="06-bivariate.html" class="quarto-xref"><span>Chapter 7</span></a> and this chapter for <strong>fair or poor general health</strong>: in <code>fit_each()</code>, add <code>fair_poor = as.integer(genhlth == "Fair" | genhlth == "Poor")</code> next to <code>diabetes_yes</code>, then replace <code>diabetes_yes</code> with <code>fair_poor</code> in every model formula. Everything else, including the imputed data, can be reused. Is the income gradient steeper or flatter than for diabetes? How much does adjustment for age change it, and why might that differ from diabetes?</p>
+<section id="exercise" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.6</span> Exercise</h2>
+<p>Repeat <a href="06-bivariate.html" class="quarto-xref"><span>Chapter 9</span></a> and this chapter for <strong>fair or poor general health</strong>: in <code>fit_each()</code>, add <code>fair_poor = as.integer(genhlth == "Fair" | genhlth == "Poor")</code> next to <code>diabetes_yes</code>, then replace <code>diabetes_yes</code> with <code>fair_poor</code> in every model formula. Everything else, including the imputed data, can be reused. Is the income gradient steeper or flatter than for diabetes? How much does adjustment for age change it, and why might that differ from diabetes?</p>
 
 
 </section>
@@ -1282,7 +1302,7 @@ complete-data degrees of freedom.</code></pre>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/survey/06-bivariate.html" class="pagination-link" aria-label="Bivariate Survey-Weighted Regression">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

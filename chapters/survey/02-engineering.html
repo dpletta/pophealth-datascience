@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Data Engineering: Stacking and Joining – Data Science for Population Health Sciences</title>
+<title>5&nbsp; Data Engineering: Stacking and Joining – Data Science for Population Health Sciences</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -153,7 +153,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/02-engineering.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/02-engineering.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -187,13 +187,19 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Getting started</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
+  <a href="../../chapters/setup/positron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Positron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Environments for R and Python</span></span></a>
   </div>
 </li>
       </ul>
@@ -201,49 +207,13 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
   </div>
 </li>
       </ul>
@@ -251,9 +221,59 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/survey/decisions.html" class="sidebar-item-text sidebar-link">
@@ -278,40 +298,40 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">3.1</span> Overview</a></li>
-  <li><a href="#sec-stacking" id="toc-sec-stacking" class="nav-link" data-scroll-target="#sec-stacking"><span class="header-section-number">3.2</span> Stacking questionnaire versions</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">5.1</span> Overview</a></li>
+  <li><a href="#sec-stacking" id="toc-sec-stacking" class="nav-link" data-scroll-target="#sec-stacking"><span class="header-section-number">5.2</span> Stacking questionnaire versions</a>
   <ul class="collapse">
-  <li><a href="#why-brfss-has-version-files" id="toc-why-brfss-has-version-files" class="nav-link" data-scroll-target="#why-brfss-has-version-files"><span class="header-section-number">3.2.1</span> Why BRFSS has version files</a></li>
-  <li><a href="#download-the-version-files-optional" id="toc-download-the-version-files-optional" class="nav-link" data-scroll-target="#download-the-version-files-optional"><span class="header-section-number">3.2.2</span> Download the version files (optional)</a></li>
-  <li><a href="#step-1-read-each-file-with-the-same-column-names" id="toc-step-1-read-each-file-with-the-same-column-names" class="nav-link" data-scroll-target="#step-1-read-each-file-with-the-same-column-names"><span class="header-section-number">3.2.3</span> Step 1: Read each file with the same column names</a></li>
-  <li><a href="#step-2-find-which-file-each-state-asked-the-module-in" id="toc-step-2-find-which-file-each-state-asked-the-module-in" class="nav-link" data-scroll-target="#step-2-find-which-file-each-state-asked-the-module-in"><span class="header-section-number">3.2.4</span> Step 2: Find which file each state asked the module in</a></li>
-  <li><a href="#step-3-stack-the-pieces" id="toc-step-3-stack-the-pieces" class="nav-link" data-scroll-target="#step-3-stack-the-pieces"><span class="header-section-number">3.2.5</span> Step 3: Stack the pieces</a></li>
-  <li><a href="#step-4-adjust-the-weights-for-states-with-more-than-one-version" id="toc-step-4-adjust-the-weights-for-states-with-more-than-one-version" class="nav-link" data-scroll-target="#step-4-adjust-the-weights-for-states-with-more-than-one-version"><span class="header-section-number">3.2.6</span> Step 4: Adjust the weights for states with more than one version</a></li>
-  <li><a href="#step-5-declare-the-survey-design" id="toc-step-5-declare-the-survey-design" class="nav-link" data-scroll-target="#step-5-declare-the-survey-design"><span class="header-section-number">3.2.7</span> Step 5: Declare the survey design</a></li>
+  <li><a href="#why-brfss-has-version-files" id="toc-why-brfss-has-version-files" class="nav-link" data-scroll-target="#why-brfss-has-version-files"><span class="header-section-number">5.2.1</span> Why BRFSS has version files</a></li>
+  <li><a href="#download-the-version-files-optional" id="toc-download-the-version-files-optional" class="nav-link" data-scroll-target="#download-the-version-files-optional"><span class="header-section-number">5.2.2</span> Download the version files (optional)</a></li>
+  <li><a href="#step-1-read-each-file-with-the-same-column-names" id="toc-step-1-read-each-file-with-the-same-column-names" class="nav-link" data-scroll-target="#step-1-read-each-file-with-the-same-column-names"><span class="header-section-number">5.2.3</span> Step 1: Read each file with the same column names</a></li>
+  <li><a href="#step-2-find-which-file-each-state-asked-the-module-in" id="toc-step-2-find-which-file-each-state-asked-the-module-in" class="nav-link" data-scroll-target="#step-2-find-which-file-each-state-asked-the-module-in"><span class="header-section-number">5.2.4</span> Step 2: Find which file each state asked the module in</a></li>
+  <li><a href="#step-3-stack-the-pieces" id="toc-step-3-stack-the-pieces" class="nav-link" data-scroll-target="#step-3-stack-the-pieces"><span class="header-section-number">5.2.5</span> Step 3: Stack the pieces</a></li>
+  <li><a href="#step-4-adjust-the-weights-for-states-with-more-than-one-version" id="toc-step-4-adjust-the-weights-for-states-with-more-than-one-version" class="nav-link" data-scroll-target="#step-4-adjust-the-weights-for-states-with-more-than-one-version"><span class="header-section-number">5.2.6</span> Step 4: Adjust the weights for states with more than one version</a></li>
+  <li><a href="#step-5-declare-the-survey-design" id="toc-step-5-declare-the-survey-design" class="nav-link" data-scroll-target="#step-5-declare-the-survey-design"><span class="header-section-number">5.2.7</span> Step 5: Declare the survey design</a></li>
   </ul></li>
-  <li><a href="#sec-lookup-join" id="toc-sec-lookup-join" class="nav-link" data-scroll-target="#sec-lookup-join"><span class="header-section-number">3.3</span> Joining a lookup table</a>
+  <li><a href="#sec-lookup-join" id="toc-sec-lookup-join" class="nav-link" data-scroll-target="#sec-lookup-join"><span class="header-section-number">5.3</span> Joining a lookup table</a>
   <ul class="collapse">
-  <li><a href="#step-1-import-the-lookup-table-and-check-its-key" id="toc-step-1-import-the-lookup-table-and-check-its-key" class="nav-link" data-scroll-target="#step-1-import-the-lookup-table-and-check-its-key"><span class="header-section-number">3.3.1</span> Step 1: Import the lookup table and check its key</a></li>
-  <li><a href="#step-2-look-for-codes-that-will-not-match" id="toc-step-2-look-for-codes-that-will-not-match" class="nav-link" data-scroll-target="#step-2-look-for-codes-that-will-not-match"><span class="header-section-number">3.3.2</span> Step 2: Look for codes that will not match</a></li>
-  <li><a href="#step-3-join" id="toc-step-3-join" class="nav-link" data-scroll-target="#step-3-join"><span class="header-section-number">3.3.3</span> Step 3: Join</a></li>
+  <li><a href="#step-1-import-the-lookup-table-and-check-its-key" id="toc-step-1-import-the-lookup-table-and-check-its-key" class="nav-link" data-scroll-target="#step-1-import-the-lookup-table-and-check-its-key"><span class="header-section-number">5.3.1</span> Step 1: Import the lookup table and check its key</a></li>
+  <li><a href="#step-2-look-for-codes-that-will-not-match" id="toc-step-2-look-for-codes-that-will-not-match" class="nav-link" data-scroll-target="#step-2-look-for-codes-that-will-not-match"><span class="header-section-number">5.3.2</span> Step 2: Look for codes that will not match</a></li>
+  <li><a href="#step-3-join" id="toc-step-3-join" class="nav-link" data-scroll-target="#step-3-join"><span class="header-section-number">5.3.3</span> Step 3: Join</a></li>
   </ul></li>
-  <li><a href="#sec-inner-join" id="toc-sec-inner-join" class="nav-link" data-scroll-target="#sec-inner-join"><span class="header-section-number">3.4</span> Inner join: keep only matches in both tables</a>
+  <li><a href="#sec-inner-join" id="toc-sec-inner-join" class="nav-link" data-scroll-target="#sec-inner-join"><span class="header-section-number">5.4</span> Inner join: keep only matches in both tables</a>
   <ul class="collapse">
-  <li><a href="#step-1-make-a-table-that-covers-fewer-states" id="toc-step-1-make-a-table-that-covers-fewer-states" class="nav-link" data-scroll-target="#step-1-make-a-table-that-covers-fewer-states"><span class="header-section-number">3.4.1</span> Step 1: Make a table that covers fewer states</a></li>
-  <li><a href="#step-2-join" id="toc-step-2-join" class="nav-link" data-scroll-target="#step-2-join"><span class="header-section-number">3.4.2</span> Step 2: Join</a></li>
-  <li><a href="#step-3-find-out-who-was-dropped" id="toc-step-3-find-out-who-was-dropped" class="nav-link" data-scroll-target="#step-3-find-out-who-was-dropped"><span class="header-section-number">3.4.3</span> Step 3: Find out who was dropped</a></li>
+  <li><a href="#step-1-make-a-table-that-covers-fewer-states" id="toc-step-1-make-a-table-that-covers-fewer-states" class="nav-link" data-scroll-target="#step-1-make-a-table-that-covers-fewer-states"><span class="header-section-number">5.4.1</span> Step 1: Make a table that covers fewer states</a></li>
+  <li><a href="#step-2-join" id="toc-step-2-join" class="nav-link" data-scroll-target="#step-2-join"><span class="header-section-number">5.4.2</span> Step 2: Join</a></li>
+  <li><a href="#step-3-find-out-who-was-dropped" id="toc-step-3-find-out-who-was-dropped" class="nav-link" data-scroll-target="#step-3-find-out-who-was-dropped"><span class="header-section-number">5.4.3</span> Step 3: Find out who was dropped</a></li>
   </ul></li>
-  <li><a href="#save-for-the-next-chapter" id="toc-save-for-the-next-chapter" class="nav-link" data-scroll-target="#save-for-the-next-chapter"><span class="header-section-number">3.5</span> Save for the next chapter</a></li>
-  <li><a href="#practice" id="toc-practice" class="nav-link" data-scroll-target="#practice"><span class="header-section-number">3.6</span> Practice</a></li>
+  <li><a href="#save-for-the-next-chapter" id="toc-save-for-the-next-chapter" class="nav-link" data-scroll-target="#save-for-the-next-chapter"><span class="header-section-number">5.5</span> Save for the next chapter</a></li>
+  <li><a href="#practice" id="toc-practice" class="nav-link" data-scroll-target="#practice"><span class="header-section-number">5.6</span> Practice</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/02-engineering.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/02-engineering.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-engineering" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></h1>
+<h1 class="title"><span id="sec-engineering" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></h1>
 </div>
 
 
@@ -357,8 +377,8 @@ window.Quarto = {
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">gsubfn.engine =</span> <span class="st">"R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="overview" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">3.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">5.1</span> Overview</h2>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -376,19 +396,19 @@ window.Quarto = {
 <li><strong>More people, with the same variables.</strong> Several questionnaire versions of the same survey, several survey years, or several sites. These files are <strong>stacked</strong>: their rows are placed one under the other with <code>dplyr::bind_rows()</code>, and their columns are lined up by name.</li>
 <li><strong>More variables, for the same people (or places).</strong> A table of state names and regions, area-level measures for each county, or a second instrument completed by the same respondents. These files are <strong>joined</strong>: their columns are added side by side with <code>dplyr::left_join()</code>, matching rows on a key.</li>
 </ul>
-<p><a href="#fig-stack-join" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> shows the difference.</p>
+<p><a href="#fig-stack-join" class="quarto-xref">Figure&nbsp;<span>5.1</span></a> shows the difference.</p>
 <div id="fig-stack-join" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Panel A stacks a main-file table and a version-1 table with the same three columns into one four-row table with a source column. Panel B left-joins a three-row respondent table to a two-row state lookup by STATE, keeping three rows and adding a region column.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-stack-join-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../../images/stacking-vs-joining.svg" class="img-fluid figure-img" style="width:100.0%" alt="Panel A stacks a main-file table and a version-1 table with the same three columns into one four-row table with a source column. Panel B left-joins a three-row respondent table to a two-row state lookup by STATE, keeping three rows and adding a region column.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stack-join-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.1: Stacking keeps the columns and adds rows; a left join keeps the rows and adds columns.
+Figure&nbsp;5.1: Stacking keeps the columns and adds rows; a left join keeps the rows and adds columns.
 </figcaption>
 </figure>
 </div>
 <p>Using a join where a stack is needed is a common mistake. If two questionnaire versions are joined on an identifier that never matches (for example, a key built as <code>paste(SEQNO, 1)</code> in one file and <code>paste(SEQNO, 2)</code> in the other), a full join keeps every row but treats each shared column as a different variable, so the result has <code>STATE.x</code>, <code>STATE.y</code>, and so on. Stacking the files gives one <code>STATE</code> column.</p>
-<p>The data-preparation chapter walks through all six kinds of joins with small tables (<a href="../data-preparation.html#fig-joins" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>). This chapter applies the three most common operations to BRFSS:</p>
+<p>The data-preparation chapter walks through all six kinds of joins with small tables (<a href="../data-preparation.html#fig-joins" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>). This chapter applies the three most common operations to BRFSS:</p>
 <ol type="1">
 <li>stacking the BRFSS questionnaire version files to analyze an optional module asked in different states on different versions;</li>
 <li>a left join that adds state names and Census regions to every respondent;</li>
@@ -398,10 +418,10 @@ Figure&nbsp;3.1: Stacking keeps the columns and adds rows; a left join keeps the
 </div>
 </div>
 </section>
-<section id="sec-stacking" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="sec-stacking"><span class="header-section-number">3.2</span> Stacking questionnaire versions</h2>
-<section id="why-brfss-has-version-files" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="why-brfss-has-version-files"><span class="header-section-number">3.2.1</span> Why BRFSS has version files</h3>
+<section id="sec-stacking" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-stacking"><span class="header-section-number">5.2</span> Stacking questionnaire versions</h2>
+<section id="why-brfss-has-version-files" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="why-brfss-has-version-files"><span class="header-section-number">5.2.1</span> Why BRFSS has version files</h3>
 <p>Every state asks the BRFSS <strong>core</strong> questions. States can also add <strong>optional modules</strong>, such as the Adverse Childhood Experiences (ACE) module, and some states split their sample across up to three <strong>questionnaire versions</strong> so that they can ask more modules, each of a part of their sample. CDC therefore releases:</p>
 <ul>
 <li>the <strong>main (combined) file</strong>, with every respondent, the core questions, and the modules a state asked on all of its versions, weighted with <code>_LLCPWT</code>;</li>
@@ -409,8 +429,8 @@ Figure&nbsp;3.1: Stacking keeps the columns and adds rows; a left join keeps the
 </ul>
 <p>To analyze a module, you need the respondents from every state that asked it, and each state’s respondents must come from the file in which it asked the module. That means stacking the pieces, each with its own weight. CDC explains the rules, with worked examples, in <em>Complex Sampling Weights and Preparing Module Data for Analysis</em>, published with each year’s data on the <a href="https://www.cdc.gov/brfss/annual_data/annual_data.htm">CDC BRFSS annual data page</a>. Read the version for your survey year before you start.</p>
 </section>
-<section id="download-the-version-files-optional" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="download-the-version-files-optional"><span class="header-section-number">3.2.2</span> Download the version files (optional)</h3>
+<section id="download-the-version-files-optional" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="download-the-version-files-optional"><span class="header-section-number">5.2.2</span> Download the version files (optional)</h3>
 <p>The rest of the book uses only the main file. To run this section, download the SAS transport files for questionnaire versions 1, 2 and 3 from the <a href="https://www.cdc.gov/brfss/annual_data/2024/llcp_multiq.html">CDC BRFSS 2024 multiple-questionnaire page</a>, unzip them, and save them in <code>data/brfss/raw/</code> as <code>LLCP24V1.XPT</code>, <code>LLCP24V2.XPT</code> and <code>LLCP24V3.XPT</code> (as with the main file, remove the trailing space from each unzipped file name). If the files are not there, the code in this section is shown but not run.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -434,8 +454,8 @@ Figure&nbsp;3.1: Stacking keeps the columns and adds rows; a left join keeps the
 </details>
 </div>
 </section>
-<section id="step-1-read-each-file-with-the-same-column-names" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="step-1-read-each-file-with-the-same-column-names"><span class="header-section-number">3.2.3</span> Step 1: Read each file with the same column names</h3>
+<section id="step-1-read-each-file-with-the-same-column-names" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="step-1-read-each-file-with-the-same-column-names"><span class="header-section-number">5.2.3</span> Step 1: Read each file with the same column names</h3>
 <p>To stack files, their columns must have the same names. Three things differ between the BRFSS files and are fixed as each file is read:</p>
 <ul>
 <li><strong>Underscore names.</strong> <code>_STATE</code>, <code>_STSTR</code>, and <code>_PSU</code> need backticks in every line of code. Renaming them once (to <code>STATE</code>, <code>STSTR</code>, <code>PSU</code>) avoids that.</li>
@@ -495,8 +515,8 @@ Figure&nbsp;3.1: Stacking keeps the columns and adds rows; a left join keeps the
 </div>
 </div>
 </section>
-<section id="step-2-find-which-file-each-state-asked-the-module-in" class="level3" data-number="3.2.4">
-<h3 data-number="3.2.4" class="anchored" data-anchor-id="step-2-find-which-file-each-state-asked-the-module-in"><span class="header-section-number">3.2.4</span> Step 2: Find which file each state asked the module in</h3>
+<section id="step-2-find-which-file-each-state-asked-the-module-in" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="step-2-find-which-file-each-state-asked-the-module-in"><span class="header-section-number">5.2.4</span> Step 2: Find which file each state asked the module in</h3>
 <p>A state asked the module in a file if its respondents in that file answered the item. The table below shows, for each state and file, how many respondents there are and what share answered the item.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -611,8 +631,8 @@ numeric(0)</code></pre>
 </div>
 </div>
 </section>
-<section id="step-3-stack-the-pieces" class="level3" data-number="3.2.5">
-<h3 data-number="3.2.5" class="anchored" data-anchor-id="step-3-stack-the-pieces"><span class="header-section-number">3.2.5</span> Step 3: Stack the pieces</h3>
+<section id="step-3-stack-the-pieces" class="level3" data-number="5.2.5">
+<h3 data-number="5.2.5" class="anchored" data-anchor-id="step-3-stack-the-pieces"><span class="header-section-number">5.2.5</span> Step 3: Stack the pieces</h3>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -647,8 +667,8 @@ numeric(0)</code></pre>
 </div>
 </div>
 </section>
-<section id="step-4-adjust-the-weights-for-states-with-more-than-one-version" class="level3" data-number="3.2.6">
-<h3 data-number="3.2.6" class="anchored" data-anchor-id="step-4-adjust-the-weights-for-states-with-more-than-one-version"><span class="header-section-number">3.2.6</span> Step 4: Adjust the weights for states with more than one version</h3>
+<section id="step-4-adjust-the-weights-for-states-with-more-than-one-version" class="level3" data-number="5.2.6">
+<h3 data-number="5.2.6" class="anchored" data-anchor-id="step-4-adjust-the-weights-for-states-with-more-than-one-version"><span class="header-section-number">5.2.6</span> Step 4: Adjust the weights for states with more than one version</h3>
 <p>Each version’s weight makes that version’s respondents represent the <strong>whole</strong> adult population of the state. A state that asked the module on two versions is therefore represented twice, once by each version’s respondents. To count it once, multiply each version’s weights by that version’s share of the state’s stacked sample, so that the shares within each state add up to 1:</p>
 <p><span class="math display">\[
 \text{FINALWT\_ADJ} = \text{FINALWT} \times
@@ -679,8 +699,8 @@ numeric(0)</code></pre>
 </div>
 <p>Make the adjustment <strong>right after stacking</strong>, before you drop any rows for missing answers or select a subgroup, so that the shares describe each version’s full sample in the state.</p>
 </section>
-<section id="step-5-declare-the-survey-design" class="level3" data-number="3.2.7">
-<h3 data-number="3.2.7" class="anchored" data-anchor-id="step-5-declare-the-survey-design"><span class="header-section-number">3.2.7</span> Step 5: Declare the survey design</h3>
+<section id="step-5-declare-the-survey-design" class="level3" data-number="5.2.7">
+<h3 data-number="5.2.7" class="anchored" data-anchor-id="step-5-declare-the-survey-design"><span class="header-section-number">5.2.7</span> Step 5: Declare the survey design</h3>
 <p>The stacked data use the adjusted weight with the same strata and PSUs as before. <code>nest = TRUE</code> tells the survey package that PSU codes repeat across strata.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -706,14 +726,14 @@ Data variables:
     (dbl), source (chr), n_state (int), n_version (int), FINALWT_ADJ (dbl)</code></pre>
 </div>
 </div>
-<p>From here, the module is analyzed exactly as the rest of this part of the book analyzes the main file: clean and recode the items (<a href="03-cleaning.html" class="quarto-xref"><span>Chapter 4</span></a>), then describe and model them with the design.</p>
+<p>From here, the module is analyzed exactly as the rest of this part of the book analyzes the main file: clean and recode the items (<a href="03-cleaning.html" class="quarto-xref"><span>Chapter 6</span></a>), then describe and model them with the design.</p>
 </section>
 </section>
-<section id="sec-lookup-join" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="sec-lookup-join"><span class="header-section-number">3.3</span> Joining a lookup table</h2>
+<section id="sec-lookup-join" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-lookup-join"><span class="header-section-number">5.3</span> Joining a lookup table</h2>
 <p>BRFSS stores each respondent’s state as a FIPS code (<code>_STATE</code>): 26 is Michigan and 39 is Ohio. A small lookup table, <code>data/lookup/states.csv</code>, gives each code a name, a postal abbreviation, and a US Census Bureau region. A <strong>left join</strong> adds those columns to every respondent and keeps every respondent, whether or not their code is in the lookup.</p>
-<section id="step-1-import-the-lookup-table-and-check-its-key" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="step-1-import-the-lookup-table-and-check-its-key"><span class="header-section-number">3.3.1</span> Step 1: Import the lookup table and check its key</h3>
+<section id="step-1-import-the-lookup-table-and-check-its-key" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="step-1-import-the-lookup-table-and-check-its-key"><span class="header-section-number">5.3.1</span> Step 1: Import the lookup table and check its key</h3>
 <p>The key is the column the join matches on. In the lookup, each code must appear exactly once; otherwise a respondent would match two rows and be duplicated (see the one-to-many example in the data-preparation chapter).</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -749,8 +769,8 @@ Data variables:
 </div>
 </div>
 </section>
-<section id="step-2-look-for-codes-that-will-not-match" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="step-2-look-for-codes-that-will-not-match"><span class="header-section-number">3.3.2</span> Step 2: Look for codes that will not match</h3>
+<section id="step-2-look-for-codes-that-will-not-match" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="step-2-look-for-codes-that-will-not-match"><span class="header-section-number">5.3.2</span> Step 2: Look for codes that will not match</h3>
 <p>An <strong>anti join</strong> returns the rows of the first table that have no match in the second. Run it in both directions before joining.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -780,10 +800,10 @@ Data variables:
 1   47  Tennessee         TN         South</code></pre>
 </div>
 </div>
-<p>Every respondent’s code is in the lookup. The lookup has one row with no respondents: Tennessee, which is not in the 2024 data (<a href="01-import.html" class="quarto-xref"><span>Chapter 2</span></a>).</p>
+<p>Every respondent’s code is in the lookup. The lookup has one row with no respondents: Tennessee, which is not in the 2024 data (<a href="01-import.html" class="quarto-xref"><span>Chapter 4</span></a>).</p>
 </section>
-<section id="step-3-join" class="level3" data-number="3.3.3">
-<h3 data-number="3.3.3" class="anchored" data-anchor-id="step-3-join"><span class="header-section-number">3.3.3</span> Step 3: Join</h3>
+<section id="step-3-join" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="step-3-join"><span class="header-section-number">5.3.3</span> Step 3: Join</h3>
 <p><code>relationship = "many-to-one"</code> states what we expect: many respondents share one state, and each state has one lookup row. If that is not true, <code>dplyr</code> stops with an error instead of quietly adding rows.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">dplyr</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">SQL</a></li></ul>
@@ -872,22 +892,22 @@ Data variables:
 </div>
 </section>
 </section>
-<section id="sec-inner-join" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="sec-inner-join"><span class="header-section-number">3.4</span> Inner join: keep only matches in both tables</h2>
-<p>A left join keeps every respondent. An <strong>inner join</strong> keeps only the rows whose key is in <strong>both</strong> tables: a respondent whose state has no row in the second table is dropped, without a warning. <a href="#fig-inner-join" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> shows the difference.</p>
+<section id="sec-inner-join" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-inner-join"><span class="header-section-number">5.4</span> Inner join: keep only matches in both tables</h2>
+<p>A left join keeps every respondent. An <strong>inner join</strong> keeps only the rows whose key is in <strong>both</strong> tables: a respondent whose state has no row in the second table is dropped, without a warning. <a href="#fig-inner-join" class="quarto-xref">Figure&nbsp;<span>5.2</span></a> shows the difference.</p>
 <div id="fig-inner-join" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A respondent table with states 26, 39 and 72 is joined to a state table that has rows for 26 and 39 only. The inner join returns two rows and drops the respondent from state 72. The left join returns all three rows, with NA as the region for state 72.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-inner-join-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="../../images/inner-join-states.svg" class="img-fluid figure-img" style="width:100.0%" alt="A respondent table with states 26, 39 and 72 is joined to a state table that has rows for 26 and 39 only. The inner join returns two rows and drops the respondent from state 72. The left join returns all three rows, with NA as the region for state 72.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-inner-join-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.2: An inner join drops the respondent whose state is not in the second table; a left join keeps that respondent with a blank region.
+Figure&nbsp;5.2: An inner join drops the respondent whose state is not in the second table; a left join keeps that respondent with a blank region.
 </figcaption>
 </figure>
 </div>
 <p>Inner joins are common when a second table covers only some places. Suppose an area-level table, such as one built from the American Community Survey, has a row for each of the 50 states and the District of Columbia but none for the territories. Here we make such a table from the lookup.</p>
-<section id="step-1-make-a-table-that-covers-fewer-states" class="level3" data-number="3.4.1">
-<h3 data-number="3.4.1" class="anchored" data-anchor-id="step-1-make-a-table-that-covers-fewer-states"><span class="header-section-number">3.4.1</span> Step 1: Make a table that covers fewer states</h3>
+<section id="step-1-make-a-table-that-covers-fewer-states" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="step-1-make-a-table-that-covers-fewer-states"><span class="header-section-number">5.4.1</span> Step 1: Make a table that covers fewer states</h3>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -898,8 +918,8 @@ Figure&nbsp;3.2: An inner join drops the respondent whose state is not in the se
 </details>
 </div>
 </section>
-<section id="step-2-join" class="level3" data-number="3.4.2">
-<h3 data-number="3.4.2" class="anchored" data-anchor-id="step-2-join"><span class="header-section-number">3.4.2</span> Step 2: Join</h3>
+<section id="step-2-join" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="step-2-join"><span class="header-section-number">5.4.2</span> Step 2: Join</h3>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">dplyr</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">SQL</a></li></ul>
 <div class="tab-content">
@@ -947,9 +967,9 @@ Figure&nbsp;3.2: An inner join drops the respondent whose state is not in the se
 </div>
 </div>
 </section>
-<section id="step-3-find-out-who-was-dropped" class="level3" data-number="3.4.3">
-<h3 data-number="3.4.3" class="anchored" data-anchor-id="step-3-find-out-who-was-dropped"><span class="header-section-number">3.4.3</span> Step 3: Find out who was dropped</h3>
-<p>An inner join reports nothing about the rows it drops, so count them yourself. The anti join from <a href="#sec-lookup-join" class="quarto-xref"><span>Section 3.3</span></a> lists them.</p>
+<section id="step-3-find-out-who-was-dropped" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="step-3-find-out-who-was-dropped"><span class="header-section-number">5.4.3</span> Step 3: Find out who was dropped</h3>
+<p>An inner join reports nothing about the rows it drops, so count them yourself. The anti join from <a href="#sec-lookup-join" class="quarto-xref"><span>Section 5.3</span></a> lists them.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -988,15 +1008,15 @@ Figure&nbsp;3.2: An inner join drops the respondent whose state is not in the se
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Dropping rows before the survey design is declared is a way of selecting a subgroup, and for survey data it is the wrong way. The design needs every respondent’s stratum and primary sampling unit to estimate standard errors correctly, even when an estimate is about a subgroup. Keep every respondent with a left join, declare the design, and then select the subgroup from the design object, as <a href="04-descriptives.html#sec-continuous-test" class="quarto-xref"><span>Section 5.5</span></a> does for respondents with a known income (for example, <code>design |&gt; dplyr::filter(census_region != "US territory")</code>).</p>
+<p>Dropping rows before the survey design is declared is a way of selecting a subgroup, and for survey data it is the wrong way. The design needs every respondent’s stratum and primary sampling unit to estimate standard errors correctly, even when an estimate is about a subgroup. Keep every respondent with a left join, declare the design, and then select the subgroup from the design object, as <a href="04-descriptives.html#sec-continuous-test" class="quarto-xref"><span>Section 7.5</span></a> does for respondents with a known income (for example, <code>design |&gt; dplyr::filter(census_region != "US territory")</code>).</p>
 <p>Dropping entire independently sampled strata can be a special case, but simply calling the joined result a new dataset does not fix its variance estimates. Subsetting the design is the safer general workflow.</p>
 </div>
 </div>
 <p>The next chapters use <code>brfss_joined</code>, the result of the left join, so every respondent is kept.</p>
 </section>
 </section>
-<section id="save-for-the-next-chapter" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="save-for-the-next-chapter"><span class="header-section-number">3.5</span> Save for the next chapter</h2>
+<section id="save-for-the-next-chapter" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="save-for-the-next-chapter"><span class="header-section-number">5.5</span> Save for the next chapter</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -1004,8 +1024,8 @@ Figure&nbsp;3.2: An inner join drops the respondent whose state is not in the se
 </details>
 </div>
 </section>
-<section id="practice" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="practice"><span class="header-section-number">3.6</span> Practice</h2>
+<section id="practice" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="practice"><span class="header-section-number">5.6</span> Practice</h2>
 <ol type="1">
 <li>In the stacking example, what would go wrong if Michigan were taken from both the main file and the version 1 file?</li>
 <li>Why must the weights be adjusted before rows with a missing module answer are dropped?</li>
@@ -1517,12 +1537,12 @@ Figure&nbsp;3.2: An inner join drops the respondent whose state is not in the se
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/survey/01-import.html" class="pagination-link" aria-label="Importing Survey Data">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/survey/03-cleaning.html" class="pagination-link" aria-label="Cleaning and Recoding">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

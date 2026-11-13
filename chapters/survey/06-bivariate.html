@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Bivariate Survey-Weighted Regression – Data Science for Population Health Sciences</title>
+<title>9&nbsp; Bivariate Survey-Weighted Regression – Data Science for Population Health Sciences</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -153,7 +153,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/06-bivariate.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/06-bivariate.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -187,13 +187,19 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Getting started</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
+  <a href="../../chapters/setup/positron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Positron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Environments for R and Python</span></span></a>
   </div>
 </li>
       </ul>
@@ -201,49 +207,13 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
   </div>
 </li>
       </ul>
@@ -251,9 +221,59 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/survey/decisions.html" class="sidebar-item-text sidebar-link">
@@ -278,20 +298,20 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prevalence-ratios" id="toc-prevalence-ratios" class="nav-link active" data-scroll-target="#prevalence-ratios"><span class="header-section-number">7.1</span> Prevalence ratios</a></li>
-  <li><a href="#fitting-and-pooling" id="toc-fitting-and-pooling" class="nav-link" data-scroll-target="#fitting-and-pooling"><span class="header-section-number">7.2</span> Fitting and pooling</a></li>
-  <li><a href="#rubins-rules-step-by-step" id="toc-rubins-rules-step-by-step" class="nav-link" data-scroll-target="#rubins-rules-step-by-step"><span class="header-section-number">7.3</span> Rubin’s rules, step by step</a></li>
-  <li><a href="#crude-prevalence-ratios-for-every-predictor" id="toc-crude-prevalence-ratios-for-every-predictor" class="nav-link" data-scroll-target="#crude-prevalence-ratios-for-every-predictor"><span class="header-section-number">7.4</span> Crude prevalence ratios for every predictor</a></li>
-  <li><a href="#save" id="toc-save" class="nav-link" data-scroll-target="#save"><span class="header-section-number">7.5</span> Save</a></li>
+  <li><a href="#prevalence-ratios" id="toc-prevalence-ratios" class="nav-link active" data-scroll-target="#prevalence-ratios"><span class="header-section-number">9.1</span> Prevalence ratios</a></li>
+  <li><a href="#fitting-and-pooling" id="toc-fitting-and-pooling" class="nav-link" data-scroll-target="#fitting-and-pooling"><span class="header-section-number">9.2</span> Fitting and pooling</a></li>
+  <li><a href="#rubins-rules-step-by-step" id="toc-rubins-rules-step-by-step" class="nav-link" data-scroll-target="#rubins-rules-step-by-step"><span class="header-section-number">9.3</span> Rubin’s rules, step by step</a></li>
+  <li><a href="#crude-prevalence-ratios-for-every-predictor" id="toc-crude-prevalence-ratios-for-every-predictor" class="nav-link" data-scroll-target="#crude-prevalence-ratios-for-every-predictor"><span class="header-section-number">9.4</span> Crude prevalence ratios for every predictor</a></li>
+  <li><a href="#save" id="toc-save" class="nav-link" data-scroll-target="#save"><span class="header-section-number">9.5</span> Save</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/06-bivariate.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/06-bivariate.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-bivariate" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></h1>
+<h1 class="title"><span id="sec-bivariate" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></h1>
 </div>
 
 
@@ -321,9 +341,9 @@ window.Quarto = {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>A bivariate (or “crude”, or “unadjusted”) model relates the outcome to one variable at a time. Crude associations describe the population; they are not causal effects, because other variables are not held constant. <a href="07-multivariable.html" class="quarto-xref"><span>Chapter 8</span></a> adjusts for them.</p>
-<section id="prevalence-ratios" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="prevalence-ratios"><span class="header-section-number">7.1</span> Prevalence ratios</h2>
+<p>A bivariate (or “crude”, or “unadjusted”) model relates the outcome to one variable at a time. Crude associations describe the population; they are not causal effects, because other variables are not held constant. <a href="07-multivariable.html" class="quarto-xref"><span>Chapter 10</span></a> adjusts for them.</p>
+<section id="prevalence-ratios" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="prevalence-ratios"><span class="header-section-number">9.1</span> Prevalence ratios</h2>
 <p>Our outcome is reported diagnosed diabetes excluding pregnancy-only diabetes (1 = yes, 0 = no, prediabetes, or pregnancy-only diabetes). We compare its <strong>prevalence</strong> between groups with the <strong>prevalence ratio</strong> (PR), reported with its 95% confidence interval (CI):</p>
 <p><span class="math display">\[
 \text{PR} = \frac{\text{prevalence of diabetes in a group}}{\text{prevalence of diabetes in the reference group}}
@@ -347,8 +367,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="fitting-and-pooling" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="fitting-and-pooling"><span class="header-section-number">7.2</span> Fitting and pooling</h2>
+<section id="fitting-and-pooling" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="fitting-and-pooling"><span class="header-section-number">9.2</span> Fitting and pooling</h2>
 <p>Three short functions do the work for every model in this chapter and the next:</p>
 <ul>
 <li><code>fit_each()</code> takes each of the 5 completed datasets in turn (<code>mice::complete(imputed, i)</code>), adds the 0/1 diabetes outcome, turns the dataset into a survey design, and fits the model. It keeps only what pooling needs: the estimates, their covariance matrix, and the residual degrees of freedom. Survey designs and model objects can be large, so each is discarded after extracting these quantities rather than retained for all 5 datasets.</li>
@@ -413,8 +433,8 @@ window.Quarto = {
 </details>
 </div>
 </section>
-<section id="rubins-rules-step-by-step" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="rubins-rules-step-by-step"><span class="header-section-number">7.3</span> Rubin’s rules, step by step</h2>
+<section id="rubins-rules-step-by-step" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="rubins-rules-step-by-step"><span class="header-section-number">9.3</span> Rubin’s rules, step by step</h2>
 <p>Here is the crude model for income, pooled:</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -455,8 +475,8 @@ window.Quarto = {
 </details>
 </div>
 </section>
-<section id="crude-prevalence-ratios-for-every-predictor" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="crude-prevalence-ratios-for-every-predictor"><span class="header-section-number">7.4</span> Crude prevalence ratios for every predictor</h2>
+<section id="crude-prevalence-ratios-for-every-predictor" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="crude-prevalence-ratios-for-every-predictor"><span class="header-section-number">9.4</span> Crude prevalence ratios for every predictor</h2>
 <p>The same three steps for each predictor:</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -574,10 +594,10 @@ window.Quarto = {
 </div>
 </div>
 <p>R names each coefficient by pasting the variable name and the group, so <code>income$25,000 to $49,999</code> compares that income group with the reference group. The reference groups are the first level of each variable: less than $25,000; ages 18-24; female; and non-Hispanic White.</p>
-<p>Diabetes prevalence falls with income and rises steeply with age. Age is also related to income, which is why the crude income gradient may change once age is held constant (<a href="07-multivariable.html" class="quarto-xref"><span>Chapter 8</span></a>).</p>
+<p>Diabetes prevalence falls with income and rises steeply with age. Age is also related to income, which is why the crude income gradient may change once age is held constant (<a href="07-multivariable.html" class="quarto-xref"><span>Chapter 10</span></a>).</p>
 </section>
-<section id="save" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="save"><span class="header-section-number">7.5</span> Save</h2>
+<section id="save" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="save"><span class="header-section-number">9.5</span> Save</h2>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Show / hide code</summary>
@@ -1068,12 +1088,12 @@ window.Quarto = {
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/survey/05-imputation.html" class="pagination-link" aria-label="Multiple Imputation with Survey Data">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/survey/07-multivariable.html" class="pagination-link" aria-label="Multivariable Survey-Weighted Regression">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

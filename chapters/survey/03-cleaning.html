@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Cleaning and Recoding – Data Science for Population Health Sciences</title>
+<title>6&nbsp; Cleaning and Recoding – Data Science for Population Health Sciences</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/03-cleaning.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/03-cleaning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -158,13 +158,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Getting started</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
+  <a href="../../chapters/setup/positron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Positron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Environments for R and Python</span></span></a>
   </div>
 </li>
       </ul>
@@ -172,49 +178,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
   </div>
 </li>
       </ul>
@@ -222,9 +192,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/survey/decisions.html" class="sidebar-item-text sidebar-link">
@@ -249,20 +269,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#step-1-declare-what-each-item-can-be" id="toc-step-1-declare-what-each-item-can-be" class="nav-link active" data-scroll-target="#step-1-declare-what-each-item-can-be"><span class="header-section-number">4.1</span> Step 1: Declare what each item can be</a></li>
-  <li><a href="#step-2-check-the-data-against-the-codebook" id="toc-step-2-check-the-data-against-the-codebook" class="nav-link" data-scroll-target="#step-2-check-the-data-against-the-codebook"><span class="header-section-number">4.2</span> Step 2: Check the data against the codebook</a></li>
-  <li><a href="#step-3-recode" id="toc-step-3-recode" class="nav-link" data-scroll-target="#step-3-recode"><span class="header-section-number">4.3</span> Step 3: Recode</a></li>
-  <li><a href="#step-4-check-the-recoding" id="toc-step-4-check-the-recoding" class="nav-link" data-scroll-target="#step-4-check-the-recoding"><span class="header-section-number">4.4</span> Step 4: Check the recoding</a></li>
-  <li><a href="#step-5-keep-the-analysis-variables-and-save" id="toc-step-5-keep-the-analysis-variables-and-save" class="nav-link" data-scroll-target="#step-5-keep-the-analysis-variables-and-save"><span class="header-section-number">4.5</span> Step 5: Keep the analysis variables and save</a></li>
+  <li><a href="#step-1-declare-what-each-item-can-be" id="toc-step-1-declare-what-each-item-can-be" class="nav-link active" data-scroll-target="#step-1-declare-what-each-item-can-be"><span class="header-section-number">6.1</span> Step 1: Declare what each item can be</a></li>
+  <li><a href="#step-2-check-the-data-against-the-codebook" id="toc-step-2-check-the-data-against-the-codebook" class="nav-link" data-scroll-target="#step-2-check-the-data-against-the-codebook"><span class="header-section-number">6.2</span> Step 2: Check the data against the codebook</a></li>
+  <li><a href="#step-3-recode" id="toc-step-3-recode" class="nav-link" data-scroll-target="#step-3-recode"><span class="header-section-number">6.3</span> Step 3: Recode</a></li>
+  <li><a href="#step-4-check-the-recoding" id="toc-step-4-check-the-recoding" class="nav-link" data-scroll-target="#step-4-check-the-recoding"><span class="header-section-number">6.4</span> Step 4: Check the recoding</a></li>
+  <li><a href="#step-5-keep-the-analysis-variables-and-save" id="toc-step-5-keep-the-analysis-variables-and-save" class="nav-link" data-scroll-target="#step-5-keep-the-analysis-variables-and-save"><span class="header-section-number">6.5</span> Step 5: Keep the analysis variables and save</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/03-cleaning.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/03-cleaning.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-cleaning" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></h1>
+<h1 class="title"><span id="sec-cleaning" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></h1>
 </div>
 
 
@@ -294,8 +314,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Recode explicitly.</strong> Map every value, including missing ones, by hand; never rely on a default to absorb something unexpected.</li>
 <li><strong>Count.</strong> Report how many answers each coding rule changes (<a href="decisions.html" class="quarto-xref"><span>Appendix A</span></a>).</li>
 </ol>
-<section id="step-1-declare-what-each-item-can-be" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="step-1-declare-what-each-item-can-be"><span class="header-section-number">4.1</span> Step 1: Declare what each item can be</h2>
+<section id="step-1-declare-what-each-item-can-be" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="step-1-declare-what-each-item-can-be"><span class="header-section-number">6.1</span> Step 1: Declare what each item can be</h2>
 <p>The values below come from the Centers for Disease Control and Prevention (CDC) <a href="https://www.cdc.gov/brfss/annual_data/annual_2024.html">BRFSS 2024 codebook</a>. BRFSS uses common codes for non-answers in these items: 7 (or 77) for “Don’t know/Not sure”, 9 (or 99) for “Refused”, and a blank (<code>NA</code> in R) for “Not asked or missing”.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -337,8 +357,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The 53 state codes are the 2024 codebook’s: the 50 states except Tennessee (47), plus the District of Columbia (11), Guam (66), Puerto Rico (72), and the US Virgin Islands (78).</p>
 </section>
-<section id="step-2-check-the-data-against-the-codebook" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="step-2-check-the-data-against-the-codebook"><span class="header-section-number">4.2</span> Step 2: Check the data against the codebook</h2>
+<section id="step-2-check-the-data-against-the-codebook" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="step-2-check-the-data-against-the-codebook"><span class="header-section-number">6.2</span> Step 2: Check the data against the codebook</h2>
 <p>A codebook can be wrong, and a file can change between releases. This check compares every observed value with the declaration and stops, naming each item and value, if anything else appears. It is silent when the data are as declared.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -394,12 +414,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="step-3-recode" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="step-3-recode"><span class="header-section-number">4.3</span> Step 3: Recode</h2>
+<section id="step-3-recode" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="step-3-recode"><span class="header-section-number">6.3</span> Step 3: Recode</h2>
 <p><code>dplyr::recode_values()</code> maps each code (left of <code>~</code>) to a value (right of <code>~</code>). With <code>unmatched = "error"</code>, any code we did not list stops the run, so nothing can slip through. <code>tidylog::mutate()</code> works like <code>dplyr::mutate()</code> but reports what each new variable looks like, including its share of missing values.</p>
 <p>Four decisions are built into this recoding (<a href="decisions.html" class="quarto-xref"><span>Appendix A</span></a> lists them with counts):</p>
 <ul>
-<li><strong>Non-answers become missing.</strong> “Don’t know”, “refused”, and blank do not supply a usable value, so they become <code>NA</code>. The reasons for missingness may still be informative. <a href="05-imputation.html" class="quarto-xref"><span>Chapter 6</span></a> fills in missing values under stated assumptions.</li>
+<li><strong>Non-answers become missing.</strong> “Don’t know”, “refused”, and blank do not supply a usable value, so they become <code>NA</code>. The reasons for missingness may still be informative. <a href="05-imputation.html" class="quarto-xref"><span>Chapter 8</span></a> fills in missing values under stated assumptions.</li>
 <li><strong>Define the outcome explicitly.</strong> A report of diabetes <em>only during pregnancy</em> (<code>DIABETE4 = 2</code>) is coded “No” for our outcome of reported diagnosed diabetes excluding pregnancy-only diabetes. This is a survey classification, not proof that the person has no diabetes now. Undiagnosed diabetes is not measured here.</li>
 <li><strong>Age and race and ethnicity come from CDC’s imputed versions.</strong> CDC fills the few missing answers for these weighting variables (<code>_AGE_G</code>, <code>_IMPRACE</code>), so they are never blank. Six age groups adjust for age much better than two.</li>
 <li><strong>Reference groups come first.</strong> The first level of each factor is the comparison group in the models: the lowest income group, ages 18-24, female, and non-Hispanic White (the largest group).</li>
@@ -588,8 +608,8 @@ mutate: new variable 'psu_id' (integer) with 457,670 unique values and 0% NA</co
 </div>
 </div>
 </section>
-<section id="step-4-check-the-recoding" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="step-4-check-the-recoding"><span class="header-section-number">4.4</span> Step 4: Check the recoding</h2>
+<section id="step-4-check-the-recoding" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="step-4-check-the-recoding"><span class="header-section-number">6.4</span> Step 4: Check the recoding</h2>
 <p>The <code>unmatched = "error"</code> arguments already guarantee that every code was mapped. Five more checks confirm the rules we rely on later, including that every PSU identifier sits in a single stratum, which lets the survey designs in later chapters skip their own (slow) check of the same thing.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -656,10 +676,10 @@ mutate: new variable 'psu_id' (integer) with 457,670 unique values and 0% NA</co
 14 INCOME3    NA &lt;NA&gt;                9269</code></pre>
 </div>
 </div>
-<p>Income is missing for 87,423 respondents (19.1%): more than any other variable in this book. <a href="04-descriptives.html" class="quarto-xref"><span>Chapter 5</span></a> looks at who they are.</p>
+<p>Income is missing for 87,423 respondents (19.1%): more than any other variable in this book. <a href="04-descriptives.html" class="quarto-xref"><span>Chapter 7</span></a> looks at who they are.</p>
 </section>
-<section id="step-5-keep-the-analysis-variables-and-save" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="step-5-keep-the-analysis-variables-and-save"><span class="header-section-number">4.5</span> Step 5: Keep the analysis variables and save</h2>
+<section id="step-5-keep-the-analysis-variables-and-save" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="step-5-keep-the-analysis-variables-and-save"><span class="header-section-number">6.5</span> Step 5: Keep the analysis variables and save</h2>
 <p><code>tidylog::select()</code> keeps the recoded variables, renames the design variables so they no longer need backticks, and drops the raw codes.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -1203,12 +1223,12 @@ $ employment   &lt;fct&gt; Retired, Retired, Employed, Retired, Unable to work, 
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/survey/02-engineering.html" class="pagination-link" aria-label="Data Engineering: Stacking and Joining">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/survey/04-descriptives.html" class="pagination-link" aria-label="Survey-Weighted Descriptive Statistics">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Importing Survey Data – Data Science for Population Health Sciences</title>
+<title>4&nbsp; Importing Survey Data – Data Science for Population Health Sciences</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -158,13 +158,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-1-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Getting started</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
+  <a href="../../chapters/setup/positron.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Install Positron</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Environments for R and Python</span></span></a>
   </div>
 </li>
       </ul>
@@ -172,49 +178,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-2-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Foundations</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  <a href="../../chapters/data-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span></a>
   </div>
 </li>
       </ul>
@@ -222,9 +192,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text" id="quarto-sidebar-section-3-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Survey-weighted analysis with BRFSS 2024</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/01-import.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/02-engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/03-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning and Recoding</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/04-descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey-Weighted Descriptive Statistics</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/05-imputation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multiple Imputation with Survey Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/06-bivariate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bivariate Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/07-multivariable.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/survey/decisions.html" class="sidebar-item-text sidebar-link">
@@ -249,21 +269,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">2.1</span> Overview</a></li>
-  <li><a href="#the-behavioral-risk-factor-surveillance-system" id="toc-the-behavioral-risk-factor-surveillance-system" class="nav-link" data-scroll-target="#the-behavioral-risk-factor-surveillance-system"><span class="header-section-number">2.2</span> The Behavioral Risk Factor Surveillance System</a></li>
-  <li><a href="#download-the-data-run-once" id="toc-download-the-data-run-once" class="nav-link" data-scroll-target="#download-the-data-run-once"><span class="header-section-number">2.3</span> Download the data (run once)</a></li>
-  <li><a href="#read-only-the-columns-we-need" id="toc-read-only-the-columns-we-need" class="nav-link" data-scroll-target="#read-only-the-columns-we-need"><span class="header-section-number">2.4</span> Read only the columns we need</a></li>
-  <li><a href="#save-for-the-next-chapter" id="toc-save-for-the-next-chapter" class="nav-link" data-scroll-target="#save-for-the-next-chapter"><span class="header-section-number">2.5</span> Save for the next chapter</a></li>
-  <li><a href="#how-the-code-in-this-part-is-written" id="toc-how-the-code-in-this-part-is-written" class="nav-link" data-scroll-target="#how-the-code-in-this-part-is-written"><span class="header-section-number">2.6</span> How the code in this part is written</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">4.1</span> Overview</a></li>
+  <li><a href="#the-behavioral-risk-factor-surveillance-system" id="toc-the-behavioral-risk-factor-surveillance-system" class="nav-link" data-scroll-target="#the-behavioral-risk-factor-surveillance-system"><span class="header-section-number">4.2</span> The Behavioral Risk Factor Surveillance System</a></li>
+  <li><a href="#download-the-data-run-once" id="toc-download-the-data-run-once" class="nav-link" data-scroll-target="#download-the-data-run-once"><span class="header-section-number">4.3</span> Download the data (run once)</a></li>
+  <li><a href="#read-only-the-columns-we-need" id="toc-read-only-the-columns-we-need" class="nav-link" data-scroll-target="#read-only-the-columns-we-need"><span class="header-section-number">4.4</span> Read only the columns we need</a></li>
+  <li><a href="#save-for-the-next-chapter" id="toc-save-for-the-next-chapter" class="nav-link" data-scroll-target="#save-for-the-next-chapter"><span class="header-section-number">4.5</span> Save for the next chapter</a></li>
+  <li><a href="#how-the-code-in-this-part-is-written" id="toc-how-the-code-in-this-part-is-written" class="nav-link" data-scroll-target="#how-the-code-in-this-part-is-written"><span class="header-section-number">4.6</span> How the code in this part is written</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html">Survey-weighted analysis with BRFSS 2024</a></li><li class="breadcrumb-item"><a href="../../chapters/survey/01-import.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-import" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></h1>
+<h1 class="title"><span id="sec-import" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Importing Survey Data</span></span></h1>
 </div>
 
 
@@ -298,8 +318,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="overview" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">2.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -315,21 +335,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The chapters in this part of the book walk through one complete analysis of complex survey data in R, from downloading a raw file to reporting a multivariable model:</p>
 <ol type="1">
 <li>importing a large survey file (this chapter);</li>
-<li>data engineering: stacking survey files and joining a lookup table (<a href="02-engineering.html" class="quarto-xref"><span>Chapter 3</span></a>);</li>
-<li>cleaning and recoding with explicit checks (<a href="03-cleaning.html" class="quarto-xref"><span>Chapter 4</span></a>);</li>
-<li>survey-weighted descriptive statistics (<a href="04-descriptives.html" class="quarto-xref"><span>Chapter 5</span></a>);</li>
-<li>multiple imputation (MI) of missing data, with a discussion of survey-design assumptions (<a href="05-imputation.html" class="quarto-xref"><span>Chapter 6</span></a>);</li>
-<li>bivariate (crude) survey-weighted regression (<a href="06-bivariate.html" class="quarto-xref"><span>Chapter 7</span></a>);</li>
-<li>multivariable (adjusted) survey-weighted regression, a sensitivity analysis, and reporting (<a href="07-multivariable.html" class="quarto-xref"><span>Chapter 8</span></a>).</li>
+<li>data engineering: stacking survey files and joining a lookup table (<a href="02-engineering.html" class="quarto-xref"><span>Chapter 5</span></a>);</li>
+<li>cleaning and recoding with explicit checks (<a href="03-cleaning.html" class="quarto-xref"><span>Chapter 6</span></a>);</li>
+<li>survey-weighted descriptive statistics (<a href="04-descriptives.html" class="quarto-xref"><span>Chapter 7</span></a>);</li>
+<li>multiple imputation (MI) of missing data, with a discussion of survey-design assumptions (<a href="05-imputation.html" class="quarto-xref"><span>Chapter 8</span></a>);</li>
+<li>bivariate (crude) survey-weighted regression (<a href="06-bivariate.html" class="quarto-xref"><span>Chapter 9</span></a>);</li>
+<li>multivariable (adjusted) survey-weighted regression, a sensitivity analysis, and reporting (<a href="07-multivariable.html" class="quarto-xref"><span>Chapter 10</span></a>).</li>
 </ol>
 <p><strong>The question.</strong> Is household income associated with reported diagnosed diabetes among adults in the participating BRFSS jurisdictions? Diabetes is common, costly, and unequally distributed. Income shapes access to healthy food, safe places to be active, health care, and the time and resources to manage a chronic condition. We estimate how the prevalence of diabetes differs across income groups, before and after accounting for age, sex, and race and ethnicity.</p>
-<p>These chapters assume you have worked through <a href="../data-preparation.html" class="quarto-xref"><span>Chapter 1</span></a>, or are comfortable with <code>dplyr</code> verbs and joins, and that you know the basics of regression.</p>
+<p>These chapters assume you have worked through <a href="../data-preparation.html" class="quarto-xref"><span>Chapter 3</span></a>, or are comfortable with <code>dplyr</code> verbs and joins, and that you know the basics of regression.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="the-behavioral-risk-factor-surveillance-system" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="the-behavioral-risk-factor-surveillance-system"><span class="header-section-number">2.2</span> The Behavioral Risk Factor Surveillance System</h2>
+<section id="the-behavioral-risk-factor-surveillance-system" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="the-behavioral-risk-factor-surveillance-system"><span class="header-section-number">4.2</span> The Behavioral Risk Factor Surveillance System</h2>
 <p>The <a href="https://www.cdc.gov/brfss/">Behavioral Risk Factor Surveillance System</a> (BRFSS) is the largest continuously running health survey in the world. Every year, the Centers for Disease Control and Prevention (CDC) and the states interview hundreds of thousands of US adults by landline and cell phone about their health conditions, health behaviors, and use of health care. In 2024, 457,670 adults in 49 states, the District of Columbia, Guam, Puerto Rico, and the US Virgin Islands completed the interview (Tennessee did not collect enough data to be included).</p>
 <p>The target is noninstitutionalized adults aged 18 or older in these participating jurisdictions. The combined results include the territories and exclude Tennessee; they are not estimates for all 50 states and DC. See the <a href="https://www.cdc.gov/brfss/annual_data/2024/pdf/Overview_2024-508.pdf">2024 survey overview</a>.</p>
 <p>BRFSS is a <strong>complex survey</strong>:</p>
@@ -338,10 +358,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Primary sampling units (PSUs).</strong> Within a stratum, phone numbers are sampled. In BRFSS each respondent is their own PSU.</li>
 <li><strong>Weights.</strong> People are sampled with different probabilities and respond at different rates. CDC’s final weight (<code>_LLCPWT</code>) adjusts for selection and nonresponse and makes the weighted sample match each state’s adult population by age, sex, race and ethnicity, education, and other characteristics (“raking”).</li>
 </ul>
-<p>Every estimate in these chapters uses all three. <a href="04-descriptives.html" class="quarto-xref"><span>Chapter 5</span></a> shows what happens when they are ignored.</p>
+<p>Every estimate in these chapters uses all three. <a href="04-descriptives.html" class="quarto-xref"><span>Chapter 7</span></a> shows what happens when they are ignored.</p>
 </section>
-<section id="download-the-data-run-once" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="download-the-data-run-once"><span class="header-section-number">2.3</span> Download the data (run once)</h2>
+<section id="download-the-data-run-once" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="download-the-data-run-once"><span class="header-section-number">4.3</span> Download the data (run once)</h2>
 <p>CDC distributes the data as a zipped SAS transport file (<code>.XPT</code>), a format that stores a SAS dataset in a portable way. Allow several gigabytes for the downloads, extracted files, and analysis outputs; file sizes can change between releases.</p>
 <p>Run the chunk below <strong>once</strong>, by hand, from the R console in the book’s root folder (it is not run when the book is rendered). It saves <code>data/brfss/raw/LLCP2024.XPT</code>. Raw data, processed data and caches are excluded from Git.</p>
 <div class="cell">
@@ -372,17 +392,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You can also download the zip file from the <a href="https://www.cdc.gov/brfss/annual_data/annual_2024.html">CDC BRFSS 2024 page</a> (“2024 BRFSS Data (SAS Transport Format)”), unzip it, and save the file as <code>data/brfss/raw/LLCP2024.XPT</code>. The same page has the codebook, which lists every variable, its question, and its codes, and the questionnaire version files used in <a href="02-engineering.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
+<p>You can also download the zip file from the <a href="https://www.cdc.gov/brfss/annual_data/annual_2024.html">CDC BRFSS 2024 page</a> (“2024 BRFSS Data (SAS Transport Format)”), unzip it, and save the file as <code>data/brfss/raw/LLCP2024.XPT</code>. The same page has the codebook, which lists every variable, its question, and its codes, and the questionnaire version files used in <a href="02-engineering.html" class="quarto-xref"><span>Chapter 5</span></a>.</p>
 </div>
 </div>
 </section>
-<section id="read-only-the-columns-we-need" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="read-only-the-columns-we-need"><span class="header-section-number">2.4</span> Read only the columns we need</h2>
+<section id="read-only-the-columns-we-need" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="read-only-the-columns-we-need"><span class="header-section-number">4.4</span> Read only the columns we need</h2>
 <p>The file has 301 columns. We need 14, so we read only those with <code>col_select</code>. This keeps memory use low and makes reading fast. It does not change the survey design: every one of the 457,670 respondents is kept, with their weight, stratum, and PSU.</p>
 <div id="tbl-variables" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2.1: The 14 variables used in these chapters
+Table&nbsp;4.1: The 14 variables used in these chapters
 </figcaption>
 <div aria-describedby="tbl-variables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -427,7 +447,7 @@ Table&nbsp;2.1: The 14 variables used in these chapters
 <tr class="even">
 <td>Auxiliary variables</td>
 <td><code>EDUCA</code>, <code>EMPLOY1</code></td>
-<td>Education; employment (used only to help impute income in <a href="05-imputation.html" class="quarto-xref"><span>Chapter 6</span></a>)</td>
+<td>Education; employment (used only to help impute income in <a href="05-imputation.html" class="quarto-xref"><span>Chapter 8</span></a>)</td>
 </tr>
 </tbody>
 </table>
@@ -481,10 +501,10 @@ $ `_AGE80`   &lt;dbl&gt; 78, 80, 59, 80, 47, 54, 71, 68, 70, 80, 72, 80, 71, 80,
 $ `_AGE_G`   &lt;dbl&gt; 6, 6, 5, 6, 4, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5,…</code></pre>
 </div>
 </div>
-<p>Every column is numeric, but most answers are category codes, such as 1 for “Yes” and 7 for “Don’t know”. <a href="03-cleaning.html" class="quarto-xref"><span>Chapter 4</span></a> turns those codes into labeled categories and keeps <code>_AGE80</code> as numeric age for the continuous-variable example.</p>
+<p>Every column is numeric, but most answers are category codes, such as 1 for “Yes” and 7 for “Don’t know”. <a href="03-cleaning.html" class="quarto-xref"><span>Chapter 6</span></a> turns those codes into labeled categories and keeps <code>_AGE80</code> as numeric age for the continuous-variable example.</p>
 </section>
-<section id="save-for-the-next-chapter" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="save-for-the-next-chapter"><span class="header-section-number">2.5</span> Save for the next chapter</h2>
+<section id="save-for-the-next-chapter" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="save-for-the-next-chapter"><span class="header-section-number">4.5</span> Save for the next chapter</h2>
 <p>Quarto runs each chapter of this book in a fresh R session, so each chapter saves what the next one needs. An <code>.rds</code> file stores one R object exactly as it is in memory.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -493,8 +513,8 @@ $ `_AGE_G`   &lt;dbl&gt; 6, 6, 5, 6, 4, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6
 </details>
 </div>
 </section>
-<section id="how-the-code-in-this-part-is-written" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="how-the-code-in-this-part-is-written"><span class="header-section-number">2.6</span> How the code in this part is written</h2>
+<section id="how-the-code-in-this-part-is-written" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="how-the-code-in-this-part-is-written"><span class="header-section-number">4.6</span> How the code in this part is written</h2>
 <ul>
 <li>Functions from add-on packages use their package name, as in <code>dplyr::mutate()</code>; base R functions such as <code>readRDS()</code> are used directly.</li>
 <li><code>|&gt;</code> is R’s pipe: <code>x |&gt; f()</code> means <code>f(x)</code>.</li>
@@ -985,12 +1005,12 @@ $ `_AGE_G`   &lt;dbl&gt; 6, 6, 5, 6, 4, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/data-preparation.html" class="pagination-link" aria-label="Data Preparation and Data Engineering">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Preparation and Data Engineering</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/survey/02-engineering.html" class="pagination-link" aria-label="Data Engineering: Stacking and Joining">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Engineering: Stacking and Joining</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
