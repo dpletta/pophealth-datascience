@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 343" role="img" aria-labelledby="title desc">
+<title id="title">One participant, two matching visits</title><desc id="desc">Participant 001 matches visits V01 and V02. The left join repeats participant 001 twice, changing the unit from one person to participant-visit rows.</desc>
+<rect width="960" height="343" fill="#ffffff"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#11666b"/></marker></defs>
+<text x="28" y="39" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#193549" font-weight="bold" text-anchor="start">One-to-many: a left join can increase the row count</text>
+<text x="28" y="78" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#11666b" font-weight="bold" text-anchor="start">One participant</text>
+<rect x="28" y="96" width="206" height="62" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="28" y="96" width="206" height="31" fill="#193549"/>
+<text x="38.0" y="118" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="141.0" y="118" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<rect x="29" y="127" width="204" height="31" fill="#edf6f5"/>
+<text x="38.0" y="149" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="141.0" y="149" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">C01</text>
+<text x="302" y="78" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#11666b" font-weight="bold" text-anchor="start">Two visits</text>
+<rect x="302" y="96" width="266" height="93" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="302" y="96" width="266" height="31" fill="#193549"/>
+<text x="312.0" y="118" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="445.0" y="118" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">visit_id</text>
+<rect x="303" y="127" width="264" height="31" fill="#edf6f5"/>
+<text x="312.0" y="149" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="445.0" y="149" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">V01</text>
+<text x="312.0" y="180" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="445.0" y="180" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">V02</text>
+<text x="636" y="78" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#11666b" font-weight="bold" text-anchor="start">Two joined rows</text>
+<rect x="636" y="96" width="296" height="93" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="636" y="96" width="296" height="31" fill="#193549"/>
+<text x="646.0" y="118" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="744.6666666666666" y="118" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<text x="843.3333333333334" y="118" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">visit_id</text>
+<rect x="637" y="127" width="294" height="31" fill="#edf6f5"/>
+<text x="646.0" y="149" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="744.6666666666666" y="149" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">C01</text>
+<text x="843.3333333333334" y="149" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">V01</text>
+<text x="646.0" y="180" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="744.6666666666666" y="180" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">C01</text>
+<text x="843.3333333333334" y="180" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">V02</text>
+<path d="M245 139 L287 139" stroke="#11666b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M581 139 L621 139" stroke="#11666b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="28" y="236" width="904" height="75" rx="10" fill="#edf6f5" stroke="#b5cbd1"/>
+<text x="46" y="265" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#193549" font-weight="bold" text-anchor="start">If you need one row per person, summarize visits by participant_id first.</text>
+<text x="46" y="292" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#253746" font-weight="normal" text-anchor="start">Then join that one-row-per-person summary back to the roster.</text>
+</svg>
