@@ -1,0 +1,74 @@
+# Builds the book on GitHub.
+#
+# - A pull request gets its own preview, rebuilt on every push, at
+#   https://dpletta.github.io/pophealth-datascience/pr-preview/pr-<number>/
+#   The link is posted as a comment on the pull request and removed when it closes.
+# - A push to main (for example, merging a pull request) rebuilds and updates the
+#   published book at https://dpletta.github.io/pophealth-datascience/
+#
+# The survey chapters are not re-run here: the BRFSS files are not on GitHub, so their
+# stored results in _freeze/ are used. If you change a survey chapter, render it on a
+# computer with the data and commit _freeze/, or this build fails.
+name: Book
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  workflow_dispatch:
+
+# One build at a time per pull request or branch; a newer push replaces an older build.
+concurrency:
+  group: book-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  book:
+    runs-on: ubuntu-latest
+    # Pull requests from forks cannot write to this repository, so they get no preview.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        if: github.event.action != 'closed'
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Set up R (the version in renv.lock)
+        if: github.event.action != 'closed'
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: renv
+          use-public-rspm: true
+
+      - name: Restore R packages from renv.lock
+        if: github.event.action != 'closed'
+        uses: r-lib/actions/setup-renv@v2
+
+      - name: Render the book
+        if: github.event.action != 'closed'
+        run: |
+          quarto render
+          touch _book/.nojekyll
+
+      - name: Deploy or remove the pull request preview
+        if: github.event_name == 'pull_request'
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: _book
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+
+      - name: Publish the book
+        if: github.event_name != 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _book
+          branch: gh-pages
+          # Keep the pull request previews when the published book is replaced.
+          clean-exclude: pr-preview/
