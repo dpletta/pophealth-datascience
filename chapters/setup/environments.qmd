@@ -105,6 +105,15 @@ By default, `renv::snapshot()` records the packages your project's files use, an
 packages those depend on. A package you installed but never used is left out. This
 keeps the lockfile to what the analysis needs.
 
+To render Quarto documents that contain R chunks, the project library also needs
+**knitr** and **rmarkdown**. A new renv environment does not have them, and
+`quarto render` stops with "The knitr package is not available" until you add them:
+
+```{.r}
+renv::install(c("knitr", "rmarkdown"))
+renv::snapshot()
+```
+
 Two commands help you keep track:
 
 ```{.r}
@@ -133,8 +142,8 @@ project's `renv/` folder:
 .libPaths()
 ```
 
-Quarto starts R in the project folder too, so `quarto render` uses the project library
-without any extra step.
+Quarto starts R in the project folder too, so `quarto render` uses the project
+library, provided knitr and rmarkdown are installed in it (see "Add packages" above).
 
 :::
 
@@ -362,10 +371,11 @@ appears when you add the first package.
 
 ```{.bash}
 pixi add python=3.13 pandas jupyter
-pixi add r-base r-dplyr
+pixi add r-base r-dplyr r-knitr r-rmarkdown
 ```
 
-`python` and `r-base` are the languages themselves. Each `pixi add` updates
+`python` and `r-base` are the languages themselves. `jupyter` lets Quarto run Python
+chunks; `r-knitr` and `r-rmarkdown` let it run R chunks. Each `pixi add` updates
 `pixi.toml`, records exact versions in the lockfile `pixi.lock`, and installs into a
 hidden `.pixi` folder.
 
@@ -464,6 +474,14 @@ print(sys.prefix)
 
 With renv, the library path should be inside the project's `renv/` folder. With uv,
 `sys.prefix` should end in `.venv`. With pixi, it should end in `.pixi/envs/default`.
+
+For R inside a pixi environment, check `R.home()` instead, which should be inside the
+`.pixi` folder. `.libPaths()` can list a personal library first if your computer also
+has an ordinary installation of the same R version, so pixi's R is less sealed off
+from the rest of your computer than an renv project is.
+
+If an R chunk fails with "The knitr package is not available", install knitr and
+rmarkdown into the environment, as shown in the renv and pixi sections.
 
 If a Python chunk fails, or reports a Python from somewhere else on your computer,
 work through this list:
