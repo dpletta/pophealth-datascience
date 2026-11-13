@@ -15,6 +15,10 @@ book:
   subtitle: "Practical walkthroughs in R"
   chapters:
     - index.qmd
+    - part: "Getting started"
+      chapters:
+        - chapters/setup/positron.qmd
+        - chapters/setup/environments.qmd
     - part: "Foundations"
       chapters:
         - chapters/data-preparation.qmd

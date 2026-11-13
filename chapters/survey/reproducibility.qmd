@@ -12,7 +12,8 @@ settings. The steps below record those inputs and control the random-number stre
 ## The same packages
 
 R packages change between versions, and a new version can change a result. Open
-the project's `.Rproj` file to activate renv, then restore the versions in
+the book's folder in Positron, or its `.Rproj` file in RStudio, to activate renv
+(see @sec-environments), then restore the versions in
 `renv.lock` from the R console:
 
 ```{.r}

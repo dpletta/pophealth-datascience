@@ -35,7 +35,8 @@ descriptive summaries; these are **not findings about a real population**.
 
 ::: {.callout-note collapse="false" title="Packages, paths, and a few R conventions"}
 
-Open the project's `.Rproj` file to activate renv, then restore the recorded
+Open the book's folder in Positron, or its `.Rproj` file in RStudio, to activate renv
+(see @sec-environments), then restore the recorded
 packages in your **R console** before rendering the book. The lockfile records
 R 4.6.2; install R and Quarto separately. This displayed command does not run
 during rendering:
@@ -48,7 +49,7 @@ renv::restore()
 tables; and `rmarkdown` supports Quarto's R execution. We use base R to read and
 write CSV files. Quarto itself is installed separately.
 
-Open the supplied `.Rproj` file, or start R in the folder containing
+Open the book's folder in Positron or the supplied `.Rproj` file, or start R in the folder containing
 `_quarto.yml`. During rendering, `execute-dir: project` makes paths resolve from
 that folder. For example, `data/raw/participants.csv` means a file inside this
 book, not a location elsewhere on your computer.

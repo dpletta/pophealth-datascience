@@ -1,10 +1,12 @@
 # Data Science for Population Health Sciences
 
-A Quarto book of beginner-friendly, annotated R walkthroughs in two parts:
+A Quarto book of beginner-friendly, annotated R walkthroughs in three parts:
 
-1. **Foundations.** Data preparation, SQL with `sqldf()`, dplyr queries, and joins, on
+1. **Getting started.** Installing Positron, R, and Quarto, and managing project
+   environments with renv, uv, and pixi.
+2. **Foundations.** Data preparation, SQL with `sqldf()`, dplyr queries, and joins, on
    small fictional files.
-2. **Survey-weighted analysis with BRFSS 2024.** A complete analysis of the 2024
+3. **Survey-weighted analysis with BRFSS 2024.** A complete analysis of the 2024
    Behavioral Risk Factor Surveillance System (BRFSS): importing, data engineering
    (stacking questionnaire versions and joining a lookup table), cleaning, survey-weighted
    descriptive statistics, multiple imputation, and bivariate and multivariable
@@ -107,6 +109,9 @@ No packages are installed and no research data are downloaded during rendering.
 
 - `_quarto.yml`: title, chapter order, and HTML settings.
 - `index.qmd`: reader introduction.
+- `chapters/setup/`: the Getting started chapters (Positron; project environments).
+  Their commands are displayed, not run, so rendering never creates or deletes an
+  environment.
 - `chapters/data-preparation.qmd`: all instructional R and SQL code, in order.
 - `chapters/survey/`: the survey-weighted chapters, their appendices (coding decisions;
   reproducibility), and `_common.R`, the settings every survey chapter uses.

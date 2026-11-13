@@ -1,0 +1,196 @@
+# Install Positron {#sec-positron}
+
+## Overview
+
+::: {.callout-note collapse="false" title="The task: one place to write, run, and render"}
+
+The walkthroughs in this book are Quarto documents that run R, and later Python. You
+need a program in which to open them, run their code, and render them.
+[Positron](https://positron.posit.co/) is a free editor from Posit, the company that
+makes RStudio. It runs R and Python side by side and works with Quarto, so the same
+steps apply whichever language a chapter uses.
+
+By the end of this chapter, you will be able to:
+
+1. Install Positron, R, and Quarto, and decide how to install Python.
+2. Open a project folder and find the console, the terminal, and the interpreter
+   picker.
+3. Tell the **console** apart from the **terminal**, which matters for every command
+   in the next chapter.
+
+You can follow the book in RStudio or another editor instead. The R code is the same;
+only the menus differ.
+
+:::
+
+## Step 1: Download and install Positron
+
+::: {.callout-note collapse="false" title="Pick the installer for your computer"}
+
+Download the installer from <https://positron.posit.co/download.html>.
+
+| Computer | What Positron needs | Installer |
+|---|---|---|
+| Mac | macOS 11 or later | `.dmg` for Apple Silicon (M-series) or for Intel |
+| Windows | Windows 10 or later (Windows 11 on ARM) | `.exe`; choose the user install unless you administer the computer |
+| Linux | Ubuntu 20 or later, or Red Hat Enterprise Linux 9 | `.deb` or `.rpm` |
+
+On a Mac, open the `.dmg` and drag Positron to the Applications folder. On Windows, run
+the `.exe`; Positron's download page also asks you to have the latest Visual C++
+Redistributable installed. Positron checks for its own updates after that.
+
+To find out which Mac you have, open the Apple menu and choose **About This Mac**. A
+chip named "Apple M1" (or M2, M3, and so on) means Apple Silicon.
+
+:::
+
+## Step 2: Install R, Quarto, and (when you need it) Python
+
+::: {.callout-note collapse="false" title="Positron runs your code; it does not include the languages"}
+
+Positron starts without any programming language installed, but it cannot run a
+chapter until it finds one.
+
+| Software | Needed for | Where to get it |
+|---|---|---|
+| R 4.2 or later | Every current chapter | <https://cran.r-project.org/> |
+| Quarto | Rendering the book | <https://quarto.org/docs/get-started/> |
+| Python | Python examples only | Let **uv** or **pixi** install it (next chapter) |
+
+**R.** Install the current release from CRAN. Positron supports R 4.2 and later and
+finds R in the standard locations on its own. This book's package versions were
+recorded with R 4.6.2.
+
+**Quarto.** Positron ships with Quarto, so previewing a document inside Positron works
+without a separate download. Install Quarto yourself as well, so that the `quarto`
+command also works in any terminal; the commands in this book assume it does.
+
+**Python.** You do not need to install Python by hand. The tools in the next chapter
+download the version a project asks for and keep it with that project.
+
+:::
+
+## Step 3: Open a project folder
+
+::: {.callout-note collapse="false" title="A project is a folder"}
+
+Positron works on one folder at a time. Use **File > Open Folder...** and choose the
+folder that holds your project. For this book, that is the folder containing
+`_quarto.yml`.
+
+Opening the folder, and not a single file inside it, matters for two reasons. File
+paths in the chapters, such as `data/raw/participants.csv`, are written from that
+folder. And Positron looks in the open folder for a project environment, which is how
+it finds the right R packages and the right Python.
+
+Four parts of the window come up throughout the book:
+
+| Part | Where | What it is for |
+|---|---|---|
+| Editor | Centre | Open and edit `.qmd`, `.R`, and `.py` files. |
+| Console | Bottom | Run R or Python one line at a time and see the result. |
+| Terminal | Bottom, next to the console | Run commands for your computer, such as `quarto render`. |
+| Interpreter picker | Top right | Shows which R or Python is running, and starts another. |
+
+The **Command Palette** searches every Positron command by name. Open it with
+`Cmd+Shift+P` on a Mac or `Ctrl+Shift+P` on Windows and Linux.
+
+:::
+
+## Step 4: Console or terminal?
+
+::: {.callout-note collapse="false" title="Two prompts that accept different commands"}
+
+Beginners often type a command into the wrong one of these, so check before you press
+Enter.
+
+| | Console | Terminal |
+|---|---|---|
+| Talks to | R or Python | Your computer's shell |
+| Prompt looks like | `>` for R, `>>>` for Python | A folder name, then `%`, `$`, or `>` |
+| Example | `renv::status()` | `quarto render` |
+
+In this book, a block labelled R goes in the R console:
+
+```{.r}
+renv::status()
+```
+
+A block labelled Bash goes in the terminal. Open one with **Terminal > New Terminal**:
+
+```{.bash}
+quarto --version
+```
+
+If the terminal prints a version number, Quarto is installed and on your path.
+
+:::
+
+## Step 5: Choose the interpreter
+
+::: {.callout-note collapse="false" title="Which R, which Python"}
+
+The interpreter picker at the top right names the R or Python session that the console
+is using. Click it and choose **New Console Session...** to start a different one, or
+run **Interpreter: Start New Console Session** from the Command Palette. You can keep
+an R session and a Python session open together and switch between them.
+
+When the open folder contains a project environment, the session you want is the one
+that belongs to it:
+
+- For R, start R as usual. A project that uses renv switches R to the project's own
+  package library as R starts, and the console says so.
+- For Python, choose the interpreter whose path is inside the project folder, such as
+  `.venv`.
+
+The next chapter sets up those environments.
+
+:::
+
+## Step 6: Render a Quarto document
+
+::: {.callout-note collapse="false" title="From source to page"}
+
+Open a `.qmd` file and use the **Preview** button above the editor to render it and
+show the result beside your code. The terminal does the same for a whole book. From
+the book's folder:
+
+```{.bash}
+quarto preview
+```
+
+`quarto preview` rebuilds the page as you save. `quarto render` builds everything once
+and writes the result to `_book/`.
+
+Quarto runs R chunks with the R it finds for the project and Python chunks with the
+Python it finds. Making sure it finds the project's own copies is the subject of the
+next chapter.
+
+:::
+
+## Practice
+
+::: {.callout-note collapse="false" title="Check your setup"}
+
+1. In which pane would you type `quarto render`? In which would you type
+   `nrow(mtcars)`?
+2. You opened `chapters/data-preparation.qmd` by double-clicking it, and
+   `read.csv("data/raw/participants.csv")` fails with "No such file or directory".
+   What is the likely cause?
+3. How can you tell which version of R the console is running?
+
+:::
+
+::: {.callout-tip collapse="true" title="Suggested answers"}
+
+**1.** `quarto render` is a command for your computer, so it goes in the terminal.
+`nrow(mtcars)` is R code, so it goes in the R console.
+
+**2.** Positron opened the file without opening the project folder, so R started
+somewhere else and the path does not lead to the data. Use **File > Open Folder...**
+and choose the folder containing `_quarto.yml`.
+
+**3.** The interpreter picker at the top right names the session and its version. In
+the R console, `R.version.string` prints it as well.
+
+:::
