@@ -74,7 +74,7 @@ download the version a project asks for and keep it with that project.
 
 ::: {.callout-note collapse="false" title="A project is a folder"}
 
-Positron works on one folder at a time. Use **File > Open Folder...** and choose the
+For this walkthrough, open a single project folder. Use **File > Open Folder...** and choose the
 folder that holds your project. For this book, that is the folder containing
 `_quarto.yml`.
 

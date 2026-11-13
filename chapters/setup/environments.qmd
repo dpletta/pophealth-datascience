@@ -40,13 +40,13 @@ Work in a new, empty practice folder opened in Positron, not in the book's folde
 
 | Task | renv (R console) | uv (terminal) | pixi (terminal) |
 |---|---|---|---|
-| Create | `renv::init()` | `uv init --bare` | `pixi init` |
+| Create | `renv::init()` | `uv init --bare --python 3.13` | `pixi init` |
 | Add a package | `renv::install("dplyr")`, then `renv::snapshot()` | `uv add pandas` | `pixi add pandas` |
 | Remove a package | `renv::remove("dplyr")`, then `renv::snapshot()` | `uv remove pandas` | `pixi remove pandas` |
 | Activate | Automatic when R starts in the folder | `source .venv/bin/activate`, or prefix commands with `uv run` | `pixi shell`, or prefix commands with `pixi run` |
 | Deactivate | `renv::deactivate()` | `deactivate` | `exit` |
-| Delete | `renv::deactivate(clean = TRUE)` | Delete the `.venv` folder | `pixi clean` |
-| Rebuild from the lockfile | `renv::restore()` | `uv sync` | `pixi install` |
+| Delete installed packages, keeping the lockfile | Delete `renv/library`, then restart R | Delete the `.venv` folder | `pixi clean` |
+| Rebuild from the lockfile | `renv::restore()` | `uv sync --locked` | `pixi install --locked` |
 | Lockfile | `renv.lock` | `uv.lock` | `pixi.lock` |
 
 **Activate** means "use this project's packages now". **Deactivate** means "stop using
@@ -187,7 +187,8 @@ renv::restore()
 project. It installs the versions in `renv.lock`.
 
 renv records R's version but does not install R. If the lockfile names a different
-version of R from yours, renv tells you; the packages usually still install.
+version of R from yours, renv tells you. Some recorded packages may not be compatible
+with another R version; use the recorded version when reproducing the analysis.
 
 :::
 
@@ -206,14 +207,16 @@ uv --version
 In your project folder, create the project file and choose a Python version:
 
 ```{.bash}
-uv init --bare
+uv init --bare --python 3.13
 uv python pin 3.13
 ```
 
 `uv init --bare` writes `pyproject.toml`, which lists the packages your project asks
-for. `uv python pin` writes `.python-version`. If your computer does not have that
+for, including a Python version requirement. Passing `--python 3.13` keeps that
+requirement consistent with the version we choose. `uv python pin` writes
+`.python-version`. If your computer does not have that
 version of Python, uv downloads it the first time it is needed. Nothing is installed
-yet; the environment itself appears when you add the first package.
+yet; the environment appears when you run `uv sync`, `uv add`, or `uv run`.
 
 :::
 
@@ -269,7 +272,7 @@ source .venv/bin/activate
 ## Windows (PowerShell)
 
 ```{.powershell}
-.venv\Scripts\activate
+.\.venv\Scripts\Activate.ps1
 ```
 
 :::
@@ -282,8 +285,9 @@ project's packages. This is separate from the terminal: choosing the interpreter
 not activate the environment for commands you type in the terminal.
 
 **For Quarto**, render with `uv run quarto render`, or activate the environment first
-and then run `quarto render`. If you do neither, Quarto uses whichever Python it finds
-first on your computer, which may not have your packages.
+and then run `quarto render`. Quarto can also discover a project `.venv`, but an
+explicit Python setting or Jupyter kernel can affect which interpreter runs.
+Check the interpreter path if the result is unexpected.
 
 :::
 
@@ -325,10 +329,10 @@ Check the folder name before pressing Enter; these commands delete without askin
 Rebuild the environment from the lockfile at any time:
 
 ```{.bash}
-uv sync
+uv sync --locked
 ```
 
-A collaborator runs the same `uv sync` after downloading your project. To stop using
+A collaborator runs the same `uv sync --locked` after downloading your project. To stop using
 uv in a project altogether, also delete `pyproject.toml`, `uv.lock`, and
 `.python-version`.
 
@@ -444,7 +448,7 @@ pixi clean
 `pixi.toml` and `pixi.lock`. Rebuild it with:
 
 ```{.bash}
-pixi install
+pixi install --locked
 ```
 
 To stop using pixi in a project altogether, also delete `pixi.toml`, `pixi.lock`, and
@@ -478,7 +482,7 @@ With renv, the library path should be inside the project's `renv/` folder. With 
 For R inside a pixi environment, check `R.home()` instead, which should be inside the
 `.pixi` folder. `.libPaths()` can list a personal library first if your computer also
 has an ordinary installation of the same R version, so pixi's R is less sealed off
-from the rest of your computer than an renv project is.
+from the rest of your computer than a renv project is.
 
 If an R chunk fails with "The knitr package is not available", install knitr and
 rmarkdown into the environment, as shown in the renv and pixi sections.
@@ -489,9 +493,10 @@ work through this list:
 1. Did you render with `uv run quarto render` or `pixi run quarto render`, or activate
    the environment first?
 2. Is `jupyter` installed in the environment? Quarto needs it to run Python chunks.
-3. Does your computer have Jupyter kernels left over from other projects? Quarto can
-   pick one of those instead. Name the environment's own kernel at the top of the
-   document:
+3. Does your computer have Jupyter kernels left over from other projects? Run
+   `uv run jupyter kernelspec list` (or `pixi run jupyter kernelspec list`) to
+   inspect them. The name `python3` does not by itself prove a kernel belongs to
+   this project. For a Python-only document, select the Python kernel:
 
 ```{.yaml}
 ---
@@ -500,8 +505,10 @@ jupyter: python3
 ---
 ```
 
-`quarto check jupyter`, run in the terminal, reports which Python and which kernels
-Quarto can see.
+Run `uv run quarto check jupyter` or `pixi run quarto check jupyter` to inspect
+the Python environment Quarto sees, and verify `sys.prefix` in the rendered
+document. A document containing both R and Python chunks normally uses knitr
+and reticulate instead; see [Quarto's Python guide](https://quarto.org/docs/computations/python.html).
 
 :::
 
