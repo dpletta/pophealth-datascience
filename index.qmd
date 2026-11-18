@@ -31,8 +31,10 @@ applies the same habits to a national survey: the 2024 Behavioral Risk Factor
 Surveillance System (BRFSS). It asks whether household income is associated with
 diabetes among adults in the participating jurisdictions and walks through importing the data, stacking questionnaire
 versions and joining a lookup table, cleaning, survey-weighted descriptive statistics,
-multiple imputation, and bivariate and multivariable survey-weighted regression. BRFSS
-data are public; you download them from the Centers for Disease Control and Prevention
+multiple imputation, and bivariate and multivariable survey-weighted regression. Its
+last chapter, [Combining Survey Years](chapters/survey/08-combining-years.qmd), stacks
+the 2022, 2023 and 2024 surveys and shows how to adjust the weights for a pooled
+estimate and how to compare years. BRFSS data are public; you download them from the Centers for Disease Control and Prevention
 (CDC) yourself, and they stay on your computer.
 
 In the data preparation chapter, all example records are **invented for teaching**. They do

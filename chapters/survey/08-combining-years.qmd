@@ -1,0 +1,1031 @@
+# Combining Survey Years {#sec-combining-years}
+
+```{r}
+#| label: setup
+source("chapters/survey/_common.R")
+
+# The survey years to combine, and one file for each.
+survey_years <- 2022:2024
+year_files <- file.path(raw_dir, paste0("LLCP", survey_years, ".XPT"))
+names(year_files) <- survey_years
+have_years <- all(file.exists(year_files))
+
+# Re-read cached data if any input file changes.
+knitr::opts_chunk$set(
+  cache.extra = c(cache_context, list(data = tools::md5sum(year_files)))
+)
+
+# Numbers in the text come from the results below. If the files are not there, the
+# code is not run, and `shown()` prints a placeholder instead of stopping.
+shown <- function(value) {
+  if (!have_years) {
+    return("(not run)")
+  }
+  return(value)
+}
+```
+
+## Overview
+
+::: {.callout-note collapse="false" title="The task: use several years of a survey in one analysis"}
+
+The earlier chapters in this part analyze one year of the Behavioral Risk Factor
+Surveillance System (BRFSS). There are two common reasons to use several years:
+
+- **More respondents.** One year may have too few respondents in a small group (young
+  adults in one state, for example). Pooling years gives a more precise estimate of
+  the group's *average* over the period.
+- **Change over time.** Comparing years shows whether the population changed.
+
+These are different questions, and they do not use the same weights. This chapter
+combines BRFSS 2022, 2023 and 2024 and estimates the prevalence of reported diagnosed
+diabetes both ways. Six things have to be right:
+
+1. each year asked the same question, with the same variable name and codes;
+2. the yearly files are **stacked**, not joined (@sec-engineering);
+3. each year is in the file with its own strata and primary sampling units (PSUs);
+4. you know which states are in which years;
+5. the weights match the question: adjusted weights for an average over the years,
+   and each year's original weights for that year's estimate;
+6. the design is declared on every respondent, and subgroups are selected from the
+   design.
+
+:::
+
+::: {.callout-important title="Several survey years are not longitudinal data"}
+BRFSS draws a new sample every year. Nobody is interviewed again on purpose, and the
+files have no identifier that links a person across years. Stacked years are **repeated
+cross-sections**: they show how the *population* changed, not how *individuals*
+changed.
+
+A **panel** (longitudinal) survey interviews the same people more than once. Its
+documentation usually supplies longitudinal weights for the people who responded at a
+given set of waves, which account for people who dropped out. Those weights, and the
+models that handle repeated answers from one person, are a different problem. The
+weight adjustment in this chapter is for repeated cross-sections only. For a panel
+survey, follow that survey's own weighting documentation.
+:::
+
+## Download the other years (run once)
+
+@sec-import downloads the 2024 file. This chapter also needs the 2022 and 2023 main
+files, about 1.2 gigabytes each when unzipped. Run the chunk below **once**, by hand,
+from the R console in the book's root folder. It saves `LLCP2022.XPT` and
+`LLCP2023.XPT` in `data/brfss/raw/`. You can also download them from the CDC pages for
+[2022](https://www.cdc.gov/brfss/annual_data/annual_2022.html) and
+[2023](https://www.cdc.gov/brfss/annual_data/annual_2023.html). If the files are not
+there, the code in this chapter is shown but not run.
+
+```{r}
+#| label: download
+#| eval: false
+options(timeout = 600) # allow 10 minutes on a slow connection
+for (year in c(2022, 2023)) {
+  zip_file <- file.path(raw_dir, paste0("LLCP", year, "XPT.zip"))
+  utils::download.file(
+    paste0(
+      "https://www.cdc.gov/brfss/annual_data/",
+      year,
+      "/files/LLCP",
+      year,
+      "XPT.zip"
+    ),
+    destfile = zip_file,
+    mode = "wb"
+  )
+  # The zip file names its contents with a trailing space, so rename the file.
+  extracted <- utils::unzip(zip_file, exdir = raw_dir)
+  file.rename(extracted, file.path(raw_dir, paste0("LLCP", year, ".XPT")))
+  file.remove(zip_file)
+}
+```
+
+```{r}
+#| label: year-files-status
+#| echo: false
+#| results: asis
+if (!have_years) {
+  cat(
+    "::: {.callout-warning}\nThe 2022, 2023 and 2024 files are not all in",
+    "`data/brfss/raw/`, so the code in this chapter was not run when this page",
+    "was built.\n:::\n"
+  )
+}
+```
+
+## Step 1: Check that each year asked the same thing
+
+A question can be reworded, recoded, renamed, moved to an optional module, or dropped
+between years. Before reading any data, read each year's codebook entry for every item
+you plan to use, and that year's *Comparability of Data* report, both on the
+[CDC BRFSS annual data page](https://www.cdc.gov/brfss/annual_data/annual_data.htm).
+
+Reading only the column names of each file (`n_max = 0`) shows which names are in
+which year. The first eight rows are the variables this chapter uses. The last three
+are an example of what to look for: the item on the primary source of health insurance.
+
+```{r}
+#| label: names-by-year
+#| eval: !expr have_years
+needed <- c(
+  "_LLCPWT",
+  "_STSTR",
+  "_PSU",
+  "_STATE", # survey design
+  "IYEAR", # year of the interview
+  "DIABETE4", # outcome
+  "_AGE_G",
+  "SEXVAR" # covariates
+)
+renamed_example <- c("PRIMINSR", "PRIMINS1", "PRIMINS2")
+
+file_names <- purrr::map(year_files, \(path) {
+  names(haven::read_xpt(path, n_max = 0))
+})
+# Check: every variable we need is in every year's file.
+stopifnot(all(purrr::map_lgl(file_names, \(names_in_file) {
+  all(needed %in% names_in_file)
+})))
+
+purrr::map(file_names, \(names_in_file) {
+  c(needed, renamed_example) %in% names_in_file
+}) |>
+  tibble::as_tibble() |>
+  tibble::add_column(variable = c(needed, renamed_example), .before = 1)
+```
+
+The insurance item has a different name in each year (`PRIMINSR`, `PRIMINS1`,
+`PRIMINS2`), and the codebooks show that its wording changed each time. A new name is
+CDC's signal that an item changed. Decide from the codebooks whether the versions
+measure the same thing before giving them one name. An unchanged name is not proof
+either: read the entry for every year.
+
+For the three items used here, the 2022, 2023 and 2024 codebooks give the same
+question and the same codes, which Step 2 checks against the data.
+
+## Step 2: Read and stack the years
+
+Each file is read with the same columns and given a `year` column, and the files are
+stacked with `purrr::list_rbind()`, which works like `dplyr::bind_rows()`. The
+underscore names are renamed once, as in @sec-stacking.
+
+```{r}
+#| label: read-years
+#| eval: !expr have_years
+#| cache: true
+read_year <- function(survey_year) {
+  data <- haven::read_xpt(
+    year_files[[as.character(survey_year)]],
+    col_select = dplyr::all_of(needed)
+  ) |>
+    dplyr::rename(
+      LLCPWT = `_LLCPWT`,
+      STSTR = `_STSTR`,
+      PSU = `_PSU`,
+      STATE = `_STATE`,
+      AGE_G = `_AGE_G`
+    ) |>
+    dplyr::mutate(year = survey_year, .before = 1)
+  return(data)
+}
+
+stacked <- purrr::map(survey_years, read_year) |>
+  purrr::list_rbind()
+
+# Check: each year has the number of respondents in its codebook.
+stopifnot(identical(
+  as.integer(table(stacked$year)),
+  c(445132L, 433323L, 457670L)
+))
+dplyr::count(stacked, year)
+```
+
+### Check the codes in every year
+
+This is the check from @sec-cleaning, run on each year. The declared values are the
+same in the three codebooks. If a year's data hold any other value, the code stops and
+prints the year, the item and the value.
+
+```{r}
+#| label: check-values
+#| eval: !expr have_years
+# Possible values of each item in the 2022, 2023 and 2024 codebooks. Blank (NA) means
+# "not asked or missing".
+item_values <- list(
+  DIABETE4 = c(1:4, 7, 9), # 1 Yes; 2 Yes, but only during pregnancy; 3 No;
+  # 4 No, prediabetes or borderline; 7 Don't know; 9 Refused
+  AGE_G = 1:6, # 1 18-24; 2 25-34; 3 35-44; 4 45-54; 5 55-64; 6 65+
+  SEXVAR = 1:2 # 1 Male; 2 Female
+)
+# Check: every value is in the codebook, in every year.
+unexpected <- purrr::imap(item_values, \(values, item) {
+  stacked |>
+    dplyr::filter(!.data[[item]] %in% c(values, NA)) |>
+    dplyr::count(year, value = .data[[item]])
+}) |>
+  purrr::list_rbind(names_to = "item")
+if (nrow(unexpected) > 0) {
+  print(unexpected)
+  stop("Values not in the codebook. See the table above.")
+}
+# Check: the design variables and the CDC-imputed items are never blank, and every
+# weight is positive.
+stopifnot(
+  !anyNA(stacked[c("LLCPWT", "STSTR", "PSU", "STATE", "AGE_G", "SEXVAR")]),
+  all(stacked$LLCPWT > 0)
+)
+```
+
+### Reproduce a published number
+
+Each codebook prints a weighted percentage for every answer. Reproducing one from the
+data confirms that the right file was read with the right weight. For "Yes" to the
+diabetes question, the codebooks give 12.04% (2022), 12.04% (2023) and 12.50% (2024),
+as a share of everyone with a nonblank answer.
+
+```{r}
+#| label: reproduce-codebook
+#| eval: !expr have_years
+codebook_check <- stacked |>
+  dplyr::filter(!is.na(DIABETE4)) |>
+  dplyr::summarise(
+    percent_yes = 100 * sum(LLCPWT * (DIABETE4 == 1)) / sum(LLCPWT),
+    .by = year
+  )
+# Check: the weighted percentages match the three codebooks.
+stopifnot(identical(
+  round(codebook_check$percent_yes, 2),
+  c(12.04, 12.04, 12.50)
+))
+codebook_check
+```
+
+### The survey year is not the interview year
+
+```{r}
+#| label: interview-year
+#| eval: !expr have_years
+dplyr::count(stacked, year, IYEAR)
+```
+
+Some interviews for each survey year are completed early in the next calendar year, so
+the 2022 file holds interviews from 2023. The weights make each *file* represent its
+survey year's population. Use the file's year (`year`), not `IYEAR`, to say which year a
+respondent belongs to.
+
+## Step 3: Find out which states are in which years
+
+BRFSS is a set of state surveys, and a state that does not collect enough interviews is
+left out of that year's file. Like CDC's documentation, this chapter uses "state" for
+all 54 participating areas: the 50 states, the District of Columbia, Guam, Puerto Rico
+and the US Virgin Islands. The lookup table from @sec-lookup-join adds each one's name.
+
+```{r}
+#| label: coverage
+#| eval: !expr have_years
+states <- utils::read.csv(
+  "data/lookup/states.csv",
+  colClasses = c(
+    fips = "numeric",
+    state_name = "character",
+    state_abbr = "character",
+    census_region = "character"
+  )
+)
+stacked <- stacked |>
+  dplyr::left_join(
+    dplyr::select(states, fips, state_name),
+    by = dplyr::join_by(STATE == fips),
+    relationship = "many-to-one"
+  ) |>
+  # In how many of the years is this respondent's state?
+  dplyr::mutate(years_in = dplyr::n_distinct(year), .by = STATE) |>
+  dplyr::mutate(in_all_years = years_in == length(survey_years))
+# Check: every respondent's state code is in the lookup.
+stopifnot(!anyNA(stacked$state_name))
+
+coverage <- stacked |>
+  dplyr::count(STATE, state_name, year) |>
+  tidyr::pivot_wider(names_from = year, values_from = n, values_fill = 0)
+# States that are not in every year (0 respondents in some year):
+year_columns <- as.character(survey_years)
+coverage |>
+  dplyr::filter(dplyr::if_any(dplyr::all_of(year_columns), \(n) n == 0))
+```
+
+The data show which states have respondents. CDC's overview for each year says which
+states are in the public file: all 54 in
+[2022](https://www.cdc.gov/brfss/annual_data/2022/pdf/Overview_2022-508.pdf), all but
+Kentucky and Pennsylvania in
+[2023](https://www.cdc.gov/brfss/annual_data/2023/pdf/Overview_2023-508.pdf), and all
+but Tennessee in
+[2024](https://www.cdc.gov/brfss/annual_data/2024/pdf/Overview_2024-508.pdf). The check
+stops if the data and the overviews disagree.
+
+```{r}
+#| label: check-coverage
+#| eval: !expr have_years
+# From CDC's overviews: FIPS codes of the states that are not in each year's file.
+not_in_file <- list(
+  `2022` = numeric(0),
+  `2023` = c(21, 42), # Kentucky, Pennsylvania
+  `2024` = 47 # Tennessee
+)
+not_in_data <- purrr::map(survey_years, \(survey_year) {
+  setdiff(states$fips, stacked$STATE[stacked$year == survey_year])
+})
+# Check: the states missing from the data are the states the overviews name.
+stopifnot(all(purrr::map2_lgl(not_in_data, not_in_file, setequal)))
+```
+
+`r shown(sum(dplyr::distinct(stacked, STATE, in_all_years)$in_all_years))` of the 54
+states are in all three years. This matters twice below: a state that is in
+two of the three years needs its own weight adjustment (Step 6), and a comparison
+between years should compare the same set of states (@sec-years-change).
+
+## Step 4: Recode
+
+The outcome is the one defined in @sec-cleaning: reported diagnosed diabetes, with
+diabetes only during pregnancy and prediabetes coded "no", and non-answers missing.
+`unmatched = "error"` stops the run if any code is not listed.
+
+```{r}
+#| label: recode
+#| eval: !expr have_years
+stacked <- stacked |>
+  tidylog::mutate(
+    diabetes_yes = dplyr::recode_values(
+      DIABETE4,
+      1 ~ 1L,
+      2:4 ~ 0L, # only during pregnancy; no; prediabetes
+      c(7, 9, NA) ~ NA,
+      unmatched = "error"
+    ),
+    age_group = dplyr::recode_values(
+      AGE_G,
+      1 ~ "18-24",
+      2 ~ "25-34",
+      3 ~ "35-44",
+      4 ~ "45-54",
+      5 ~ "55-64",
+      6 ~ "65 or older",
+      unmatched = "error"
+    ) |>
+      factor(
+        levels = c("18-24", "25-34", "35-44", "45-54", "55-64", "65 or older")
+      ),
+    sex = dplyr::recode_values(
+      SEXVAR,
+      1 ~ "Male",
+      2 ~ "Female",
+      unmatched = "error"
+    ) |>
+      factor(levels = c("Female", "Male")),
+    # The survey year as a category, for comparing years in a model.
+    survey_year = factor(year)
+  )
+```
+
+## Step 5: Give each year its own strata and PSUs
+
+Each year's sample is drawn separately, so the years are independent samples. Variance
+estimation compares PSUs within a stratum (@sec-descriptives), and it must only compare
+respondents from the same year's sample. The stratum codes do not ensure that, because
+the same codes are used every year:
+
+```{r}
+#| label: strata-overlap
+#| eval: !expr have_years
+strata_by_year <- split(stacked$STSTR, stacked$year)
+# Number of stratum codes that are in both the 2022 and the 2024 file:
+length(intersect(strata_by_year[["2022"]], strata_by_year[["2024"]]))
+```
+
+If `STSTR` were used as it is, the survey package would treat stratum 11011 in 2022 and
+stratum 11011 in 2024 as one stratum. Numbering each year-stratum pair, and each
+year-stratum-PSU triple, keeps the years apart. This is the PSU identifier from
+@sec-cleaning with the year added.
+
+```{r}
+#| label: year-strata
+#| eval: !expr have_years
+stacked <- stacked |>
+  dplyr::mutate(strata_year = dplyr::cur_group_id(), .by = c(year, STSTR)) |>
+  dplyr::mutate(psu_id = dplyr::cur_group_id(), .by = c(year, STSTR, PSU))
+
+# Check: every new stratum belongs to one year, and every PSU identifier to one
+# stratum (PSUs are nested in strata, and strata in years).
+stopifnot(
+  nrow(dplyr::distinct(stacked, strata_year, year)) ==
+    dplyr::n_distinct(stacked$strata_year),
+  nrow(dplyr::distinct(stacked, psu_id, strata_year)) ==
+    dplyr::n_distinct(stacked$psu_id)
+)
+c(
+  strata = dplyr::n_distinct(stacked$strata_year),
+  psus = dplyr::n_distinct(stacked$psu_id),
+  respondents = nrow(stacked)
+)
+```
+
+::: {.callout-note title="How much does this matter?"}
+In BRFSS each respondent is their own PSU and the strata are large, so merging strata
+across years changes the standard errors here only slightly. In a survey with a few
+large PSUs in each stratum, merging strata or PSUs from different years can change
+them a lot. Year-specific identifiers are correct in both cases and cost one line of
+code.
+:::
+
+## Step 6: Adjust the weights for an average over the years {#sec-year-weights}
+
+Each year's weights add up to the adult population that year's file represents, in
+millions:
+
+```{r}
+#| label: weight-sums
+#| eval: !expr have_years
+stacked |>
+  dplyr::summarise(adults_millions = sum(LLCPWT) / 1e6, .by = year)
+```
+
+Stacked, the three years add up to about
+`r shown(round(sum(stacked$LLCPWT) / 1e6))` million: the adult population counted three
+times. To describe an *average* year in the period, the weights have to be scaled down
+so that the years together count once. CDC's guidance, in the section "Combining
+Multiple Years of BRFSS Data" of
+[*Complex Sampling Weights and Preparing Module Data for Analysis*](https://www.cdc.gov/brfss/annual_data/2024/pdf/Complex-Sampling-Weights-and-Preparing-Module-Data-for-Analysis-2024-508.pdf),
+gives two ways:
+
+- if the years have very similar sample sizes, divide each weight by the number of
+  years;
+- otherwise, multiply each year's weights by that year's share of the combined sample.
+
+CDC's worked example is one state, New York, whose sample was 17,800 in 2022 and 43,913
+in 2024. For a file with many states, this chapter applies the second rule **within
+each state**, as @sec-stacking does for questionnaire versions:
+
+$$
+\text{weight\_pooled} = \text{LLCPWT} \times
+\frac{n_\text{state, year}}{n_\text{state, all years}}
+$$
+
+There are two reasons to work within states. Sample sizes change from year to year in
+some states and not in others. And a state that is in two of the three years gets
+shares that add up to 1 across its two years, so it still counts once. With one share
+for each year across the whole file, Kentucky, Pennsylvania and Tennessee would count
+for about two thirds of their populations.
+
+```{r}
+#| label: adjust-weights
+#| eval: !expr have_years
+stacked <- stacked |>
+  dplyr::add_count(STATE, name = "n_state") |>
+  dplyr::add_count(STATE, year, name = "n_state_year") |>
+  dplyr::mutate(
+    year_share = n_state_year / n_state,
+    weight_pooled = LLCPWT * year_share
+  )
+
+shares <- stacked |>
+  dplyr::distinct(STATE, state_name, year, n_state_year, n_state, year_share)
+# Check: within every state, the year shares add up to 1.
+share_totals <- dplyr::summarise(shares, total = sum(year_share), .by = STATE)
+stopifnot(isTRUE(all.equal(share_totals$total, rep(1, nrow(share_totals)))))
+
+# The shares for New York and for the three states that are not in every year:
+shares |>
+  dplyr::filter(
+    state_name %in% c("New York", "Kentucky", "Pennsylvania", "Tennessee")
+  ) |>
+  dplyr::arrange(state_name, year)
+```
+
+Make the adjustment **right after stacking**, before you drop any rows, so that the
+shares describe each year's full sample in the state. The adjusted weights add up to
+about `r shown(round(sum(stacked$weight_pooled) / 1e6))` million adults: each state's
+adult population, averaged over the years it took part, with more weight on the years
+with more interviews.
+
+### How much does the choice matter?
+
+The share rule is a choice, so compare it with the alternatives. @tbl-compare-weights
+gives the population each set of weights adds up to and the estimated prevalence of
+diabetes over the three years.
+
+```{r}
+#| label: tbl-compare-weights
+#| tbl-cap: "The adult population and the prevalence of diabetes, 2022-2024, under four ways of adjusting the weights"
+#| eval: !expr have_years
+#| cache: true
+# Each respondent's year's share of the whole stacked file.
+year_counts <- dplyr::count(stacked, year, name = "n_year")
+whole_file_share <- year_counts$n_year[match(stacked$year, year_counts$year)] /
+  nrow(stacked)
+
+weight_options <- list(
+  "Unadjusted" = stacked$LLCPWT,
+  "One share for each year, whole file" = stacked$LLCPWT * whole_file_share,
+  "Share within each state (used here)" = stacked$weight_pooled,
+  "Equal shares within each state" = stacked$LLCPWT / stacked$years_in
+)
+weight_comparison <- purrr::imap(weight_options, \(weight, label) {
+  stacked |>
+    dplyr::mutate(weight_option = weight) |>
+    srvyr::as_survey_design(
+      ids = psu_id,
+      strata = strata_year,
+      weights = weight_option,
+      check_strata = FALSE
+    ) |>
+    dplyr::summarise(
+      diabetes = srvyr::survey_mean(diabetes_yes, na.rm = TRUE)
+    ) |>
+    dplyr::mutate(adults_millions = sum(weight) / 1e6)
+}) |>
+  purrr::list_rbind(names_to = "weights")
+rm(weight_options, whole_file_share) # Cache the small table, not the weight vectors.
+
+weight_comparison |>
+  dplyr::transmute(
+    Weights = weights,
+    `Adults (millions)` = adults_millions,
+    `Diabetes (%)` = 100 * diabetes,
+    `Standard error` = 100 * diabetes_se
+  ) |>
+  knitr::kable(digits = c(0, 1, 2, 3))
+```
+
+The prevalence hardly changes, because a prevalence is a ratio and the years are of
+similar size. The population total changes a great deal: unadjusted weights give three
+times the adult population, so any estimated *number* of adults with diabetes would be
+three times too large. Report which rule you used.
+
+## Step 7: Declare the design
+
+One stacked file answers two kinds of question, and each has its own weight. Both
+designs use the year-specific strata and PSUs from Step 5.
+
+| Question | Weight | Design below |
+|---|---|---|
+| What was the average over 2022-2024? One estimate or one association for the period. | `weight_pooled` | `design_pooled` |
+| What was each year's estimate, and did it change between years? | The original `LLCPWT` | `design_years` |
+
+: Which weight answers which question {#tbl-year-weights}
+
+```{r}
+#| label: designs
+#| eval: !expr have_years
+design_years <- stacked |>
+  srvyr::as_survey_design(
+    ids = psu_id,
+    strata = strata_year,
+    weights = LLCPWT,
+    check_strata = FALSE
+  )
+design_pooled <- stacked |>
+  srvyr::as_survey_design(
+    ids = psu_id,
+    strata = strata_year,
+    weights = weight_pooled,
+    check_strata = FALSE
+  )
+design_pooled
+```
+
+`check_strata = FALSE` is safe here for the reason given in @sec-descriptives: Step 5
+verified that every PSU identifier belongs to one stratum.
+
+## Helpers
+
+Two short functions format the results for the tables below, and one extracts
+prevalence ratios (PRs) from a model, as in @sec-bivariate.
+
+```{r}
+#| label: helpers
+# Prevalence estimates as percentages; `group` is the column that names each row.
+format_prevalence <- function(estimates, group) {
+  result <- estimates |>
+    dplyr::transmute(
+      `Survey year` = {{ group }},
+      Respondents = format(n, big.mark = ","),
+      `Diabetes (%)` = sprintf("%.2f", 100 * diabetes),
+      `Standard error` = sprintf("%.2f", 100 * diabetes_se),
+      `95% CI` = sprintf(
+        "%.2f to %.2f",
+        100 * diabetes_low,
+        100 * diabetes_upp
+      )
+    )
+  return(result)
+}
+
+# Prevalence ratios with 95% confidence intervals for the terms that match `pattern`.
+tidy_pr <- function(fit, pattern) {
+  result <- broom::tidy(fit, conf.int = TRUE, exponentiate = TRUE) |>
+    dplyr::filter(grepl(pattern, term)) |>
+    dplyr::select(term, estimate, conf.low, conf.high, p.value)
+  return(result)
+}
+
+# Prevalence ratios as text; columns that are not estimates are kept.
+format_pr <- function(estimates) {
+  result <- estimates |>
+    dplyr::mutate(
+      `PR (95% CI)` = sprintf(
+        "%.2f (%.2f to %.2f)",
+        estimate,
+        conf.low,
+        conf.high
+      ),
+      p = format.pval(p.value, digits = 2, eps = 0.001),
+      .keep = "unused"
+    )
+  return(result)
+}
+```
+
+## Each year's estimate
+
+Grouping `design_years` by year gives each year's prevalence from that year's original
+weights (@tbl-by-year).
+
+```{r}
+#| label: tbl-by-year
+#| tbl-cap: "Prevalence of reported diagnosed diabetes in each survey year, with each year's original weights"
+#| eval: !expr have_years
+#| cache: true
+by_year <- design_years |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    diabetes = srvyr::survey_mean(
+      diabetes_yes,
+      na.rm = TRUE,
+      vartype = c("se", "ci")
+    ),
+    n = srvyr::unweighted(sum(!is.na(diabetes_yes)))
+  )
+by_year |>
+  format_prevalence(year) |>
+  knitr::kable(align = "lrrrr")
+```
+
+### Check against a single-year analysis
+
+A stacked file should give the same answer for 2024 as an analysis of the 2024 file
+alone. The design below uses only the 2024 respondents with their original stratum and
+PSU codes, as in @sec-descriptives.
+
+```{r}
+#| label: check-2024
+#| eval: !expr have_years
+#| cache: true
+alone_2024 <- stacked |>
+  dplyr::filter(year == 2024) |>
+  srvyr::as_survey_design(
+    ids = PSU,
+    strata = STSTR,
+    weights = LLCPWT,
+    nest = TRUE
+  ) |>
+  dplyr::summarise(diabetes = srvyr::survey_mean(diabetes_yes, na.rm = TRUE))
+
+stacked_2024 <- dplyr::filter(by_year, year == 2024)
+# Check: the stacked design reproduces the 2024 estimate and its standard error.
+stopifnot(
+  isTRUE(all.equal(alone_2024$diabetes, stacked_2024$diabetes)),
+  isTRUE(all.equal(alone_2024$diabetes_se, stacked_2024$diabetes_se))
+)
+```
+
+The estimate, `r shown(round(100 * stacked_2024$diabetes, 1))`%, is also the weighted
+prevalence in @sec-descriptives. The year-specific strata are what make the standard
+error agree: the other years' respondents are in strata of their own and add nothing to
+the 2024 variance.
+
+### Do not use the pooled weights for a single year
+
+The pooled weights multiply each state's weights by a different share in each year. New
+York's 2024 respondents keep more than half of their weight and most other states'
+about a third, so within 2024 New York would count for more than its population. The
+year's estimate moves (@tbl-single-year-weights).
+
+```{r}
+#| label: tbl-single-year-weights
+#| tbl-cap: "Each year's prevalence of diabetes (%) with the original weights and, wrongly, with the pooled weights"
+#| eval: !expr have_years
+#| cache: true
+by_year_pooled_weights <- design_pooled |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(diabetes = srvyr::survey_mean(diabetes_yes, na.rm = TRUE))
+
+tibble::tibble(
+  `Survey year` = by_year$year,
+  `Original weights` = 100 * by_year$diabetes,
+  `Pooled weights` = 100 * by_year_pooled_weights$diabetes
+) |>
+  knitr::kable(digits = 2)
+```
+
+The differences are small for this outcome, but only the first column estimates each
+year's population prevalence.
+
+## The average over the period
+
+```{r}
+#| label: pooled
+#| eval: !expr have_years
+#| cache: true
+pooled <- design_pooled |>
+  dplyr::summarise(
+    diabetes = srvyr::survey_mean(
+      diabetes_yes,
+      na.rm = TRUE,
+      vartype = c("se", "ci")
+    ),
+    n = srvyr::unweighted(sum(!is.na(diabetes_yes)))
+  )
+pooled |>
+  dplyr::mutate(years = "2022-2024 pooled") |>
+  format_prevalence(years) |>
+  knitr::kable(align = "lrrrr")
+```
+
+Over 2022-2024, an estimated `r shown(round(100 * pooled$diabetes, 1))`% of adults
+reported diagnosed diabetes (95% confidence interval
+`r shown(round(100 * pooled$diabetes_low, 1))`% to
+`r shown(round(100 * pooled$diabetes_upp, 1))`%). This is an average over the period,
+in which each state counts for the years it took part. It is not the prevalence in any
+one year.
+
+### What pooling buys: a small group
+
+For all adults, one year is already precise. Pooling pays off for small groups. Take
+adults aged 18 to 34 in Michigan (@tbl-small-group). The group is selected **from the
+design**, not from the data, so that every stratum and PSU stays in the variance
+calculation (@sec-continuous-test).
+
+```{r}
+#| label: tbl-small-group
+#| tbl-cap: "Prevalence of diabetes among adults aged 18 to 34 in Michigan: each year and pooled"
+#| eval: !expr have_years
+#| cache: true
+young_michigan_years <- design_years |>
+  dplyr::filter(
+    state_name == "Michigan",
+    age_group == "18-24" | age_group == "25-34"
+  ) |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    diabetes = srvyr::survey_mean(
+      diabetes_yes,
+      na.rm = TRUE,
+      vartype = c("se", "ci")
+    ),
+    n = srvyr::unweighted(sum(!is.na(diabetes_yes)))
+  )
+young_michigan_pooled <- design_pooled |>
+  dplyr::filter(
+    state_name == "Michigan",
+    age_group == "18-24" | age_group == "25-34"
+  ) |>
+  dplyr::summarise(
+    diabetes = srvyr::survey_mean(
+      diabetes_yes,
+      na.rm = TRUE,
+      vartype = c("se", "ci")
+    ),
+    n = srvyr::unweighted(sum(!is.na(diabetes_yes)))
+  )
+
+dplyr::bind_rows(
+  dplyr::mutate(young_michigan_years, years = as.character(year)),
+  dplyr::mutate(young_michigan_pooled, years = "2022-2024 pooled")
+) |>
+  format_prevalence(years) |>
+  knitr::kable(align = "lrrrr")
+```
+
+The pooled estimate rests on about three times as many respondents, and its standard
+error is clearly smaller than any single year's. The price is the interpretation: it is
+the group's average prevalence over three years. If the prevalence changed during the
+period, the average hides the change, so look at the yearly estimates before pooling.
+
+## Did the prevalence change? {#sec-years-change}
+
+A comparison between years should compare the same places. The 2023 file has no
+respondents from Kentucky or Pennsylvania and the 2024 file none from Tennessee, so a
+difference between years in the full file mixes a change over time with a change in
+which states are counted. Here the comparison is limited to the states that are in all
+three years (@tbl-same-states). They are selected from the design.
+
+```{r}
+#| label: same-states-design
+#| eval: !expr have_years
+design_same_states <- design_years |> dplyr::filter(in_all_years)
+```
+
+```{r}
+#| label: tbl-same-states
+#| tbl-cap: "Prevalence of diabetes in each survey year, in the states that are in all three years"
+#| eval: !expr have_years
+#| cache: true
+by_year_same_states <- design_same_states |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    diabetes = srvyr::survey_mean(
+      diabetes_yes,
+      na.rm = TRUE,
+      vartype = c("se", "ci")
+    ),
+    n = srvyr::unweighted(sum(!is.na(diabetes_yes)))
+  )
+by_year_same_states |>
+  format_prevalence(year) |>
+  knitr::kable(align = "lrrrr")
+```
+
+A survey-weighted model with the survey year as a categorical predictor compares each
+year with 2022. As in @sec-bivariate, a Poisson model with a log link gives prevalence
+ratios (@tbl-change). The second model adds age group, because the age distribution of
+the population also shifts from year to year and diabetes rises steeply with age.
+
+```{r}
+#| label: tbl-change
+#| tbl-cap: "Prevalence ratios for diabetes in 2023 and 2024 compared with 2022, in the states that are in all three years"
+#| eval: !expr have_years
+#| cache: true
+crude_fit <- survey::svyglm(
+  diabetes_yes ~ survey_year,
+  design = design_same_states,
+  family = stats::quasipoisson()
+)
+adjusted_fit <- survey::svyglm(
+  diabetes_yes ~ survey_year + age_group,
+  design = design_same_states,
+  family = stats::quasipoisson()
+)
+change <- dplyr::bind_rows(
+  crude = tidy_pr(crude_fit, "^survey_year"),
+  age_adjusted = tidy_pr(adjusted_fit, "^survey_year"),
+  .id = "model"
+)
+# Joint test of the two year coefficients: is any year different from 2022?
+year_test <- survey::regTermTest(adjusted_fit, ~survey_year, method = "Wald")
+rm(crude_fit, adjusted_fit) # Cache the small results, not the full model objects.
+
+change |>
+  format_pr() |>
+  knitr::kable(align = "llrr")
+```
+
+```{r}
+#| label: change-values
+#| eval: !expr have_years
+#| include: false
+adjusted_2024 <- dplyr::filter(
+  change,
+  model == "age_adjusted",
+  term == "survey_year2024"
+)
+```
+
+The joint test asks whether the prevalence was the same in all three years, at the same
+age (p `r shown(format.pval(year_test$p, digits = 2, eps = 0.001))`). In these states,
+the age-adjusted prevalence in 2024 was `r shown(sprintf("%.2f", adjusted_2024$estimate))`
+times the prevalence in 2022 (95% confidence interval
+`r shown(sprintf("%.2f", adjusted_2024$conf.low))` to
+`r shown(sprintf("%.2f", adjusted_2024$conf.high))`). With samples this large, a small
+difference can have a small p-value, so judge the size of the ratio, not the p-value
+alone. Three years are also too few to call a difference a trend.
+
+## A pooled model for an association
+
+Pooled years are often used to estimate an association more precisely. The model below
+asks how the prevalence of diabetes differs between men and women of the same age, on
+average over 2022-2024. It uses `design_pooled` and includes the survey year, so that
+differences between years in the level of diabetes are not mixed into the comparison.
+
+Before reporting one pooled association, check that it was similar in every year. The
+second model adds a sex-by-year interaction, and the joint test asks whether the PR for
+sex differed between years.
+
+```{r}
+#| label: tbl-pooled-model
+#| tbl-cap: "Prevalence ratio for diabetes, men compared with women, adjusted for age group: 2024 alone and 2022-2024 pooled (also adjusted for survey year)"
+#| eval: !expr have_years
+#| cache: true
+pooled_fit <- survey::svyglm(
+  diabetes_yes ~ sex + age_group + survey_year,
+  design = design_pooled,
+  family = stats::quasipoisson()
+)
+pooled_sex <- tidy_pr(pooled_fit, "^sex")
+
+interaction_fit <- survey::svyglm(
+  diabetes_yes ~ sex * survey_year + age_group,
+  design = design_pooled,
+  family = stats::quasipoisson()
+)
+interaction_test <- survey::regTermTest(
+  interaction_fit,
+  ~ sex:survey_year,
+  method = "Wald"
+)
+
+# The same model in 2024 alone, for comparison.
+single_fit <- survey::svyglm(
+  diabetes_yes ~ sex + age_group,
+  design = dplyr::filter(design_years, year == 2024),
+  family = stats::quasipoisson()
+)
+single_sex <- tidy_pr(single_fit, "^sex")
+rm(pooled_fit, interaction_fit, single_fit)
+
+dplyr::bind_rows(
+  `2024 alone` = single_sex,
+  `2022-2024 pooled` = pooled_sex,
+  .id = "years"
+) |>
+  format_pr() |>
+  knitr::kable(align = "llrr")
+```
+
+The interaction test gives no evidence that the association differed between years (p
+`r shown(format.pval(interaction_test$p, digits = 2, eps = 0.001))`), so one pooled PR
+is a fair summary (@tbl-pooled-model): men had `r shown(sprintf("%.2f", pooled_sex$estimate))` times the
+prevalence of women of the same age (95% confidence interval
+`r shown(sprintf("%.2f", pooled_sex$conf.low))` to
+`r shown(sprintf("%.2f", pooled_sex$conf.high))`). The pooled interval is narrower
+than the interval from 2024 alone. If the interaction test had shown a difference,
+report the association for each year instead.
+
+::: {.callout-tip title="Optional modules in several years"}
+Modules add a step. The states that ask a module, and the questionnaire versions they
+ask it on, can change every year. For each year, build the module file with that year's
+version weights and that year's table of modules by state, as in @sec-stacking. Then
+stack the years and apply the adjustment in @sec-year-weights to each year's adjusted
+module weight. Shares within each state handle states that asked the module in only
+some years.
+:::
+
+::: {.callout-tip title="Missing data in several years"}
+This chapter's items have few missing answers. If your analysis needs multiple
+imputation (@sec-imputation), impute the stacked file and include the survey year in
+the imputation model, because the analysis model includes it.
+:::
+
+::: {.callout-warning title="How far back can you go?"}
+CDC changed the BRFSS sample (adding cell phones) and its weighting method in 2011, and
+advises against comparing estimates from before 2011 with later ones. Within the period
+you choose, each year's *Comparability of Data* report lists what changed. CDC also
+warns that estimates for small groups can be unreliable, and suppresses its own when
+they rest on fewer than 50 respondents or have a relative standard error above 30%.
+:::
+
+## Reporting a multi-year analysis
+
+In addition to the checklist in @sec-multivariable, report:
+
+- [ ] the survey years, and the number of respondents in each;
+- [ ] which states are missing from which years, and whether estimates are limited
+  to the states in every year;
+- [ ] that the items had the same wording and codes in every year, or how differences
+  were handled;
+- [ ] how the weights were adjusted for pooled estimates, and that yearly estimates
+  used each year's original weights;
+- [ ] that strata and PSUs were defined within each year;
+- [ ] for a pooled association, that the model included the survey year, and the
+  result of the test for a difference between years;
+- [ ] that the data are repeated cross-sections, so the results describe change in
+  the population and not in individuals.
+
+## Practice
+
+1. You stack 2022-2024 and use `_LLCPWT` unchanged. Which is affected more: the
+   prevalence of diabetes, or the estimated number of adults with diabetes? Why?
+2. Why does this chapter compute the year shares within each state?
+3. A colleague builds the pooled design with `strata = STSTR`. What does the survey
+   package now assume, and how do you fix it?
+4. You want to know whether diabetes prevalence in Pennsylvania changed between 2022
+   and 2024. Which weights and which respondents do you use?
+5. A reader concludes from the last section that people's risk of diabetes rose between
+   2022 and 2024. What is wrong with that sentence?
+
+::: {.callout-tip collapse="true" title="Suggested answers"}
+1. The number. A prevalence is a ratio, and multiplying every weight by a similar
+   constant changes its numerator and denominator alike. A total is a sum of weights,
+   so it would be about three times too large.
+2. Sample sizes change from year to year in some states and not in others, and three
+   states are in only two of the years. Shares within a state add up to 1 for every
+   state, so each state counts once whatever years it has.
+3. That respondents from different years with the same stratum code were drawn in one
+   stratum. Number each year-stratum pair, and each year-stratum-PSU triple, and use
+   those as the strata and PSU identifiers.
+4. The original weights (`design_years`), with Pennsylvania selected from the design
+   (`dplyr::filter(state_name == "Pennsylvania")`) and the 2022 and 2024 survey years
+   compared. Pennsylvania is not in the 2023 file.
+5. Different people were interviewed each year, so the data cannot show a change in any
+   person's risk. They show that the prevalence of reported diagnosed diabetes in the
+   adult population was higher in 2024 than in 2022. Changes in diagnosis, survival,
+   and who lives in these states can all contribute to that.
+:::
