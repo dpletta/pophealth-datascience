@@ -1,0 +1,12 @@
+visit_id,participant_id,visit_type,visit_date,wellbeing_score
+V01,001,baseline,2026-01-05,7
+V02,001,follow_up,2026-04-05,8
+V03,002,baseline,2026-01-06,5
+V04,003,baseline,2026-01-07,6
+V05,003,follow_up,2026-04-07,
+V06,004,baseline,2026-01-08,
+V07,005,baseline,2026-01-09,4
+V08,006,baseline,2026-01-10,9
+V09,008,baseline,2026-01-12,8
+V10,011,baseline,2026-01-15,6
+V11,099,baseline,2026-01-17,5

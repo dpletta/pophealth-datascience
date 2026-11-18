@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+<title id="title">Inner join compared with left join</title>
+<desc id="desc">A three-row respondent table with states 26, 39 and 72 is joined by STATE to a two-row table that covers states 26 and 39 only. The inner join keeps two rows, the respondents whose state is in both tables, and drops the respondent from state 72. The left join keeps all three rows and leaves the region blank (NA) for state 72.</desc>
+<rect width="960" height="520" fill="#ffffff"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#11666b"/></marker></defs>
+<text x="28" y="40" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#193549" font-weight="bold" text-anchor="start">An inner join keeps only rows with a match in both tables</text>
+<text x="28" y="88" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#11666b" font-weight="bold" text-anchor="start">Respondents</text>
+<rect x="28" y="102" width="170" height="124" fill="#fff" stroke="#b5cbd1"/>
+<rect x="28" y="102" width="170" height="31" fill="#193549"/>
+<text x="38" y="124" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">id</text>
+<text x="118" y="124" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">STATE</text>
+<rect x="29" y="133" width="168" height="31" fill="#edf6f5"/>
+<text x="38" y="155" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">1</text>
+<text x="118" y="155" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">26</text>
+<rect x="29" y="164" width="168" height="31" fill="#ffffff"/>
+<text x="38" y="186" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">2</text>
+<text x="118" y="186" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">39</text>
+<rect x="29" y="195" width="168" height="31" fill="#fdf3e1"/>
+<text x="38" y="217" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">3</text>
+<text x="118" y="217" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#9a3412" font-weight="bold" text-anchor="start">72</text>
+<text x="28" y="262" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#11666b" font-weight="bold" text-anchor="start">State table (50 states + DC)</text>
+<rect x="28" y="276" width="220" height="93" fill="#fff" stroke="#b5cbd1"/>
+<rect x="28" y="276" width="220" height="31" fill="#193549"/>
+<text x="38" y="298" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">STATE</text>
+<text x="128" y="298" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">region</text>
+<rect x="29" y="307" width="218" height="31" fill="#e8eef9"/>
+<text x="38" y="329" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">26</text>
+<text x="128" y="329" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">Midwest</text>
+<rect x="29" y="338" width="218" height="31" fill="#e8eef9"/>
+<text x="38" y="360" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">39</text>
+<text x="128" y="360" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">Midwest</text>
+<text x="28" y="396" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#253746" text-anchor="start">No row for 72 (Puerto Rico)</text>
+<line x1="270" y1="160" x2="420" y2="160" stroke="#11666b" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="282" y="148" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#11666b" font-weight="bold" text-anchor="start">inner_join()</text>
+<line x1="270" y1="360" x2="420" y2="360" stroke="#11666b" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="282" y="348" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#11666b" font-weight="bold" text-anchor="start">left_join()</text>
+<text x="440" y="88" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#11666b" font-weight="bold" text-anchor="start">Inner join: 2 rows (state 72 dropped)</text>
+<rect x="440" y="102" width="300" height="93" fill="#fff" stroke="#b5cbd1"/>
+<rect x="440" y="102" width="300" height="31" fill="#193549"/>
+<text x="450" y="124" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">id</text>
+<text x="530" y="124" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">STATE</text>
+<text x="620" y="124" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">region</text>
+<rect x="441" y="133" width="298" height="31" fill="#edf6f5"/>
+<text x="450" y="155" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">1</text>
+<text x="530" y="155" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">26</text>
+<text x="620" y="155" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">Midwest</text>
+<rect x="441" y="164" width="298" height="31" fill="#ffffff"/>
+<text x="450" y="186" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">2</text>
+<text x="530" y="186" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">39</text>
+<text x="620" y="186" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">Midwest</text>
+<text x="440" y="222" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#9a3412" font-weight="bold" text-anchor="start">Respondent 3 is gone, with no warning.</text>
+<text x="440" y="296" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#11666b" font-weight="bold" text-anchor="start">Left join: all 3 rows kept</text>
+<rect x="440" y="310" width="300" height="124" fill="#fff" stroke="#b5cbd1"/>
+<rect x="440" y="310" width="300" height="31" fill="#193549"/>
+<text x="450" y="332" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">id</text>
+<text x="530" y="332" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">STATE</text>
+<text x="620" y="332" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#fff" font-weight="bold" text-anchor="start">region</text>
+<rect x="441" y="341" width="298" height="31" fill="#edf6f5"/>
+<text x="450" y="363" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">1</text>
+<text x="530" y="363" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">26</text>
+<text x="620" y="363" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">Midwest</text>
+<rect x="441" y="372" width="298" height="31" fill="#ffffff"/>
+<text x="450" y="394" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">2</text>
+<text x="530" y="394" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">39</text>
+<text x="620" y="394" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">Midwest</text>
+<rect x="441" y="403" width="298" height="31" fill="#fdf3e1"/>
+<text x="450" y="425" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">3</text>
+<text x="530" y="425" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">72</text>
+<text x="620" y="425" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#9a3412" font-weight="bold" text-anchor="start">NA</text>
+<text x="28" y="478" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">With survey data, keep every respondent (left join) and select a subgroup from the survey design,</text>
+<text x="28" y="502" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" text-anchor="start">so the design keeps the information it needs to estimate variances.</text>
+</svg>

@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1136" role="img" aria-labelledby="title desc">
+<title id="title">Six joins, shown as rows</title><desc id="desc">The left roster has IDs 001, 002, 003 and clinics A, B, A. The right survey has IDs 002, 003, 004 and scores 7, missing, 5. Left joins retain 001,002,003; inner 002,003; right 002,003,004; full all four; semi 002,003 with roster columns; anti 001 with roster columns.</desc>
+<rect width="960" height="1136" fill="#ffffff"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#11666b"/></marker></defs>
+<text x="28" y="39" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#193549" font-weight="bold" text-anchor="start">Which rows and columns does a join keep?</text>
+<text x="28" y="69" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">Match on participant_id. Each key occurs once per input table.</text>
+<text x="28" y="108" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#11666b" font-weight="bold" text-anchor="start">LEFT INPUT · roster_demo</text>
+<rect x="28" y="122" width="424" height="124" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="28" y="122" width="424" height="31" fill="#193549"/>
+<text x="38.0" y="144" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="250.0" y="144" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<rect x="29" y="153" width="422" height="31" fill="#edf6f5"/>
+<text x="38.0" y="175" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="250.0" y="175" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="38.0" y="206" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">002</text>
+<text x="250.0" y="206" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">B</text>
+<rect x="29" y="215" width="422" height="31" fill="#edf6f5"/>
+<text x="38.0" y="237" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">003</text>
+<text x="250.0" y="237" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="508" y="108" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#11666b" font-weight="bold" text-anchor="start">RIGHT INPUT · survey_demo</text>
+<rect x="508" y="122" width="424" height="124" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="508" y="122" width="424" height="31" fill="#193549"/>
+<text x="518.0" y="144" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="730.0" y="144" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">score</text>
+<rect x="509" y="153" width="422" height="31" fill="#edf6f5"/>
+<text x="518.0" y="175" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">002</text>
+<text x="730.0" y="175" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">7</text>
+<text x="518.0" y="206" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">003</text>
+<text x="730.0" y="206" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<rect x="509" y="215" width="422" height="31" fill="#edf6f5"/>
+<text x="518.0" y="237" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">004</text>
+<text x="730.0" y="237" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">5</text>
+<text x="28" y="280" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA means missing. ID 003 already has a missing score in the input.</text>
+<rect x="28" y="307" width="424" height="244" rx="10" fill="#fff" stroke="#b5cbd1"/>
+<text x="43" y="338" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#11666b" font-weight="bold" text-anchor="start">LEFT JOIN · 3 rows</text>
+<text x="43" y="365" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" font-weight="normal" text-anchor="start">Retain every left row.</text>
+<rect x="43" y="384" width="394" height="124" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="43" y="384" width="394" height="31" fill="#193549"/>
+<text x="53.0" y="406" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="184.33333333333334" y="406" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<text x="315.6666666666667" y="406" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">score</text>
+<rect x="44" y="415" width="392" height="31" fill="#edf6f5"/>
+<text x="53.0" y="437" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="184.33333333333334" y="437" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="315.6666666666667" y="437" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<text x="53.0" y="468" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">002</text>
+<text x="184.33333333333334" y="468" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">B</text>
+<text x="315.6666666666667" y="468" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">7</text>
+<rect x="44" y="477" width="392" height="31" fill="#edf6f5"/>
+<text x="53.0" y="499" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">003</text>
+<text x="184.33333333333334" y="499" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="315.6666666666667" y="499" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<rect x="508" y="307" width="424" height="244" rx="10" fill="#fff" stroke="#b5cbd1"/>
+<text x="523" y="338" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#11666b" font-weight="bold" text-anchor="start">INNER JOIN · 2 rows</text>
+<text x="523" y="365" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" font-weight="normal" text-anchor="start">Retain matches from both tables.</text>
+<rect x="523" y="384" width="394" height="93" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="523" y="384" width="394" height="31" fill="#193549"/>
+<text x="533.0" y="406" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="664.3333333333334" y="406" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<text x="795.6666666666667" y="406" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">score</text>
+<rect x="524" y="415" width="392" height="31" fill="#edf6f5"/>
+<text x="533.0" y="437" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">002</text>
+<text x="664.3333333333334" y="437" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">B</text>
+<text x="795.6666666666667" y="437" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">7</text>
+<text x="533.0" y="468" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">003</text>
+<text x="664.3333333333334" y="468" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="795.6666666666667" y="468" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<rect x="28" y="565" width="424" height="244" rx="10" fill="#fff" stroke="#b5cbd1"/>
+<text x="43" y="596" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#11666b" font-weight="bold" text-anchor="start">RIGHT JOIN · 3 rows</text>
+<text x="43" y="623" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" font-weight="normal" text-anchor="start">Retain every right row.</text>
+<rect x="43" y="642" width="394" height="124" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="43" y="642" width="394" height="31" fill="#193549"/>
+<text x="53.0" y="664" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="184.33333333333334" y="664" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<text x="315.6666666666667" y="664" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">score</text>
+<rect x="44" y="673" width="392" height="31" fill="#edf6f5"/>
+<text x="53.0" y="695" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">002</text>
+<text x="184.33333333333334" y="695" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">B</text>
+<text x="315.6666666666667" y="695" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">7</text>
+<text x="53.0" y="726" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">003</text>
+<text x="184.33333333333334" y="726" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="315.6666666666667" y="726" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<rect x="44" y="735" width="392" height="31" fill="#edf6f5"/>
+<text x="53.0" y="757" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">004</text>
+<text x="184.33333333333334" y="757" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<text x="315.6666666666667" y="757" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">5</text>
+<rect x="508" y="565" width="424" height="244" rx="10" fill="#fff" stroke="#b5cbd1"/>
+<text x="523" y="596" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#11666b" font-weight="bold" text-anchor="start">FULL JOIN · 4 rows</text>
+<text x="523" y="623" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" font-weight="normal" text-anchor="start">Retain matched and unmatched rows.</text>
+<rect x="523" y="642" width="394" height="155" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="523" y="642" width="394" height="31" fill="#193549"/>
+<text x="533.0" y="664" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="664.3333333333334" y="664" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<text x="795.6666666666667" y="664" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">score</text>
+<rect x="524" y="673" width="392" height="31" fill="#edf6f5"/>
+<text x="533.0" y="695" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="664.3333333333334" y="695" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="795.6666666666667" y="695" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<text x="533.0" y="726" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">002</text>
+<text x="664.3333333333334" y="726" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">B</text>
+<text x="795.6666666666667" y="726" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">7</text>
+<rect x="524" y="735" width="392" height="31" fill="#edf6f5"/>
+<text x="533.0" y="757" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">003</text>
+<text x="664.3333333333334" y="757" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="795.6666666666667" y="757" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<text x="533.0" y="788" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">004</text>
+<text x="664.3333333333334" y="788" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">NA</text>
+<text x="795.6666666666667" y="788" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">5</text>
+<rect x="28" y="839" width="424" height="244" rx="10" fill="#fff" stroke="#b5cbd1"/>
+<text x="43" y="870" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#11666b" font-weight="bold" text-anchor="start">SEMI JOIN · 2 rows</text>
+<text x="43" y="897" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" font-weight="normal" text-anchor="start">Left rows with a match; left columns only.</text>
+<rect x="43" y="916" width="394" height="93" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="43" y="916" width="394" height="31" fill="#193549"/>
+<text x="53.0" y="938" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="250.0" y="938" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<rect x="44" y="947" width="392" height="31" fill="#edf6f5"/>
+<text x="53.0" y="969" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">002</text>
+<text x="250.0" y="969" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">B</text>
+<text x="53.0" y="1000" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">003</text>
+<text x="250.0" y="1000" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<rect x="508" y="839" width="424" height="244" rx="10" fill="#fff" stroke="#b5cbd1"/>
+<text x="523" y="870" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#11666b" font-weight="bold" text-anchor="start">ANTI JOIN · 1 row</text>
+<text x="523" y="897" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#253746" font-weight="normal" text-anchor="start">Left rows without a match; left columns only.</text>
+<rect x="523" y="916" width="394" height="62" rx="0" fill="#fff" stroke="#b5cbd1"/>
+<rect x="523" y="916" width="394" height="31" fill="#193549"/>
+<text x="533.0" y="938" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">ID</text>
+<text x="730.0" y="938" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#fff" font-weight="bold" text-anchor="start">clinic</text>
+<rect x="524" y="947" width="392" height="31" fill="#edf6f5"/>
+<text x="533.0" y="969" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">001</text>
+<text x="730.0" y="969" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#253746" font-weight="normal" text-anchor="start">A</text>
+<text x="28" y="1120" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#253746" font-weight="normal" text-anchor="start">Repeated matching keys can produce additional rows in left, inner, right, and full joins.</text>
+</svg>
