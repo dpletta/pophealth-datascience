@@ -33,6 +33,22 @@ change them on purpose rather than by accident.
 | `r n_imputations_book` imputations | Keeps the classroom example short; assess stability and use more when needed for a substantive analysis | All models |
 | Imputation by predictive mean matching for every variable, 5 iterations; the weight as a predictor, state omitted | A compact teaching example; assess variable-specific methods, convergence and the effect of including state when adapting it (@sec-imputation) | All imputed values |
 
+## Decisions for combining survey years
+
+These apply only to @sec-combining-years, which stacks the 2022, 2023 and 2024 files.
+That chapter prints the counts behind them: respondents by year, the states that are
+not in every year, and each state's share of its stacked sample.
+
+| Decision | Reason | Respondents affected |
+|---|---|---|
+| A respondent's year is the survey year of the file, not the interview year (`IYEAR`) | Each file's weights represent its survey year's population; some interviews are completed early in the next calendar year | All in the stacked file |
+| Strata and primary sampling units are numbered within each year | Each year is an independent sample, and the stratum codes repeat across years | All in the stacked file |
+| For an average over the years, each weight is multiplied by the year's share of the state's stacked sample | The Centers for Disease Control and Prevention (CDC) rule for years with different sample sizes, applied within each state so that a state in two of the three years still counts once | All in the stacked file |
+| Each year's estimate and comparisons between years use the original weights | The pooled weights change the balance of states within a year | All in the stacked file |
+| Comparisons between years are limited to the states in all three years | The 2023 file has no respondents from Kentucky or Pennsylvania, and the 2024 file none from Tennessee | Respondents in Kentucky, Pennsylvania and Tennessee |
+| The pooled model for an association includes the survey year, after a test of whether the association differed between years | Keeps differences between years in the level of the outcome out of the association | All in the stacked file |
+| No imputation in this chapter | Its three items have few missing answers (under 1% for diabetes; none for age group and sex) | Respondents without a diabetes answer |
+
 ## Crosswalk
 
 Every raw code and the value it became, from @sec-cleaning. `NA` in the `code` column is a

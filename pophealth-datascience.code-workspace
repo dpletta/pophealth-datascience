@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../complex-survey-weights-descriptives"
+		},
+		{
+			"path": "../survey-weighted-analyses"
 		}
 	],
 	"settings": {}

@@ -12,6 +12,8 @@ A Quarto book of beginner-friendly, annotated R walkthroughs in three parts:
    descriptive statistics, multiple imputation, and bivariate and multivariable
    survey-weighted regression. The question: is household income associated with
 reported diagnosed diabetes among adults in the participating jurisdictions?
+   A last chapter combines the 2022, 2023 and 2024 surveys: adjusting the weights for
+   a pooled estimate, and comparing years.
 
 This repository is one book. Its source is `_quarto.yml` (settings and chapter order),
 `index.qmd` (the welcome page), and the chapters in `chapters/`, all at the repository
@@ -87,7 +89,11 @@ and save it as `data/brfss/raw/LLCP2024.XPT`. The stacking example in the data
 engineering chapter also uses the questionnaire version 1, 2 and 3 files from the
 [CDC multiple-questionnaire page](https://www.cdc.gov/brfss/annual_data/2024/llcp_multiq.html),
 saved as `data/brfss/raw/LLCP24V1.XPT`, `LLCP24V2.XPT` and `LLCP24V3.XPT` (the chapter has a
-download chunk); without them, that section is shown but not run. Nothing in `data/brfss/` is shared through Git.
+download chunk); without them, that section is shown but not run. The chapter on
+combining survey years also uses the 2022 and 2023 main files, saved as
+`data/brfss/raw/LLCP2022.XPT` and `LLCP2023.XPT` (about 1.2 GB each; the chapter has a
+download chunk); without them, that chapter's code is shown but not run. Nothing in
+`data/brfss/` is shared through Git.
 
 ```bash
 # Quick test with 2 imputations; writes to _book-smoke/ and data/brfss/processed-smoke/

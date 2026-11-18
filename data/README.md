@@ -76,6 +76,8 @@ codes.
 
 The Behavioral Risk Factor Surveillance System (BRFSS) files are public but large. Each
 reader downloads them from the Centers for Disease Control and Prevention (CDC) into
-`brfss/raw/` (see `chapters/survey/01-import.qmd`). Rendering the survey chapters writes
+`brfss/raw/` (see `chapters/survey/01-import.qmd` for the 2024 file, and
+`chapters/survey/08-combining-years.qmd` for the 2022 and 2023 files that only that
+chapter uses). Rendering the survey chapters writes
 one file per chapter to `brfss/processed/` (or `brfss/processed-smoke/` for a smoke
 test), along with the chunk caches.

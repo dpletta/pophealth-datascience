@@ -31,6 +31,7 @@ book:
         - chapters/survey/05-imputation.qmd
         - chapters/survey/06-bivariate.qmd
         - chapters/survey/07-multivariable.qmd
+        - chapters/survey/08-combining-years.qmd
   appendices:
     - chapters/survey/decisions.qmd
     - chapters/survey/reproducibility.qmd
