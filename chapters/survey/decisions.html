@@ -72,7 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../chapters/survey/reproducibility.html" rel="next">
-<link href="../../chapters/survey/07-multivariable.html" rel="prev">
+<link href="../../chapters/survey/08-combining-years.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4c5e755a3bfe43f3706dcc37cc2065fe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-554944da459c622dc457c1ed647c448c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -237,6 +237,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/survey/08-combining-years.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Combining Survey Years</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -270,7 +276,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#decisions" id="toc-decisions" class="nav-link active" data-scroll-target="#decisions"><span class="header-section-number">A.1</span> Decisions</a></li>
-  <li><a href="#crosswalk" id="toc-crosswalk" class="nav-link" data-scroll-target="#crosswalk"><span class="header-section-number">A.2</span> Crosswalk</a></li>
+  <li><a href="#decisions-for-combining-survey-years" id="toc-decisions-for-combining-survey-years" class="nav-link" data-scroll-target="#decisions-for-combining-survey-years"><span class="header-section-number">A.2</span> Decisions for combining survey years</a></li>
+  <li><a href="#crosswalk" id="toc-crosswalk" class="nav-link" data-scroll-target="#crosswalk"><span class="header-section-number">A.3</span> Crosswalk</a></li>
   </ul>
 </nav>
     </div>
@@ -381,8 +388,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="crosswalk" class="level2" data-number="A.2">
-<h2 data-number="A.2" class="anchored" data-anchor-id="crosswalk"><span class="header-section-number">A.2</span> Crosswalk</h2>
+<section id="decisions-for-combining-survey-years" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="decisions-for-combining-survey-years"><span class="header-section-number">A.2</span> Decisions for combining survey years</h2>
+<p>These apply only to <a href="08-combining-years.html" class="quarto-xref"><span>Chapter 11</span></a>, which stacks the 2022, 2023 and 2024 files. That chapter prints the counts behind them: respondents by year, the states that are not in every year, and each state’s share of its stacked sample.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Decision</th>
+<th>Reason</th>
+<th>Respondents affected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A respondent’s year is the survey year of the file, not the interview year (<code>IYEAR</code>)</td>
+<td>Each file’s weights represent its survey year’s population; some interviews are completed early in the next calendar year</td>
+<td>All in the stacked file</td>
+</tr>
+<tr class="even">
+<td>Strata and primary sampling units are numbered within each year</td>
+<td>Each year is an independent sample, and the stratum codes repeat across years</td>
+<td>All in the stacked file</td>
+</tr>
+<tr class="odd">
+<td>For an average over the years, each weight is multiplied by the year’s share of the state’s stacked sample</td>
+<td>The Centers for Disease Control and Prevention (CDC) rule for years with different sample sizes, applied within each state so that a state in two of the three years still counts once</td>
+<td>All in the stacked file</td>
+</tr>
+<tr class="even">
+<td>Each year’s estimate and comparisons between years use the original weights</td>
+<td>The pooled weights change the balance of states within a year</td>
+<td>All in the stacked file</td>
+</tr>
+<tr class="odd">
+<td>Comparisons between years are limited to the states in all three years</td>
+<td>The 2023 file has no respondents from Kentucky or Pennsylvania, and the 2024 file none from Tennessee</td>
+<td>Respondents in Kentucky, Pennsylvania and Tennessee</td>
+</tr>
+<tr class="even">
+<td>The pooled model for an association includes the survey year, after a test of whether the association differed between years</td>
+<td>Keeps differences between years in the level of the outcome out of the association</td>
+<td>All in the stacked file</td>
+</tr>
+<tr class="odd">
+<td>No imputation in this chapter</td>
+<td>Its three items have few missing answers (under 1% for diabetes; none for age group and sex)</td>
+<td>Respondents without a diabetes answer</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="crosswalk" class="level2" data-number="A.3">
+<h2 data-number="A.3" class="anchored" data-anchor-id="crosswalk"><span class="header-section-number">A.3</span> Crosswalk</h2>
 <p>Every raw code and the value it became, from <a href="03-cleaning.html" class="quarto-xref"><span>Chapter 6</span></a>. <code>NA</code> in the <code>code</code> column is a blank answer; <code>NA</code> in the <code>value</code> column is a missing value.</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -1667,8 +1729,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/survey/07-multivariable.html" class="pagination-link" aria-label="Multivariable Survey-Weighted Regression">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span>
+      <a href="../../chapters/survey/08-combining-years.html" class="pagination-link" aria-label="Combining Survey Years">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Combining Survey Years</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

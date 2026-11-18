@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4c5e755a3bfe43f3706dcc37cc2065fe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-554944da459c622dc457c1ed647c448c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -236,6 +236,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Multivariable Survey-Weighted Regression</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/survey/08-combining-years.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Combining Survey Years</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -308,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="start-here">Start here</h2>
 <p>The opening part, <strong>Getting started</strong>, sets up your computer. <a href="./chapters/setup/positron.html">Install Positron</a> covers the editor, R, and Quarto. <a href="./chapters/setup/environments.html">Project Environments for R and Python</a> shows how to create, use, and delete a project’s own set of packages with <strong>renv</strong>, <strong>uv</strong>, and <strong>pixi</strong>. If your setup already works, skip ahead.</p>
 <p>The <strong>Foundations</strong> part begins with <a href="./chapters/data-preparation.html">Data Preparation and Data Engineering</a>, which follows a fictional community-health study from raw CSV files to a participant dataset. It introduces basic cleaning, queries with <strong>dplyr</strong> and <strong>SQL through sqldf</strong>, six kinds of joins, and checks that help prevent accidental changes to your study sample.</p>
-<p>The last part, <a href="./chapters/survey/01-import.html">Survey-Weighted Analysis with BRFSS 2024</a>, applies the same habits to a national survey: the 2024 Behavioral Risk Factor Surveillance System (BRFSS). It asks whether household income is associated with diabetes among adults in the participating jurisdictions and walks through importing the data, stacking questionnaire versions and joining a lookup table, cleaning, survey-weighted descriptive statistics, multiple imputation, and bivariate and multivariable survey-weighted regression. BRFSS data are public; you download them from the Centers for Disease Control and Prevention (CDC) yourself, and they stay on your computer.</p>
+<p>The last part, <a href="./chapters/survey/01-import.html">Survey-Weighted Analysis with BRFSS 2024</a>, applies the same habits to a national survey: the 2024 Behavioral Risk Factor Surveillance System (BRFSS). It asks whether household income is associated with diabetes among adults in the participating jurisdictions and walks through importing the data, stacking questionnaire versions and joining a lookup table, cleaning, survey-weighted descriptive statistics, multiple imputation, and bivariate and multivariable survey-weighted regression. Its last chapter, <a href="./chapters/survey/08-combining-years.html">Combining Survey Years</a>, stacks the 2022, 2023 and 2024 surveys and shows how to adjust the weights for a pooled estimate and how to compare years. BRFSS data are public; you download them from the Centers for Disease Control and Prevention (CDC) yourself, and they stay on your computer.</p>
 <p>In the data preparation chapter, all example records are <strong>invented for teaching</strong>. They do not describe actual participants, clinics, or population health findings. The small files are included with the book so you can inspect every record and run the examples without downloading a research dataset.</p>
 </section>
 <section id="how-to-work-through-a-chapter" class="level2">
